@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Wang Lu" /><link rel="canonical" href="https://skylinestars.github.io/AMRTSDK/example/gltf_to_fbx/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>glTF转FBX - AMRT SDK 文档</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "glTF\u8f6cFBX";
+        var mkdocs_page_input_path = "example/gltf_to_fbx.md";
+        var mkdocs_page_url = "/AMRTSDK/example/gltf_to_fbx/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> AMRT SDK 文档
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">首页</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">快速开始</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../setup/">环境配置</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">示例程序</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" >转换器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_basic/">基础转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_with_progress/">进度回调</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_batch/">批量转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_with_options/">自定义选项</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../read_basic/">基础读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../read_scene_tree/">场景树读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../read_traverse/">场景遍历</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../build_simple_cube/">简单立方体</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_scene_tree/">场景树构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_with_materials/">材质构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_complex_scene/">复杂场景</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../merge_to_one_file/">合并为单文件</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >导出器示例</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../amrt_to_fbx/">AMRT转FBX</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">glTF转FBX</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#_1">功能说明</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">支持的功能</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">使用方法</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_4">基本用法</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_5">示例</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_6">参数说明</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">注意事项</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_8">技术说明</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_9">转换流程</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_10">实现细节</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_11">输出说明</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_12">常见问题</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1">1. 模型尺寸/比例不正确</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2">2. 纹理丢失或无法显示</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3">3. 转换失败</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3-fbx">3. FBX文件比原文件大很多</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2_1">2. 转换失败</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3_1">3. 材质丢失</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#4">4. 动画问题</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_13">技术细节</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_14">单位和坐标系</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_15">材质转换</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_16">动画和骨骼转换</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_17">技术说明</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_18">骨骼动画转换的关键技术</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_19">相关示例</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../gltf_to_amrt_direct/">glTF直接转AMRT</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API 文档</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../api/">API 概览</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >核心类</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/generated_AmrtConverter/">AmrtConverter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtReader/">AmrtReader</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtBuilder/">AmrtBuilder</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtMerger/">AmrtMerger</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >转换模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ConvertOptions/">ConvertOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ConvertStatistics/">ConvertStatistics</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ReadOptions/">ReadOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneData/">SceneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/NodeData/">NodeData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneInfo/">SceneInfo</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneStatistics/">SceneStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ReadProgressInfo/">ReadProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildOptions/">BuildOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MeshData/">MeshData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MaterialData/">MaterialData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/TextureData/">TextureData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AnimationData/">AnimationData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoneData/">BoneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SkinData/">SkinData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildStatistics/">BuildStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildProgressInfo/">BuildProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MergeOptions/">MergeOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >优化选项</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/OptimizationOptions/">OptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MeshOptimizationOptions/">MeshOptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/CompressionOptions/">CompressionOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MaterialOptions/">MaterialOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AnimationOptions/">AnimationOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >基础类型</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec2/">Vec2</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec3/">Vec3</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec4/">Vec4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Matrix4x4/">Matrix4x4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoundingBox/">BoundingBox</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Face/">Face</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/KeyFrame/">KeyFrame</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoneWeight/">BoneWeight</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >结果与异常</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Result/">Result</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Exception/">Exception</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/FileException/">FileException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/FormatException/">FormatException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/DataException/">DataException</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">AMRT SDK 文档</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">示例程序</li>
+          <li class="breadcrumb-item">导出器示例</li>
+      <li class="breadcrumb-item active">glTF转FBX</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/skylinestars/AMRTSDK/edit/master/docs/example/gltf_to_fbx.md">Edit on skylinestars/AMRTSDK</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="14gltfglb-fbx">示例14：glTF/GLB 转 FBX（直接转换）<a class="headerlink" href="#14gltfglb-fbx" title="Permanent link">&para;</a></h1>
+<h2 id="_1">功能说明<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>本示例展示如何将 glTF/GLB 格式的模型文件直接转换为 FBX 格式。</p>
+<p><strong>转换流程（简洁高效）</strong>：
+<pre class="highlight"><code>glTF/GLB → [Assimp加载] → [FBX SDK导出] → FBX ✅</code></pre></p>
+<p><strong>特点</strong>：
+- ✅ 直接使用 Assimp 读取 glTF/GLB
+- ✅ 直接用 FBX SDK 导出 FBX
+- ✅ 不经过 AMRT 中间格式
+- ✅ 避免数据丢失问题
+- ✅ 代码简洁（约400行）
+- ✅ 转换可靠稳定</p>
+<h2 id="_2">支持的功能<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<ul>
+<li>✅ <strong>静态网格模型</strong></li>
+<li>顶点、法线、UV坐标</li>
+<li>三角面片</li>
+<li>✅ <strong>材质和纹理</strong></li>
+<li>PBR材质（BaseColor, Normal Map）</li>
+<li>嵌入纹理自动提取</li>
+<li>外部纹理引用</li>
+<li>✅ <strong>骨骼动画</strong>（全功能）</li>
+<li>骨骼层级结构</li>
+<li>蒙皮权重（每顶点多骨骼）</li>
+<li>关键帧动画（位置、旋转、缩放）</li>
+<li>支持多个动画剪辑</li>
+<li><strong>使用常量插值保证每帧姿态100%正确</strong></li>
+<li>✅ <strong>场景层级结构</strong></li>
+<li>完整的节点树</li>
+<li>变换矩阵</li>
+</ul>
+<h2 id="_3">使用方法<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="_4">基本用法<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-bash">gltf_to_fbx &lt;输入glTF/GLB文件&gt; [输出FBX文件]</code></pre>
+<h3 id="_5">示例<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-bash"># 转换静态模型
+gltf_to_fbx model.gltf output.fbx
+
+# 转换GLB文件
+gltf_to_fbx model.glb output.fbx
+
+# 转换带骨骼动画的角色模型
+gltf_to_fbx character.glb character.fbx
+
+# 转换带多个动画的模型
+gltf_to_fbx animated_model.gltf result.fbx</code></pre>
+<h2 id="_6">参数说明<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>输入glTF/GLB文件</code>：要转换的 glTF 或 GLB 文件路径</li>
+<li><code>输出FBX文件</code>：输出的 FBX 文件路径（可选，默认为 "output.fbx"）</li>
+</ul>
+<h2 id="_7">注意事项<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<ol>
+<li>确保已安装 <strong>Assimp</strong> 和 <strong>FBX SDK 2020.2</strong> 或更高版本</li>
+<li>glTF/GLB 文件必须符合 glTF 2.0 规范</li>
+<li>转换过程<strong>不创建临时文件</strong>，直接在内存中完成</li>
+<li>纹理文件需要与glTF/GLB在相同目录或子目录中</li>
+<li>如果模型包含动画，动画数据会被导出（需要Assimp支持）</li>
+</ol>
+<h2 id="_8">技术说明<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="_9">转换流程<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>本工具采用<strong>直接转换</strong>方式，无中间格式：</p>
+<pre class="highlight"><code>glTF/GLB 文件
+    ↓
+[Assimp 库加载]
+    ↓
+Assimp Scene 对象（内存）
+    ↓
+[递归转换节点树]
+    ↓
+FBX Scene 对象（内存）
+    ↓
+[FBX SDK 导出]
+    ↓
+FBX 文件 ✅</code></pre>
+<p><strong>优势</strong>：
+- 无临时文件，转换速度快
+- 无格式转换损失
+- 代码简洁易维护
+- 直接使用成熟的Assimp库</p>
+<h3 id="_10">实现细节<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p><strong>支持的数据</strong>：
+- ✅ 顶点位置
+- ✅ 顶点法线
+- ✅ 纹理坐标（UV）
+- ✅ 材质属性（颜色、光泽度）
+- ✅ PBR纹理贴图：
+  - BaseColor（基础颜色/漫反射）
+  - Normal Map（法线贴图）
+  - 传统Diffuse纹理（兼容旧格式）
+- ✅ 节点层级结构
+- ✅ 变换矩阵
+- ✅ <strong>骨骼系统</strong>（Skeleton/Bones）
+- ✅ <strong>蒙皮数据</strong>（Skin/Weights）
+- ✅ <strong>关键帧动画</strong>：
+  - 位置动画（Translation）
+  - 旋转动画（Rotation，四元数转欧拉角）
+  - 缩放动画（Scaling）</p>
+<p><strong>纹理说明</strong>：
+- ✅ 支持glTF 2.0的PBR材质纹理（BaseColor）
+- ✅ 支持传统Diffuse纹理（向后兼容）
+- ✅ <strong>支持嵌入纹理</strong>：自动提取glTF/GLB中的嵌入纹理
+  - 嵌入纹理会自动提取为独立文件（如<code>embedded_texture_0.png</code>）
+  - 提取的纹理保存在FBX文件所在目录
+- ✅ 支持外部纹理引用
+- 纹理路径相对于原glTF文件目录</p>
+<p><strong>导出选项</strong>：
+- 使用 FBX 二进制格式（减小文件大小）
+- 禁用纹理嵌入（保持文件轻量）
+- 导出材质和纹理引用</p>
+<h2 id="_11">输出说明<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<p>转换成功后会生成：
+- <strong>FBX 文件</strong>：包含模型、材质、骨骼、动画等所有数据
+- <strong>提取的纹理</strong>：如果glTF包含嵌入纹理，会自动提取为 <code>embedded_texture_N.png</code>
+- <strong>转换日志</strong>：显示详细的转换信息和统计数据</p>
+<p>输出示例：
+<pre class="highlight"><code>output_directory/
+├── character.fbx                 ← FBX文件（包含动画）
+├── embedded_texture_0.png        ← 提取的BaseColor纹理
+├── embedded_texture_1.png        ← 提取的Normal纹理
+└── character_conversion.log      ← 转换日志</code></pre></p>
+<h2 id="_12">常见问题<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. 模型尺寸/比例不正确<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<p><strong>症状</strong>：转换后的FBX模型在DCC工具中显示过大或过小</p>
+<p><strong>原因</strong>：单位转换问题
+- glTF/GLB 默认单位是<strong>米</strong>
+- FBX 支持多种单位（厘米、米、英寸等）
+- 如果原始glTF模型的单位设置不正确，转换后会保持错误的尺寸</p>
+<p><strong>解决方案</strong>：
+1. 本工具已正确设置单位为米（与glTF一致）
+2. 转换日志会显示模型的实际尺寸（单位：米）
+3. 如果显示的尺寸不合理（过大或过小），说明原始glTF文件的单位设置有问题
+4. 在DCC工具（Maya/3ds Max）中导入FBX时，选择正确的单位设置</p>
+<p><strong>示例</strong>：
+<pre class="highlight"><code>[模型尺寸] (单位：米)
+  尺寸: 2.5 × 1.8 × 3.2 米
+  对角线长度: 4.5 米</code></pre></p>
+<p>如果这个尺寸看起来不对（比如应该是2.5厘米而不是2.5米），说明原始glTF文件需要修正。</p>
+<h3 id="2">2. 纹理丢失或无法显示<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p><strong>症状</strong>：FBX文件中模型显示为纯色，没有纹理</p>
+<p><strong>诊断方法</strong>：
+查看转换日志中的纹理信息：
+<pre class="highlight"><code>[1] 使用 Assimp 加载模型...
+     纹理数: 3           ← 嵌入的纹理数
+     材质纹理引用数: 3   ← 材质中的纹理引用
+
+[3] 转换场景数据...
+   - 转换材质...
+     材质 0: MyMaterial
+       纹理数量统计:
+         BaseColor: 1    ← 有纹理
+       BaseColor纹理引用: *0    ← *0表示嵌入纹理
+       ✓ 提取嵌入纹理 (压缩格式 png): embedded_texture_0.png
+       保存路径: D:/output/embedded_texture_0.png
+       ✓ 已设置BaseColor纹理: D:/output/embedded_texture_0.png</code></pre></p>
+<p><strong>可能的原因和解决方案</strong>：</p>
+<ol>
+<li><strong>嵌入纹理提取失败</strong></li>
+<li>检查日志中是否有 "⚠ 警告: 无法创建纹理文件"</li>
+<li>确保输出目录有写入权限</li>
+<li>
+<p>查看是否是未压缩的ARGB格式（暂不支持）</p>
+</li>
+<li>
+<p><strong>外部纹理文件不存在</strong></p>
+</li>
+<li>如果纹理引用不是 <code>*N</code> 格式（如 <code>textures/color.png</code>）</li>
+<li>
+<p>确保纹理文件在正确的路径下</p>
+</li>
+<li>
+<p><strong>纹理路径问题</strong></p>
+</li>
+<li>检查日志中的 "完整路径" 是否正确</li>
+<li>
+<p>外部纹理路径相对于glTF文件目录</p>
+</li>
+<li>
+<p><strong>DCC工具兼容性</strong></p>
+</li>
+<li>某些工具可能需要重新关联纹理</li>
+<li>在Blender/Maya中导入FBX时检查材质设置</li>
+</ol>
+<h3 id="3">3. 转换失败<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<p><strong>可能原因</strong>：
+- glTF文件损坏或格式不正确
+- 使用了不支持的glTF扩展
+- 文件路径包含特殊字符</p>
+<p><strong>解决方案</strong>：
+- 用 glTF Validator 验证文件：https://github.khronos.org/glTF-Validator/
+- 检查文件路径是否正确
+- 查看转换日志了解详细错误信息</p>
+<h3 id="3-fbx">3. FBX文件比原文件大很多<a class="headerlink" href="#3-fbx" title="Permanent link">&para;</a></h3>
+<p>这是正常现象，原因如下：
+- <strong>glTF/GLB 使用高效压缩</strong>：采用二进制格式和可选的 Draco 几何压缩
+- <strong>FBX 格式较老</strong>：为了兼容性，存储了更多元数据和冗余信息
+- <strong>无损转换</strong>：保留了所有顶点、法线、UV等数据，不做额外压缩</p>
+<p><strong>解决方案</strong>：
+- 本工具已优化使用 <strong>FBX 二进制格式</strong>（比ASCII小约70%）
+- 禁用纹理嵌入，减小文件体积
+- 如需更小的文件，建议保持使用 glTF/GLB 格式
+- FBX 主要用于需要导入到 Maya、3ds Max 等传统DCC工具的场景</p>
+<p><strong>典型文件大小对比</strong>：
+- glTF/GLB: 1.0x (基准)
+- FBX 二进制: 1.5-3x (本工具)
+- FBX ASCII: 5-10x (未优化)</p>
+<h3 id="2_1">2. 转换失败<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>检查输入文件是否是有效的 glTF/GLB 文件</li>
+<li>确保文件路径正确且有读取权限</li>
+</ul>
+<h3 id="3_1">3. 材质丢失<a class="headerlink" href="#3_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>glTF 的 PBR 材质会被转换为 FBX 的 Phong 材质</li>
+<li>部分高级材质特性可能无法完全保留</li>
+</ul>
+<h3 id="4">4. 动画问题<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<ul>
+<li>确保 glTF 文件中包含完整的骨骼和动画数据</li>
+<li>检查动画的时间范围和关键帧数据</li>
+</ul>
+<h2 id="_13">技术细节<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<h3 id="_14">单位和坐标系<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<p><strong>单位设置</strong>：
+- glTF/GLB 默认单位：<strong>米</strong>
+- FBX 输出单位：<strong>米</strong>（保持一致）
+- 使用 <code>SetSystemUnit(FbxSystemUnit::m)</code> 设置单位
+- <strong>不进行尺寸转换</strong>（不使用 ConvertScene）</p>
+<p><strong>坐标系</strong>：
+- glTF：右手坐标系，Y轴向上
+- FBX：右手坐标系，Y轴向上
+- 坐标系一致，无需转换</p>
+<p><strong>尺寸检查</strong>：
+转换日志会显示模型的实际尺寸（单位：米），例如：
+<pre class="highlight"><code>[模型尺寸] (单位：米)
+  尺寸: 2.5 × 1.8 × 3.2 米
+  对角线长度: 4.5 米</code></pre></p>
+<h3 id="_15">材质转换<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<p>glTF PBR 材质属性映射：
+- BaseColor → Diffuse
+- Metallic/Roughness → Specular/Shininess
+- Normal Map → Normal Map
+- Emissive → Emissive</p>
+<h3 id="_16">动画和骨骼转换<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
+<p><strong>骨骼系统</strong>：
+- 从场景节点树中识别骨骼节点（保持原有层级结构）
+- 自动判断根骨骼（eRoot）和子骨骼（eLimbNode）
+- 创建FbxSkeleton节点并保持父子关系
+- 设置骨骼的偏移矩阵（Inverse Bind Matrix）
+- 支持复杂的骨骼层级（如CesiumMan的19个骨骼）</p>
+<p><strong>蒙皮数据</strong>：
+- 顶点权重（每顶点可关联多个骨骼）
+- 使用eNormalize模式（权重归一化）
+- 创建FbxCluster关联骨骼和顶点
+- <strong>两步处理</strong>：先创建所有节点，再处理蒙皮（确保骨骼节点都已存在）
+- <strong>正确的绑定矩阵</strong>：直接使用骨骼节点的全局变换作为绑定姿态</p>
+<p><strong>动画转换</strong>：
+- 支持多个动画剪辑（AnimStack）
+- 每个动画包含位置、旋转、缩放三个通道
+- 旋转使用四元数转欧拉角（FBX标准）
+- 插值方式：线性插值（eInterpolationLinear）
+- 时间轴：保持原始glTF的时间信息</p>
+<p><strong>转换日志示例</strong>：
+<pre class="highlight"><code>[4] 转换动画...
+   动画 0: RiggedSimple|Run
+     时长: 1.04 秒
+     通道数: 3
+       ✓ 节点动画: Bone (Pos:26, Rot:26, Scale:0)
+       ✓ 节点动画: Bone_001 (Pos:26, Rot:26, Scale:0)
+   ✓ 动画已转换: RiggedSimple|Run</code></pre></p>
+<h2 id="_17">技术说明<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h2>
+<h3 id="_18">骨骼动画转换的关键技术<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
+<p><strong>问题：为什么需要两步处理蒙皮数据？</strong></p>
+<p>在glTF场景树中，骨骼节点可能是网格节点的后代。如果在遍历节点树时立即处理蒙皮，某些骨骼节点可能还未创建，导致蒙皮失败。</p>
+<p><strong>解决方案：</strong>
+<pre class="highlight"><code>1. 第一遍遍历：创建所有节点（包括网格和骨骼）
+2. 第二遍处理：为网格添加蒙皮数据（此时所有骨骼节点已存在）</code></pre></p>
+<p><strong>绑定姿态（Bind Pose）的正确设置</strong></p>
+<p>在FBX中，蒙皮需要两个矩阵：
+- <code>TransformMatrix</code> - 网格在绑定时的全局变换
+- <code>TransformLinkMatrix</code> - 骨骼在绑定时的全局变换</p>
+<p>关键代码：
+<pre class="highlight"><code class="language-cpp">// 网格的绑定姿态（直接获取）
+FbxAMatrix meshGlobalTransform = meshNode-&gt;EvaluateGlobalTransform();
+cluster-&gt;SetTransformMatrix(meshGlobalTransform);
+
+// 骨骼的绑定姿态（从offsetMatrix计算）
+// glTF的offsetMatrix = 从网格空间到骨骼局部空间的变换
+// 骨骼全局变换 = meshGlobalTransform * offsetMatrix.Inverse()
+FbxAMatrix offsetFbx = 将aiMatrix4x4转为FbxAMatrix(aiBone-&gt;mOffsetMatrix);
+FbxAMatrix boneGlobalTransform = meshGlobalTransform * offsetFbx.Inverse();
+cluster-&gt;SetTransformLinkMatrix(boneGlobalTransform);</code></pre></p>
+<p><strong>实际实现（简化方案）</strong>：
+<pre class="highlight"><code class="language-cpp">// 最终使用的简化方案：直接使用节点的全局变换
+FbxAMatrix meshGlobalTransform = meshNode-&gt;EvaluateGlobalTransform();
+cluster-&gt;SetTransformMatrix(meshGlobalTransform);
+
+FbxAMatrix boneGlobalTransform = boneNode-&gt;EvaluateGlobalTransform();
+cluster-&gt;SetTransformLinkMatrix(boneGlobalTransform);</code></pre></p>
+<p><strong>说明</strong>：在大多数情况下，场景树中的节点变换已经是绑定姿态，直接使用即可。关键是后续的<strong>常量插值</strong>来保证正确性。</p>
+<p><strong>四元数动画转换的正确方法</strong></p>
+<p>参考：<a href="../doc/四元数动画转换问题解决方案.md">四元数动画转换问题解决方案</a></p>
+<p><strong>1. 矩阵中转法（而非直接转换）</strong>
+<pre class="highlight"><code class="language-cpp">// ✅ 正确：通过矩阵中转
+FbxQuaternion quat(x, y, z, w);
+FbxAMatrix rotMatrix;
+rotMatrix.SetQ(quat);                    // 四元数 → 矩阵
+FbxVector4 euler = rotMatrix.GetR();     // 矩阵 → 欧拉角
+
+// ❌ 错误：直接转换（算法不一致）
+// euler = quat.DecomposeSphericalXYZ();</code></pre></p>
+<p><strong>2. 四元数连续性修正（关键修复！）</strong></p>
+<p>四元数的双重覆盖特性：<code>q</code> 和 <code>-q</code> 表示<strong>同一个旋转</strong></p>
+<pre class="highlight"><code class="language-cpp">FbxQuaternion prevQuat;
+for (每一帧) {
+    FbxQuaternion quat = 从glTF读取;
+
+    // 确保与前一帧在同一半球（点积为正）
+    if (hasPrevQuat) {
+        double dot = quat[0]*prevQuat[0] + quat[1]*prevQuat[1] + 
+                     quat[2]*prevQuat[2] + quat[3]*prevQuat[3];
+        if (dot &lt; 0.0) {
+            quat = -quat;  // 翻转符号
+        }
+    }
+
+    prevQuat = quat;
+    // ... 转换为欧拉角
+}</code></pre>
+<p><strong>为什么需要连续性修正？</strong>
+- ❌ 未修正：相邻帧可能选择"相反"的四元数，导致插值时旋转超过180度
+- ✅ 已修正：保证相邻帧的四元数符号一致，插值走"最短路径"</p>
+<p><strong>3. 使用常量插值（最关键的发现！）⭐</strong></p>
+<p><strong>问题</strong>：欧拉角的线性或Cubic插值会导致某些帧姿态错误</p>
+<pre class="highlight"><code class="language-cpp">// ❌ 线性插值：导致第3、6、7、8、11、12等帧姿态错误
+curve-&gt;KeySetInterpolation(idx, FbxAnimCurveDef::eInterpolationLinear);
+
+// ❌ Cubic插值：同样导致某些帧姿态错误
+curve-&gt;KeySetInterpolation(idx, FbxAnimCurveDef::eInterpolationCubic);
+
+// ✅ 常量插值：每帧姿态100%正确（虽然不平滑）
+curve-&gt;KeySetInterpolation(idx, FbxAnimCurveDef::eInterpolationConstant);</code></pre>
+<p><strong>原理</strong>：
+- glTF使用四元数 + Slerp插值（球面线性插值）
+- FBX使用欧拉角 + 线性/Cubic插值
+- <strong>两者不等价！</strong> 欧拉角插值会导致"非最短路径"旋转</p>
+<p><strong>实验验证</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>插值方式</th>
+<th>姿态正确性</th>
+<th>动画流畅度</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>线性插值</td>
+<td>❌ 某些帧错误</td>
+<td>✅ 平滑</td>
+<td>❌ 不可用</td>
+</tr>
+<tr>
+<td>Cubic插值</td>
+<td>❌ 某些帧错误</td>
+<td>✅ 平滑</td>
+<td>❌ 不可用</td>
+</tr>
+<tr>
+<td><strong>常量插值</strong></td>
+<td>✅ 100%正确</td>
+<td>⚠️ 阶梯式</td>
+<td>✅ <strong>最终方案</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>权衡考虑</strong>：
+- 常量插值虽然导致动画呈阶梯式（不平滑）
+- 但能保证<strong>每一帧姿态都100%正确</strong>
+- 对于关键帧密集的动画（如24fps），阶梯感可以接受
+- <strong>正确性 &gt; 流畅度</strong></p>
+<p><strong>常见问题排查</strong></p>
+<table>
+<thead>
+<tr>
+<th>症状</th>
+<th>可能原因</th>
+<th>解决方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>某些特定帧姿态错误</strong> ⭐</td>
+<td><strong>欧拉角插值问题</strong></td>
+<td><strong>使用常量插值（eInterpolationConstant）</strong></td>
+</tr>
+<tr>
+<td>某些帧姿态突变</td>
+<td>四元数连续性问题</td>
+<td>添加四元数符号修正（点积检测）</td>
+</tr>
+<tr>
+<td>旋转方向错误</td>
+<td>四元数转换方法错误</td>
+<td>使用矩阵中转法（SetQ + GetR）</td>
+</tr>
+<tr>
+<td>所有帧都变形/姿态错误</td>
+<td>绑定矩阵计算错误</td>
+<td>使用offsetMatrix.Inverse()计算</td>
+</tr>
+<tr>
+<td>骨骼层级混乱</td>
+<td>骨骼和网格属性冲突</td>
+<td>分离骨骼节点和网格节点</td>
+</tr>
+<tr>
+<td>部分骨骼缺失</td>
+<td>蒙皮处理时骨骼未创建</td>
+<td>两步处理：先建节点，再加蒙皮</td>
+</tr>
+<tr>
+<td>动画完全不动</td>
+<td>动画未转换或未绑定</td>
+<td>检查AnimStack和AnimLayer</td>
+</tr>
+</tbody>
+</table>
+<p><strong>注意</strong>：最常见的骨骼动画问题是<strong>欧拉角插值导致的特定帧错误</strong>（第1项）！</p>
+<h2 id="_19">相关示例<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>01_convert_basic</code> - 基础模型转换（任意格式转AMRT）</li>
+<li><code>13_amrt_to_fbx</code> - AMRT转FBX（如果已有AMRT文件）</li>
+<li>Assimp 文档 - https://assimp.org/</li>
+<li>FBX SDK 文档 - https://help.autodesk.com/view/FBX/2020/ENU/</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../amrt_to_fbx/" class="btn btn-neutral float-left" title="AMRT转FBX"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../gltf_to_amrt_direct/" class="btn btn-neutral float-right" title="glTF直接转AMRT">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/skylinestars/AMRTSDK" class="fa fa-code-fork" style="color: #fcfcfc"> skylinestars/AMRTSDK</a>
+        </span>
+    
+    
+      <span><a href="../amrt_to_fbx/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../gltf_to_amrt_direct/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

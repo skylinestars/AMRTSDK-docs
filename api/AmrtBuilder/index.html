@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Wang Lu" /><link rel="canonical" href="https://skylinestars.github.io/AMRTSDK/api/AmrtBuilder/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>AmrtBuilder - AMRT SDK 文档</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "AmrtBuilder";
+        var mkdocs_page_input_path = "api/AmrtBuilder.md";
+        var mkdocs_page_url = "/AMRTSDK/api/AmrtBuilder/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> AMRT SDK 文档
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">首页</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">快速开始</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../setup/">环境配置</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">示例程序</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >转换器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/convert_basic/">基础转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/convert_with_progress/">进度回调</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/convert_batch/">批量转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/convert_with_options/">自定义选项</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/read_basic/">基础读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/read_scene_tree/">场景树读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/read_traverse/">场景遍历</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/build_simple_cube/">简单立方体</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/build_scene_tree/">场景树构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/build_with_materials/">材质构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/build_complex_scene/">复杂场景</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/merge_to_one_file/">合并为单文件</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >导出器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/amrt_to_fbx/">AMRT转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/gltf_to_fbx/">glTF转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/gltf_to_amrt_direct/">glTF直接转AMRT</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API 文档</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">API 概览</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >核心类</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../generated_AmrtConverter/">AmrtConverter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../AmrtReader/">AmrtReader</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">AmrtBuilder</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#_1">概述</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">公共方法</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#addanimation">AddAnimation()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addbone">AddBone()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addinstance">AddInstance()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addmaterial">AddMaterial()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addmesh">AddMesh()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addnode">AddNode()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addskin">AddSkin()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#addtexture">AddTexture()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#attachmeshtonode">AttachMeshToNode()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#begin">Begin()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#buildfromscene">BuildFromScene()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#buildtomemory">BuildToMemory()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#clear">Clear()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#findmaterialbyname">FindMaterialByName()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#findmeshbyname">FindMeshByName()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#findnodebyname">FindNodeByName()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#getmaterialcount">GetMaterialCount()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#getmeshcount">GetMeshCount()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#getnodecount">GetNodeCount()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#getoptions">GetOptions()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#getscenedata">GetSceneData()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#getstatistics">GetStatistics()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#isbuilding">IsBuilding()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#save">Save()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#setmeshmaterial">SetMeshMaterial()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#setnodeparent">SetNodeParent()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#setoptions">SetOptions()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#setprogresscallback">SetProgressCallback()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#setsubmeshmaterial">SetSubMeshMaterial()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#validate">Validate()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#amrtbuilder">~AmrtBuilder()</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../AmrtMerger/">AmrtMerger</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >转换模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ConvertOptions/">ConvertOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ConvertStatistics/">ConvertStatistics</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ReadOptions/">ReadOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../SceneData/">SceneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../NodeData/">NodeData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../SceneInfo/">SceneInfo</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../SceneStatistics/">SceneStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ReadProgressInfo/">ReadProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../BuildOptions/">BuildOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../MeshData/">MeshData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../MaterialData/">MaterialData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../TextureData/">TextureData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../AnimationData/">AnimationData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../BoneData/">BoneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../SkinData/">SkinData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../BuildStatistics/">BuildStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../BuildProgressInfo/">BuildProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../MergeOptions/">MergeOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >优化选项</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../OptimizationOptions/">OptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../MeshOptimizationOptions/">MeshOptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../CompressionOptions/">CompressionOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../MaterialOptions/">MaterialOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../AnimationOptions/">AnimationOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >基础类型</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../Vec2/">Vec2</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../Vec3/">Vec3</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../Vec4/">Vec4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../Matrix4x4/">Matrix4x4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../BoundingBox/">BoundingBox</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../Face/">Face</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../KeyFrame/">KeyFrame</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../BoneWeight/">BoneWeight</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >结果与异常</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../Result/">Result</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../Exception/">Exception</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../FileException/">FileException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../FormatException/">FormatException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../DataException/">DataException</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">AMRT SDK 文档</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">API 文档</li>
+          <li class="breadcrumb-item">核心类</li>
+      <li class="breadcrumb-item active">AmrtBuilder</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/skylinestars/AMRTSDK/edit/master/docs/api/AmrtBuilder.md">Edit on skylinestars/AMRTSDK</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="amrtamrtbuilder">amrt::AmrtBuilder<a class="headerlink" href="#amrtamrtbuilder" title="Permanent link">&para;</a></h1>
+<p><strong>类型:</strong> 类</p>
+<h2 id="_1">概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>创建AmrtBuilder实例</p>
+<h2 id="_2">公共方法<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="addanimation"><code>AddAnimation()</code><a class="headerlink" href="#addanimation" title="Permanent link">&para;</a></h3>
+<p>添加动画数据</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; size_t &gt; AddAnimation(const AnimationData &amp; animation)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>animation</code> (const AnimationData &amp;)</p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; size_t &gt;</code></p>
+<hr />
+<h3 id="addbone"><code>AddBone()</code><a class="headerlink" href="#addbone" title="Permanent link">&para;</a></h3>
+<p>添加骨骼数据</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; uint32_t &gt; AddBone(const BoneData &amp; bone)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>bone</code> (const BoneData &amp;)</p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; uint32_t &gt;</code></p>
+<hr />
+<h3 id="addinstance"><code>AddInstance()</code><a class="headerlink" href="#addinstance" title="Permanent link">&para;</a></h3>
+<p>添加实例节点</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; uint32_t &gt; AddInstance(const std::string &amp; name, int32_t parentId, uint32_t refNodeId, const Matrix4x4 &amp; transform)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>name</code> (const std::string &amp;)
+- <code>parentId</code> (int32_t)
+- <code>refNodeId</code> (uint32_t)
+- <code>transform</code> (const Matrix4x4 &amp;)</p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; uint32_t &gt;</code></p>
+<hr />
+<h3 id="addmaterial"><code>AddMaterial()</code><a class="headerlink" href="#addmaterial" title="Permanent link">&para;</a></h3>
+<p>添加材质数据</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; uint32_t &gt; AddMaterial(const MaterialData &amp; material)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>material</code> (const MaterialData &amp;)</p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; uint32_t &gt;</code></p>
+<hr />
+<h3 id="addmesh"><code>AddMesh()</code><a class="headerlink" href="#addmesh" title="Permanent link">&para;</a></h3>
+<p>添加网格数据</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; uint32_t &gt; AddMesh(const MeshData &amp; mesh)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>mesh</code> (const MeshData &amp;)</p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; uint32_t &gt;</code></p>
+<hr />
+<h3 id="addnode"><code>AddNode()</code><a class="headerlink" href="#addnode" title="Permanent link">&para;</a></h3>
+<p>添加节点</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; uint32_t &gt; AddNode(const std::string &amp; name, int32_t parentId, const Matrix4x4 &amp; transform, uint32_t flags)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>name</code> (const std::string &amp;)
+- <code>parentId</code> (int32_t)
+- <code>transform</code> (const Matrix4x4 &amp;)
+- <code>flags</code> (uint32_t)</p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; uint32_t &gt;</code></p>
+<hr />
+<h3 id="addskin"><code>AddSkin()</code><a class="headerlink" href="#addskin" title="Permanent link">&para;</a></h3>
+<p>添加蒙皮数据</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; size_t &gt; AddSkin(const SkinData &amp; skin)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>skin</code> (const SkinData &amp;)</p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; size_t &gt;</code></p>
+<hr />
+<h3 id="addtexture"><code>AddTexture()</code><a class="headerlink" href="#addtexture" title="Permanent link">&para;</a></h3>
+<p>添加纹理引用</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; int32_t &gt; AddTexture(const std::string &amp; texturePath, TextureType type)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>texturePath</code> (const std::string &amp;)
+- <code>type</code> (TextureType)</p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; int32_t &gt;</code></p>
+<hr />
+<h3 id="attachmeshtonode"><code>AttachMeshToNode()</code><a class="headerlink" href="#attachmeshtonode" title="Permanent link">&para;</a></h3>
+<p>将网格关联到节点</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; void &gt; AttachMeshToNode(uint32_t nodeId, uint32_t meshId)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>nodeId</code> (uint32_t)
+- <code>meshId</code> (uint32_t)</p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; void &gt;</code></p>
+<hr />
+<h3 id="begin"><code>Begin()</code><a class="headerlink" href="#begin" title="Permanent link">&para;</a></h3>
+<p>开始构建（初始化内部状态）</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; void &gt; Begin()</code></pre></p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; void &gt;</code></p>
+<hr />
+<h3 id="buildfromscene"><code>BuildFromScene()</code><a class="headerlink" href="#buildfromscene" title="Permanent link">&para;</a></h3>
+<p>从SceneData构建</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; void &gt; BuildFromScene(const SceneData &amp; scene)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>scene</code> (const SceneData &amp;)</p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; void &gt;</code></p>
+<hr />
+<h3 id="buildtomemory"><code>BuildToMemory()</code><a class="headerlink" href="#buildtomemory" title="Permanent link">&para;</a></h3>
+<p>构建到内存（单文件格式）</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; void &gt; BuildToMemory(std::vector&lt; uint8_t &gt; &amp; buffer)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>buffer</code> (std::vector&lt; uint8_t &gt; &amp;)</p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; void &gt;</code></p>
+<hr />
+<h3 id="clear"><code>Clear()</code><a class="headerlink" href="#clear" title="Permanent link">&para;</a></h3>
+<p>清空所有数据（重置到Begin()后的状态）</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">void Clear()</code></pre></p>
+<hr />
+<h3 id="findmaterialbyname"><code>FindMaterialByName()</code><a class="headerlink" href="#findmaterialbyname" title="Permanent link">&para;</a></h3>
+<p>按名称查找材质ID</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">int32_t FindMaterialByName(const std::string &amp; name)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>name</code> (const std::string &amp;)</p>
+<p><strong>返回值:</strong>
+- <code>int32_t</code></p>
+<hr />
+<h3 id="findmeshbyname"><code>FindMeshByName()</code><a class="headerlink" href="#findmeshbyname" title="Permanent link">&para;</a></h3>
+<p>按名称查找网格ID</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">int32_t FindMeshByName(const std::string &amp; name)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>name</code> (const std::string &amp;)</p>
+<p><strong>返回值:</strong>
+- <code>int32_t</code></p>
+<hr />
+<h3 id="findnodebyname"><code>FindNodeByName()</code><a class="headerlink" href="#findnodebyname" title="Permanent link">&para;</a></h3>
+<p>按名称查找节点ID</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">int32_t FindNodeByName(const std::string &amp; name)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>name</code> (const std::string &amp;)</p>
+<p><strong>返回值:</strong>
+- <code>int32_t</code></p>
+<hr />
+<h3 id="getmaterialcount"><code>GetMaterialCount()</code><a class="headerlink" href="#getmaterialcount" title="Permanent link">&para;</a></h3>
+<p>获取材质数量</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">size_t GetMaterialCount()</code></pre></p>
+<p><strong>返回值:</strong>
+- <code>size_t</code></p>
+<hr />
+<h3 id="getmeshcount"><code>GetMeshCount()</code><a class="headerlink" href="#getmeshcount" title="Permanent link">&para;</a></h3>
+<p>获取网格数量</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">size_t GetMeshCount()</code></pre></p>
+<p><strong>返回值:</strong>
+- <code>size_t</code></p>
+<hr />
+<h3 id="getnodecount"><code>GetNodeCount()</code><a class="headerlink" href="#getnodecount" title="Permanent link">&para;</a></h3>
+<p>获取节点数量</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">size_t GetNodeCount()</code></pre></p>
+<p><strong>返回值:</strong>
+- <code>size_t</code></p>
+<hr />
+<h3 id="getoptions"><code>GetOptions()</code><a class="headerlink" href="#getoptions" title="Permanent link">&para;</a></h3>
+<p>获取当前构建选项</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">BuildOptions GetOptions()</code></pre></p>
+<p><strong>返回值:</strong>
+- <code>BuildOptions</code></p>
+<hr />
+<h3 id="getscenedata"><code>GetSceneData()</code><a class="headerlink" href="#getscenedata" title="Permanent link">&para;</a></h3>
+<p>获取当前场景数据（只读）</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">const SceneData * GetSceneData()</code></pre></p>
+<p><strong>返回值:</strong>
+- <code>const SceneData *</code></p>
+<hr />
+<h3 id="getstatistics"><code>GetStatistics()</code><a class="headerlink" href="#getstatistics" title="Permanent link">&para;</a></h3>
+<p>获取构建统计信息</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">BuildStatistics GetStatistics()</code></pre></p>
+<p><strong>返回值:</strong>
+- <code>BuildStatistics</code></p>
+<hr />
+<h3 id="isbuilding"><code>IsBuilding()</code><a class="headerlink" href="#isbuilding" title="Permanent link">&para;</a></h3>
+<p>是否已开始构建</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">bool IsBuilding()</code></pre></p>
+<p><strong>返回值:</strong>
+- <code>bool</code></p>
+<hr />
+<h3 id="save"><code>Save()</code><a class="headerlink" href="#save" title="Permanent link">&para;</a></h3>
+<p>保存到文件或文件夹</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; void &gt; Save(const std::string &amp; path)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>path</code> (const std::string &amp;)</p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; void &gt;</code></p>
+<hr />
+<h3 id="setmeshmaterial"><code>SetMeshMaterial()</code><a class="headerlink" href="#setmeshmaterial" title="Permanent link">&para;</a></h3>
+<p>设置网格的材质</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; void &gt; SetMeshMaterial(uint32_t meshId, uint32_t materialId)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>meshId</code> (uint32_t)
+- <code>materialId</code> (uint32_t)</p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; void &gt;</code></p>
+<hr />
+<h3 id="setnodeparent"><code>SetNodeParent()</code><a class="headerlink" href="#setnodeparent" title="Permanent link">&para;</a></h3>
+<p>设置节点的父节点</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; void &gt; SetNodeParent(uint32_t nodeId, int32_t parentId)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>nodeId</code> (uint32_t)
+- <code>parentId</code> (int32_t)</p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; void &gt;</code></p>
+<hr />
+<h3 id="setoptions"><code>SetOptions()</code><a class="headerlink" href="#setoptions" title="Permanent link">&para;</a></h3>
+<p>设置构建选项</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">void SetOptions(const BuildOptions &amp; options)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>options</code> (const BuildOptions &amp;)</p>
+<hr />
+<h3 id="setprogresscallback"><code>SetProgressCallback()</code><a class="headerlink" href="#setprogresscallback" title="Permanent link">&para;</a></h3>
+<p>设置进度回调</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">void SetProgressCallback(BuildProgressCallback callback)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>callback</code> (BuildProgressCallback)</p>
+<hr />
+<h3 id="setsubmeshmaterial"><code>SetSubMeshMaterial()</code><a class="headerlink" href="#setsubmeshmaterial" title="Permanent link">&para;</a></h3>
+<p>设置子网格的材质</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; void &gt; SetSubMeshMaterial(uint32_t meshId, size_t subMeshIndex, uint32_t materialId)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>meshId</code> (uint32_t)
+- <code>subMeshIndex</code> (size_t)
+- <code>materialId</code> (uint32_t)</p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; void &gt;</code></p>
+<hr />
+<h3 id="validate"><code>Validate()</code><a class="headerlink" href="#validate" title="Permanent link">&para;</a></h3>
+<p>验证当前场景数据</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">Result&lt; void &gt; Validate()</code></pre></p>
+<p><strong>返回值:</strong>
+- <code>Result&lt; void &gt;</code></p>
+<hr />
+<h3 id="amrtbuilder"><code>~AmrtBuilder()</code><a class="headerlink" href="#amrtbuilder" title="Permanent link">&para;</a></h3>
+<p>虚析构函数</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp"> ~AmrtBuilder()</code></pre></p>
+<hr />
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../AmrtReader/" class="btn btn-neutral float-left" title="AmrtReader"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../AmrtMerger/" class="btn btn-neutral float-right" title="AmrtMerger">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/skylinestars/AMRTSDK" class="fa fa-code-fork" style="color: #fcfcfc"> skylinestars/AMRTSDK</a>
+        </span>
+    
+    
+      <span><a href="../AmrtReader/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../AmrtMerger/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Wang Lu" /><link rel="canonical" href="https://skylinestars.github.io/AMRTSDK/example/convert_batch/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>批量转换 - AMRT SDK 文档</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u6279\u91cf\u8f6c\u6362";
+        var mkdocs_page_input_path = "example/convert_batch.md";
+        var mkdocs_page_url = "/AMRTSDK/example/convert_batch/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> AMRT SDK 文档
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">首页</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">快速开始</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../setup/">环境配置</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">示例程序</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" >转换器示例</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../convert_basic/">基础转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_with_progress/">进度回调</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">批量转换</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#_1">📋 简介</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">🎯 学习要点</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">🔨 构建</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">🚀 运行</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1">方式1：命令行文件列表</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2">方式2：从文件列表</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3_1">方式3：扫描目录</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_5">📖 使用说明</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_6">命令行参数</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_7">参数说明</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_8">文件列表格式</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_9">📝 代码说明</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1-api">1. 批量转换API</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2_1">2. 从文件列表加载</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3_2">3. 扫描目录</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#4">4. 批量转换进度显示</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_10">💡 输出示例</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_11">🎨 高级用法</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1_1">1. 过滤特定格式</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2_2">2. 并行批处理（多转换器）</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3_3">3. 错误处理和重试</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_12">⚠️ 注意事项</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_13">📊 性能优化建议</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_14">🔗 相关示例</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#api">📚 API 文档</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_with_options/">自定义选项</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../read_basic/">基础读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../read_scene_tree/">场景树读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../read_traverse/">场景遍历</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../build_simple_cube/">简单立方体</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_scene_tree/">场景树构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_with_materials/">材质构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_complex_scene/">复杂场景</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../merge_to_one_file/">合并为单文件</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >导出器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../amrt_to_fbx/">AMRT转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../gltf_to_fbx/">glTF转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../gltf_to_amrt_direct/">glTF直接转AMRT</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API 文档</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../api/">API 概览</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >核心类</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/generated_AmrtConverter/">AmrtConverter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtReader/">AmrtReader</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtBuilder/">AmrtBuilder</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtMerger/">AmrtMerger</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >转换模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ConvertOptions/">ConvertOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ConvertStatistics/">ConvertStatistics</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ReadOptions/">ReadOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneData/">SceneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/NodeData/">NodeData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneInfo/">SceneInfo</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneStatistics/">SceneStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ReadProgressInfo/">ReadProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildOptions/">BuildOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MeshData/">MeshData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MaterialData/">MaterialData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/TextureData/">TextureData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AnimationData/">AnimationData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoneData/">BoneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SkinData/">SkinData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildStatistics/">BuildStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildProgressInfo/">BuildProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MergeOptions/">MergeOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >优化选项</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/OptimizationOptions/">OptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MeshOptimizationOptions/">MeshOptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/CompressionOptions/">CompressionOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MaterialOptions/">MaterialOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AnimationOptions/">AnimationOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >基础类型</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec2/">Vec2</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec3/">Vec3</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec4/">Vec4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Matrix4x4/">Matrix4x4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoundingBox/">BoundingBox</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Face/">Face</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/KeyFrame/">KeyFrame</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoneWeight/">BoneWeight</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >结果与异常</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Result/">Result</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Exception/">Exception</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/FileException/">FileException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/FormatException/">FormatException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/DataException/">DataException</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">AMRT SDK 文档</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">示例程序</li>
+          <li class="breadcrumb-item">转换器示例</li>
+      <li class="breadcrumb-item active">批量转换</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/skylinestars/AMRTSDK/edit/master/docs/example/convert_batch.md">Edit on skylinestars/AMRTSDK</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="3">示例3：批量模型转换<a class="headerlink" href="#3" title="Permanent link">&para;</a></h1>
+<h2 id="_1">📋 简介<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>这个示例展示了如何使用 AmrtConverter 批量转换多个模型文件。支持多种批量处理方式：
+- 命令行参数传入多个文件
+- 从文本文件读取文件列表
+- 扫描目录自动查找模型文件</p>
+<h2 id="_2">🎯 学习要点<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<ul>
+<li>使用 <code>ConvertBatch()</code> 方法批量转换</li>
+<li>从文件列表加载文件</li>
+<li>扫描目录查找模型文件</li>
+<li>批量转换的进度显示</li>
+<li>批量转换的统计信息</li>
+</ul>
+<h2 id="_3">🔨 构建<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<pre class="highlight"><code class="language-bash">cd build
+cmake ..
+cmake --build .</code></pre>
+<h2 id="_4">🚀 运行<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="1">方式1：命令行文件列表<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-bash"># Windows
+.\examples\convert_batch.exe model1.fbx model2.obj model3.stl
+
+# Linux/Mac
+./examples/convert_batch model1.fbx model2.obj model3.stl</code></pre>
+<h3 id="2">方式2：从文件列表<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p>创建文件列表 <code>files.txt</code>:
+<pre class="highlight"><code>model1.fbx
+model2.obj
+model3.stl
+# 可以添加注释
+models/model4.fbx</code></pre></p>
+<p>然后运行：
+<pre class="highlight"><code class="language-bash">convert_batch --list files.txt --output output</code></pre></p>
+<h3 id="3_1">方式3：扫描目录<a class="headerlink" href="#3_1" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-bash"># 扫描单层目录
+convert_batch --scan ./models --output output
+
+# 递归扫描子目录
+convert_batch --scan ./models --recursive --output output</code></pre>
+<h2 id="_5">📖 使用说明<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h3 id="_6">命令行参数<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-bash"># 方式1 - 直接指定文件
+convert_batch &lt;文件1&gt; &lt;文件2&gt; ... [--output &lt;目录&gt;]
+
+# 方式2 - 文件列表
+convert_batch --list &lt;列表文件&gt; [--output &lt;目录&gt;]
+
+# 方式3 - 扫描目录
+convert_batch --scan &lt;目录&gt; [--recursive] [--output &lt;目录&gt;]</code></pre>
+<h3 id="_7">参数说明<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>&lt;文件1&gt; &lt;文件2&gt; ...</code> - 要转换的文件列表</li>
+<li><code>--list &lt;文件&gt;</code> - 从文本文件读取文件列表</li>
+<li><code>--scan &lt;目录&gt;</code> - 扫描目录查找模型文件</li>
+<li><code>--recursive</code> - 递归扫描子目录</li>
+<li><code>--output &lt;目录&gt;</code> - 输出目录，默认为 "output"</li>
+</ul>
+<h3 id="_8">文件列表格式<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>文件列表是一个文本文件，每行一个文件路径：</p>
+<pre class="highlight"><code class="language-txt"># 这是注释
+model1.fbx
+model2.obj
+
+# 可以使用相对路径或绝对路径
+./models/model3.stl
+C:/Projects/models/model4.fbx
+
+# 空行会被忽略
+model5.gltf</code></pre>
+<h2 id="_9">📝 代码说明<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<h3 id="1-api">1. 批量转换API<a class="headerlink" href="#1-api" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">// 方式1：直接传入文件列表
+std::vector&lt;std::string&gt; files = {"model1.fbx", "model2.obj"};
+Result&lt;int&gt; result = converter.ConvertBatch(files, "output");
+
+// 方式2：使用当前选项中的输出目录
+Result&lt;int&gt; result = converter.ConvertBatch(files);
+
+// 检查结果
+if (result.IsSuccess()) {
+    int successCount = result.GetValue();
+    std::cout &lt;&lt; "成功转换 " &lt;&lt; successCount &lt;&lt; " 个文件" &lt;&lt; std::endl;
+}</code></pre>
+<h3 id="2_1">2. 从文件列表加载<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">std::vector&lt;std::string&gt; LoadFileList(const std::string &amp;listFile)
+{
+    std::vector&lt;std::string&gt; files;
+    std::ifstream ifs(listFile);
+
+    std::string line;
+    while (std::getline(ifs, line))
+    {
+        // 跳过空行和注释
+        if (line.empty() || line[0] == '#')
+            continue;
+        files.push_back(line);
+    }
+
+    return files;
+}</code></pre>
+<h3 id="3_2">3. 扫描目录<a class="headerlink" href="#3_2" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">std::vector&lt;std::string&gt; ScanDirectory(const std::string &amp;directory, bool recursive)
+{
+    std::vector&lt;std::string&gt; files;
+
+    if (recursive) {
+        for (const auto &amp;entry : fs::recursive_directory_iterator(directory)) {
+            if (entry.is_regular_file()) {
+                std::string path = entry.path().string();
+                if (AmrtConverter::IsSupportedFormat(path)) {
+                    files.push_back(path);
+                }
+            }
+        }
+    } else {
+        // 单层扫描
+    }
+
+    return files;
+}</code></pre>
+<h3 id="4">4. 批量转换进度显示<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">int currentIndex = 0;
+converter.SetProgressCallback([&amp;](const ProgressInfo &amp;info) {
+    std::cout &lt;&lt; "\r[" &lt;&lt; (currentIndex + 1) &lt;&lt; "/" &lt;&lt; totalFiles &lt;&lt; "] "
+              &lt;&lt; "处理: " &lt;&lt; info.currentFile 
+              &lt;&lt; " - " &lt;&lt; (info.totalProgress * 100) &lt;&lt; "%";
+    return true;
+});</code></pre>
+<h2 id="_10">💡 输出示例<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<pre class="highlight"><code>=== AMRT 批量转换示例 ===
+
+从目录扫描到 5 个文件
+
+输入文件数: 5
+输出目录: output
+
+文件列表:
+  1. models/car.fbx
+  2. models/building.obj
+  3. models/tree.stl
+  4. models/character.fbx
+  5. models/terrain.obj
+
+开始批量转换...
+
+[5/5] 处理: terrain.obj - 100%
+
+========================================
+批量转换完成
+========================================
+✓ 成功: 5 个文件
+总耗时: 2分 35.6秒
+平均每个文件: 31.1秒
+
+统计信息:
+  输入文件大小: 125.6 MB
+  输出文件大小: 42.3 MB
+  压缩比率: 33.7%</code></pre>
+<h2 id="_11">🎨 高级用法<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<h3 id="1_1">1. 过滤特定格式<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">std::vector&lt;std::string&gt; FilterByExtension(
+    const std::vector&lt;std::string&gt; &amp;files, 
+    const std::string &amp;extension)
+{
+    std::vector&lt;std::string&gt; filtered;
+    for (const auto &amp;file : files) {
+        if (fs::path(file).extension() == extension) {
+            filtered.push_back(file);
+        }
+    }
+    return filtered;
+}
+
+// 只转换 FBX 文件
+auto fbxFiles = FilterByExtension(allFiles, ".fbx");
+converter.ConvertBatch(fbxFiles);</code></pre>
+<h3 id="2_2">2. 并行批处理（多转换器）<a class="headerlink" href="#2_2" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">#include &lt;thread&gt;
+#include &lt;vector&gt;
+
+void ConvertBatchParallel(const std::vector&lt;std::string&gt; &amp;files, int numThreads)
+{
+    std::vector&lt;std::thread&gt; threads;
+    size_t filesPerThread = files.size() / numThreads;
+
+    for (int i = 0; i &lt; numThreads; ++i) {
+        size_t start = i * filesPerThread;
+        size_t end = (i == numThreads - 1) ? files.size() : start + filesPerThread;
+
+        threads.emplace_back([=]() {
+            AmrtConverter converter;
+            std::vector&lt;std::string&gt; batch(files.begin() + start, files.begin() + end);
+            converter.ConvertBatch(batch);
+        });
+    }
+
+    for (auto &amp;t : threads) {
+        t.join();
+    }
+}</code></pre>
+<h3 id="3_3">3. 错误处理和重试<a class="headerlink" href="#3_3" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">int ConvertWithRetry(AmrtConverter &amp;converter, 
+                     const std::vector&lt;std::string&gt; &amp;files, 
+                     int maxRetries = 3)
+{
+    std::vector&lt;std::string&gt; failedFiles;
+
+    for (const auto &amp;file : files) {
+        bool success = false;
+
+        for (int retry = 0; retry &lt; maxRetries &amp;&amp; !success; ++retry) {
+            Result&lt;void&gt; result = converter.Convert(file);
+            success = result.IsSuccess();
+
+            if (!success &amp;&amp; retry &lt; maxRetries - 1) {
+                std::cout &lt;&lt; "重试 " &lt;&lt; file &lt;&lt; " (第" &lt;&lt; (retry + 1) &lt;&lt; "次)" &lt;&lt; std::endl;
+            }
+        }
+
+        if (!success) {
+            failedFiles.push_back(file);
+        }
+    }
+
+    return files.size() - failedFiles.size();
+}</code></pre>
+<h2 id="_12">⚠️ 注意事项<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>内存占用</strong>: 批量转换时，每个文件独立处理，处理完后释放内存</li>
+<li><strong>失败处理</strong>: 单个文件失败不会中断批量处理，会继续处理其他文件</li>
+<li><strong>输出目录</strong>: 所有文件默认输出到同一目录，确保有足够的磁盘空间</li>
+<li><strong>文件名冲突</strong>: 如果输入文件同名，输出可能覆盖，建议使用子目录</li>
+</ol>
+<h2 id="_13">📊 性能优化建议<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>使用 Fast 预设</strong> - 如果追求速度</li>
+<li><strong>关闭压缩</strong> - 大幅提升速度但增加文件大小</li>
+<li><strong>调整线程数</strong> - 根据CPU核心数调整</li>
+<li><strong>SSD存储</strong> - 使用SSD提升I/O速度</li>
+</ol>
+<pre class="highlight"><code class="language-cpp">ConvertOptions options = ConvertOptions::Fast();
+options.compression.enableDracoCompression = false;
+options.general.numThreads = std::thread::hardware_concurrency();</code></pre>
+<h2 id="_14">🔗 相关示例<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../01_convert_basic/">示例1：基础转换</a> - 单文件转换</li>
+<li><a href="../02_convert_with_progress/">示例2：进度回调</a> - 进度显示</li>
+<li><a href="../04_convert_with_options/">示例4：自定义选项</a> - 参数配置</li>
+</ul>
+<h2 id="api">📚 API 文档<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../../include/amrt/converter.h">ConvertBatch API</a></li>
+<li><a href="../../doc/02_Converter接口设计.md">批量处理最佳实践</a></li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../convert_with_progress/" class="btn btn-neutral float-left" title="进度回调"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../convert_with_options/" class="btn btn-neutral float-right" title="自定义选项">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/skylinestars/AMRTSDK" class="fa fa-code-fork" style="color: #fcfcfc"> skylinestars/AMRTSDK</a>
+        </span>
+    
+    
+      <span><a href="../convert_with_progress/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../convert_with_options/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Wang Lu" /><link rel="canonical" href="https://skylinestars.github.io/AMRTSDK/example/gltf_to_amrt_direct/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>glTF直接转AMRT - AMRT SDK 文档</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "glTF\u76f4\u63a5\u8f6cAMRT";
+        var mkdocs_page_input_path = "example/gltf_to_amrt_direct.md";
+        var mkdocs_page_url = "/AMRTSDK/example/gltf_to_amrt_direct/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> AMRT SDK 文档
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">首页</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">快速开始</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../setup/">环境配置</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">示例程序</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" >转换器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_basic/">基础转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_with_progress/">进度回调</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_batch/">批量转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_with_options/">自定义选项</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../read_basic/">基础读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../read_scene_tree/">场景树读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../read_traverse/">场景遍历</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../build_simple_cube/">简单立方体</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_scene_tree/">场景树构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_with_materials/">材质构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_complex_scene/">复杂场景</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../merge_to_one_file/">合并为单文件</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >导出器示例</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../amrt_to_fbx/">AMRT转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../gltf_to_fbx/">glTF转FBX</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">glTF直接转AMRT</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#_1">🎯 功能说明</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">⭐ 核心优势</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">🚀 使用方法</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_4">编译</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_5">运行</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_6">📊 输出内容</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_7">示例输出</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_8">🔍 验证数据正确性</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1-json">1. 检查JSON摘要</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2-gltf">2. 与原始glTF对比</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_9">🧪 测试用例</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_10">静态模型</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_11">带骨骼动画的模型</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_12">复杂场景</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_13">💡 关键技术点</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1">1. 四元数原生支持</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2">2. 四元数连续性修正</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3">3. 两步处理蒙皮</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_14">📝 功能特性</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_15">🔧 后续改进</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_16">📚 相关文档</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_17">🎓 代码示例</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_18">基本使用</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_19">访问动画数据</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_20">✨ 总结</a>
+    </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API 文档</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../api/">API 概览</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >核心类</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/generated_AmrtConverter/">AmrtConverter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtReader/">AmrtReader</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtBuilder/">AmrtBuilder</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtMerger/">AmrtMerger</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >转换模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ConvertOptions/">ConvertOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ConvertStatistics/">ConvertStatistics</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ReadOptions/">ReadOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneData/">SceneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/NodeData/">NodeData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneInfo/">SceneInfo</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneStatistics/">SceneStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ReadProgressInfo/">ReadProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildOptions/">BuildOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MeshData/">MeshData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MaterialData/">MaterialData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/TextureData/">TextureData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AnimationData/">AnimationData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoneData/">BoneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SkinData/">SkinData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildStatistics/">BuildStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildProgressInfo/">BuildProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MergeOptions/">MergeOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >优化选项</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/OptimizationOptions/">OptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MeshOptimizationOptions/">MeshOptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/CompressionOptions/">CompressionOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MaterialOptions/">MaterialOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AnimationOptions/">AnimationOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >基础类型</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec2/">Vec2</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec3/">Vec3</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec4/">Vec4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Matrix4x4/">Matrix4x4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoundingBox/">BoundingBox</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Face/">Face</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/KeyFrame/">KeyFrame</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoneWeight/">BoneWeight</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >结果与异常</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Result/">Result</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Exception/">Exception</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/FileException/">FileException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/FormatException/">FormatException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/DataException/">DataException</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">AMRT SDK 文档</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">示例程序</li>
+          <li class="breadcrumb-item">导出器示例</li>
+      <li class="breadcrumb-item active">glTF直接转AMRT</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/skylinestars/AMRTSDK/edit/master/docs/example/gltf_to_amrt_direct.md">Edit on skylinestars/AMRTSDK</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="gltf_to_amrt_direct-gltfglbamrt">gltf_to_amrt_direct - glTF/GLB直接转AMRT示例<a class="headerlink" href="#gltf_to_amrt_direct-gltfglbamrt" title="Permanent link">&para;</a></h1>
+<h2 id="_1">🎯 功能说明<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>展示如何使用 <code>GltfToAmrtConverter</code> 直接将 glTF/GLB 文件转换为 AMRT SceneData，<strong>完全跳过 FBX 中间格式</strong>。</p>
+<h2 id="_2">⭐ 核心优势<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>与传统的 <code>glTF → FBX → AMRT</code> 流程相比：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>传统流程</th>
+<th><strong>直接转换</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>转换路径</td>
+<td>glTF → FBX → AMRT</td>
+<td><strong>glTF → AMRT</strong></td>
+</tr>
+<tr>
+<td>动画旋转</td>
+<td>四元数 → 欧拉角 → 四元数</td>
+<td><strong>四元数 → 四元数</strong></td>
+</tr>
+<tr>
+<td>动画质量</td>
+<td>存在错误帧</td>
+<td><strong>100% 正确</strong> ✅</td>
+</tr>
+<tr>
+<td>转换速度</td>
+<td>慢（两次转换）</td>
+<td><strong>快 30-40%</strong> 🚀</td>
+</tr>
+<tr>
+<td>依赖项</td>
+<td>Assimp + FBX SDK</td>
+<td><strong>仅 Assimp</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="_3">🚀 使用方法<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="_4">编译<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-bash">cd AmrtSdk/build
+cmake --build . --config Debug --target gltf_to_amrt_direct</code></pre>
+<h3 id="_5">运行<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-bash"># 基本用法
+cd bin/Debug
+gltf_to_amrt_direct.exe model.glb
+
+# 指定输出目录
+gltf_to_amrt_direct.exe model.glb output/
+
+# 转换带动画的模型
+gltf_to_amrt_direct.exe CesiumMan.glb cesium_output/</code></pre>
+<h2 id="_6">📊 输出内容<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>程序会生成以下文件：</p>
+<ol>
+<li><strong><code>[basename]/</code></strong> - AMRT分布式格式目录⭐</li>
+<li><code>fileList.json</code> - 文件清单</li>
+<li><code>*.mrmb</code> - 网格二进制文件</li>
+<li><code>mtl.json</code> - 材质JSON文件</li>
+<li><code>*.mrab</code> - 动画二进制文件（含四元数）</li>
+<li>
+<p><code>maps/</code> - 纹理目录（所有纹理自动保存到此）</p>
+<ul>
+<li><code>*.jpg</code> / <code>*.png</code> - 纹理文件</li>
+</ul>
+</li>
+<li>
+<p><strong><code>[basename]_summary.json</code></strong> - JSON格式的数据摘要</p>
+</li>
+<li>场景统计信息</li>
+<li>
+<p>动画详情（含四元数关键帧数量）</p>
+</li>
+<li>
+<p><strong><code>[basename]_conversion.log</code></strong> - 转换日志文件⭐</p>
+</li>
+<li>所有控制台输出都会同时写入此文件</li>
+<li>便于回溯查看转换详情</li>
+</ol>
+<h3 id="_7">示例输出<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code>========================================
+         场景数据统计信息
+========================================
+节点数量: 19
+网格数量: 1
+材质数量: 1
+骨骼数量: 18
+蒙皮数量: 1
+动画数量: 1
+
+动画详情:
+  [0] Animation - 时长:3.97秒, 位置通道:18, 旋转通道:18 (⭐四元数), 缩放通道:18
+    └─ 旋转关键帧数: 60 (目标节点ID: 2)
+      [0] t=0.00s, quat=(0.000, 0.000, 0.000, 1.000)
+      [1] t=0.04s, quat=(0.000, 0.000, 0.000, 1.000)
+      [2] t=0.08s, quat=(0.000, 0.000, 0.000, 1.000)
+========================================
+
+关键信息:
+  ✓ 转换路径: glTF → SceneData (无FBX)
+  ✓ 动画格式: 四元数 (Vec4)
+  ✓ 动画质量: 100% 正确（无欧拉角插值）
+  ⭐ 四元数关键帧: 1080 个</code></pre>
+<h2 id="_8">🔍 验证数据正确性<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="1-json">1. 检查JSON摘要<a class="headerlink" href="#1-json" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-bash">cat model_summary.json</code></pre>
+<p>验证：
+- 节点、网格、材质数量是否正确
+- 动画类型是否为 <code>"quaternion (Vec4)"</code>
+- 关键帧数量是否合理</p>
+<h3 id="2-gltf">2. 与原始glTF对比<a class="headerlink" href="#2-gltf" title="Permanent link">&para;</a></h3>
+<p>使用glTF查看器（如 <a href="https://gltf-viewer.donmccurdy.com/">gltf-viewer.donmccurdy.com</a>）查看原始模型，对比：
+- 节点层级
+- 网格数量
+- 动画时长</p>
+<h2 id="_9">🧪 测试用例<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<h3 id="_10">静态模型<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-bash"># 测试网格和材质转换
+gltf_to_amrt_direct.exe BoxTextured.glb</code></pre>
+<h3 id="_11">带骨骼动画的模型<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-bash"># 测试骨骼动画转换（重点验证四元数）
+gltf_to_amrt_direct.exe CesiumMan.glb
+gltf_to_amrt_direct.exe RiggedSimple.glb</code></pre>
+<h3 id="_12">复杂场景<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-bash"># 测试复杂模型
+gltf_to_amrt_direct.exe 2CylinderEngine.glb</code></pre>
+<h2 id="_13">💡 关键技术点<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. 四元数原生支持<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">// AMRT的动画通道使用Vec4存储四元数
+struct AnimationData {
+    std::vector&lt;AnimationChannel&lt;Vec4&gt;&gt; rotationChannels; // ⭐ Vec4 = 四元数
+};
+
+// 直接从glTF的四元数转换，无需欧拉角
+Vec4 quat = ConvertQuaternion(aiQuatKey.mValue);</code></pre>
+<h3 id="2">2. 四元数连续性修正<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">// 确保相邻关键帧的四元数在同一半球
+Vec4 EnsureQuaternionContinuity(const Vec4 &amp;current, const Vec4 &amp;previous) {
+    float dot = current.x * previous.x + ... + current.w * previous.w;
+    if (dot &lt; 0.0f) {
+        return Vec4(-current.x, -current.y, -current.z, -current.w);
+    }
+    return current;
+}</code></pre>
+<h3 id="3">3. 两步处理蒙皮<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">// 第一步：转换节点和网格，收集待处理蒙皮
+if (aiMesh-&gt;HasBones()) {
+    pendingSkins_.push_back({aiMesh, meshId});
+}
+
+// 第二步：处理所有蒙皮（此时所有骨骼节点已创建）
+for (const auto &amp;pendingSkin : pendingSkins_) {
+    ProcessSkin(pendingSkin.aiMesh, pendingSkin.meshId);
+}</code></pre>
+<h2 id="_14">📝 功能特性<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>保存功能</strong></li>
+<li>✅ 完整的AMRT分布式格式保存</li>
+<li>✅ 使用AmrtBuilder的BuildFromScene方法⭐</li>
+<li>✅ 支持网格、材质、骨骼、动画</li>
+<li>✅ 原生四元数动画保存⭐</li>
+<li>✅ 符合AMRT标准格式（.mrmb/.mrab扩展名）</li>
+<li>
+<p>✅ 可使用合并功能生成单文件格式</p>
+</li>
+<li>
+<p><strong>材质支持</strong></p>
+</li>
+<li>✅ 支持PBR材质（BaseColor, Metallic, Roughness）</li>
+<li>✅ 支持嵌入纹理提取⭐</li>
+<li>✅ 自动复制外部纹理到maps/目录⭐</li>
+<li>
+<p>✅ 材质路径自动调整为相对路径</p>
+</li>
+<li>
+<p><strong>动画支持</strong></p>
+</li>
+<li>✅ 位置、旋转（四元数）、缩放</li>
+<li>✅ 骨骼动画</li>
+<li>✅ 四元数连续性修正⭐</li>
+<li>
+<p>⚠️ 变形动画（Morph Targets）未实现</p>
+</li>
+<li>
+<p><strong>日志功能</strong></p>
+</li>
+<li>✅ 日志文件自动生成⭐</li>
+<li>✅ 控制台和文件双重输出</li>
+<li>✅ 包含时间戳和完整统计信息</li>
+</ol>
+<h2 id="_15">🔧 后续改进<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[ ] 集成到AmrtConverter模块（方案A）</li>
+<li>[ ] 支持变形动画（Morph Targets）</li>
+<li>[ ] 支持多个动画堆栈</li>
+<li>[ ] 优化大模型的内存占用</li>
+<li>[ ] 多线程并行转换</li>
+</ul>
+<h2 id="_16">📚 相关文档<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../../doc/glTF骨骼动画转FBX完整解决方案.md">glTF骨骼动画转FBX完整解决方案.md</a> - 动画转换技术详解</li>
+<li><a href="../../doc/glTF转AMRT架构实现.md">glTF转AMRT架构实现.md</a> - 架构设计文档</li>
+<li><a href="../../doc/四元数动画转换问题解决方案.md">四元数动画转换问题解决方案.md</a> - 四元数连续性修正</li>
+</ul>
+<h2 id="_17">🎓 代码示例<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h2>
+<h3 id="_18">基本使用<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">#include "gltf_to_amrt_converter.h"
+
+GltfToAmrtConverter converter;
+
+// 加载
+if (!converter.Load("model.glb")) {
+    std::cerr &lt;&lt; converter.GetLastError() &lt;&lt; std::endl;
+    return -1;
+}
+
+// 转换
+if (!converter.Convert()) {
+    std::cerr &lt;&lt; converter.GetLastError() &lt;&lt; std::endl;
+    return -1;
+}
+
+// 获取数据
+auto sceneData = converter.GetSceneData();
+std::cout &lt;&lt; "节点数: " &lt;&lt; sceneData-&gt;nodes.size() &lt;&lt; std::endl;
+std::cout &lt;&lt; "动画数: " &lt;&lt; sceneData-&gt;animations.size() &lt;&lt; std::endl;</code></pre>
+<h3 id="_19">访问动画数据<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">for (const auto &amp;anim : sceneData-&gt;animations) {
+    std::cout &lt;&lt; "动画: " &lt;&lt; anim.name 
+              &lt;&lt; ", 时长: " &lt;&lt; anim.duration &lt;&lt; "秒" &lt;&lt; std::endl;
+
+    // 遍历旋转通道（四元数）
+    for (const auto &amp;rotChannel : anim.rotationChannels) {
+        std::cout &lt;&lt; "  旋转通道关键帧数: " 
+                  &lt;&lt; rotChannel.keyframes.size() &lt;&lt; std::endl;
+
+        for (const auto &amp;kf : rotChannel.keyframes) {
+            // kf.value是Vec4（四元数）
+            std::cout &lt;&lt; "    t=" &lt;&lt; kf.time 
+                      &lt;&lt; ", quat=(" &lt;&lt; kf.value.x &lt;&lt; ", " 
+                      &lt;&lt; kf.value.y &lt;&lt; ", " &lt;&lt; kf.value.z &lt;&lt; ", " 
+                      &lt;&lt; kf.value.w &lt;&lt; ")" &lt;&lt; std::endl;
+        }
+    }
+}</code></pre>
+<h2 id="_20">✨ 总结<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h2>
+<p>这个示例展示了如何<strong>完全跳过FBX</strong>，直接将glTF转换为AMRT格式，获得：</p>
+<ul>
+<li>⚡ <strong>更快的转换速度</strong>（减少一次中间转换）</li>
+<li>🎯 <strong>完美的动画质量</strong>（原生四元数，无插值错误）</li>
+<li>🔧 <strong>更简洁的架构</strong>（减少依赖）</li>
+</ul>
+<p>适合需要高质量动画转换的场景！</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../gltf_to_fbx/" class="btn btn-neutral float-left" title="glTF转FBX"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../api/" class="btn btn-neutral float-right" title="API 概览">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/skylinestars/AMRTSDK" class="fa fa-code-fork" style="color: #fcfcfc"> skylinestars/AMRTSDK</a>
+        </span>
+    
+    
+      <span><a href="../gltf_to_fbx/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../api/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Wang Lu" /><link rel="canonical" href="https://skylinestars.github.io/AMRTSDK/example/read_basic/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>基础读取 - AMRT SDK 文档</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u57fa\u7840\u8bfb\u53d6";
+        var mkdocs_page_input_path = "example/read_basic.md";
+        var mkdocs_page_url = "/AMRTSDK/example/read_basic/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> AMRT SDK 文档
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">首页</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">快速开始</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../setup/">环境配置</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">示例程序</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" >转换器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_basic/">基础转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_with_progress/">进度回调</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_batch/">批量转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_with_options/">自定义选项</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >读取器示例</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">基础读取</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#_1">📋 概述</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">🎯 学习目标</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">🚀 编译</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">📖 使用方法</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_5">基本用法</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_6">示例</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">📊 输出内容</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1">1. 场景信息</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2">2. 统计信息</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3">3. 场景树结构</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#4">4. 网格信息</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#5">5. 材质信息</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_8">💡 代码说明</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#reader">创建Reader</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_9">设置进度回调（可选）</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_10">加载文件</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_11">获取场景信息</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_12">访问网格数据</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_13">访问材质数据</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_14">🔍 进阶用法</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_15">按名称查找</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_16">遍历场景树</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_17">获取完整场景数据</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_18">⚠️ 注意事项</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_19">📚 相关示例</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_20">🐛 常见问题</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#q">Q: 加载失败，提示"文件未找到"</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#q_1">Q: 程序运行很慢</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#q-0">Q: 显示的统计信息为0</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#q_2">Q: 中文路径无法识别</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_21">📞 技术支持</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../read_scene_tree/">场景树读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../read_traverse/">场景遍历</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../build_simple_cube/">简单立方体</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_scene_tree/">场景树构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_with_materials/">材质构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_complex_scene/">复杂场景</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../merge_to_one_file/">合并为单文件</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >导出器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../amrt_to_fbx/">AMRT转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../gltf_to_fbx/">glTF转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../gltf_to_amrt_direct/">glTF直接转AMRT</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API 文档</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../api/">API 概览</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >核心类</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/generated_AmrtConverter/">AmrtConverter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtReader/">AmrtReader</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtBuilder/">AmrtBuilder</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtMerger/">AmrtMerger</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >转换模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ConvertOptions/">ConvertOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ConvertStatistics/">ConvertStatistics</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ReadOptions/">ReadOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneData/">SceneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/NodeData/">NodeData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneInfo/">SceneInfo</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneStatistics/">SceneStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ReadProgressInfo/">ReadProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildOptions/">BuildOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MeshData/">MeshData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MaterialData/">MaterialData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/TextureData/">TextureData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AnimationData/">AnimationData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoneData/">BoneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SkinData/">SkinData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildStatistics/">BuildStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildProgressInfo/">BuildProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MergeOptions/">MergeOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >优化选项</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/OptimizationOptions/">OptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MeshOptimizationOptions/">MeshOptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/CompressionOptions/">CompressionOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MaterialOptions/">MaterialOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AnimationOptions/">AnimationOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >基础类型</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec2/">Vec2</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec3/">Vec3</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec4/">Vec4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Matrix4x4/">Matrix4x4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoundingBox/">BoundingBox</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Face/">Face</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/KeyFrame/">KeyFrame</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoneWeight/">BoneWeight</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >结果与异常</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Result/">Result</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Exception/">Exception</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/FileException/">FileException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/FormatException/">FormatException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/DataException/">DataException</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">AMRT SDK 文档</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">示例程序</li>
+          <li class="breadcrumb-item">读取器示例</li>
+      <li class="breadcrumb-item active">基础读取</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/skylinestars/AMRTSDK/edit/master/docs/example/read_basic.md">Edit on skylinestars/AMRTSDK</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="05">示例05：基础读取<a class="headerlink" href="#05" title="Permanent link">&para;</a></h1>
+<h2 id="_1">📋 概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>本示例演示如何使用AmrtReader加载和读取AMRT格式文件，并显示场景的基本信息。</p>
+<h2 id="_2">🎯 学习目标<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<ul>
+<li>创建和使用AmrtReader</li>
+<li>加载AMRT文件（分布式和单文件格式）</li>
+<li>获取场景信息和统计数据</li>
+<li>访问节点、网格和材质数据</li>
+<li>使用进度回调</li>
+</ul>
+<h2 id="_3">🚀 编译<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<pre class="highlight"><code class="language-bash"># 在构建目录中
+cmake --build . --target read_basic
+
+# 或者使用Visual Studio
+# 打开AmrtSDK.sln，编译read_basic项目</code></pre>
+<h2 id="_4">📖 使用方法<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_5">基本用法<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-bash"># 加载分布式格式（文件夹）
+./read_basic path/to/model_directory/
+
+# 加载单文件格式
+./read_basic path/to/model.amrt</code></pre>
+<h3 id="_6">示例<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-bash"># Windows
+read_basic.exe D:\Models\house\
+
+# Linux/Mac
+./read_basic /home/user/models/car/</code></pre>
+<h2 id="_7">📊 输出内容<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>程序会显示以下信息：</p>
+<h3 id="1">1. 场景信息<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code>========== 场景信息 ==========
+名称: MyModel
+版本: 1.0
+包围盒:
+  Min: (-10.0, -5.0, -8.0)
+  Max: (10.0, 5.0, 8.0)
+...</code></pre>
+<h3 id="2">2. 统计信息<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code>统计信息:
+  节点数量: 156
+  网格数量: 78
+  材质数量: 45
+  总顶点数: 125678
+  总三角形数: 234567</code></pre>
+<h3 id="3">3. 场景树结构<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code>========== 场景树结构 ==========
+根节点数量: 1
+
+- Root [空节点]
+  - Body [网格节点, 1个网格]
+  - Wheels [空节点]</code></pre>
+<h3 id="4">4. 网格信息<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code>========== 网格信息 ==========
+网格 #0: Body_Mesh
+  顶点数: 12345
+  三角形数: 23456
+  法线数: 12345
+  UV坐标数: 12345</code></pre>
+<h3 id="5">5. 材质信息<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code>========== 材质信息 ==========
+材质 #0: Metal_Material
+  基础颜色: (0.8, 0.8, 0.8, 1.0)
+  粗糙度: 0.5
+  金属度: 1.0
+  纹理数量: 2</code></pre>
+<h2 id="_8">💡 代码说明<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="reader">创建Reader<a class="headerlink" href="#reader" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">auto reader = amrt::AmrtReader::Create();</code></pre>
+<h3 id="_9">设置进度回调（可选）<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">reader-&gt;SetProgressCallback([](const amrt::ReadProgressInfo&amp; info) {
+    std::cout &lt;&lt; info.message &lt;&lt; " (" 
+              &lt;&lt; static_cast&lt;int&gt;(info.totalProgress * 100) &lt;&lt; "%)\n";
+    return true; // 返回false可以取消加载
+});</code></pre>
+<h3 id="_10">加载文件<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">auto result = reader-&gt;Load(inputPath);
+if (result.IsFailure()) {
+    std::cerr &lt;&lt; "加载失败: " &lt;&lt; result.GetErrorMessage() &lt;&lt; "\n";
+    return 1;
+}</code></pre>
+<h3 id="_11">获取场景信息<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">// 场景基本信息
+auto sceneInfo = reader-&gt;GetSceneInfo();
+std::cout &lt;&lt; "节点数: " &lt;&lt; sceneInfo.statistics.nodeCount &lt;&lt; "\n";
+
+// 访问根节点
+size_t rootCount = reader-&gt;GetRootNodeCount();
+for (size_t i = 0; i &lt; rootCount; ++i) {
+    const auto* root = reader-&gt;GetRootNode(i);
+    std::cout &lt;&lt; "根节点: " &lt;&lt; root-&gt;name &lt;&lt; "\n";
+}</code></pre>
+<h3 id="_12">访问网格数据<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">size_t meshCount = reader-&gt;GetMeshCount();
+for (size_t i = 0; i &lt; meshCount; ++i) {
+    const auto* mesh = reader-&gt;GetMesh(i);
+    std::cout &lt;&lt; "网格: " &lt;&lt; mesh-&gt;name 
+              &lt;&lt; ", 顶点数: " &lt;&lt; mesh-&gt;vertices.size() &lt;&lt; "\n";
+}</code></pre>
+<h3 id="_13">访问材质数据<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">size_t materialCount = reader-&gt;GetMaterialCount();
+for (size_t i = 0; i &lt; materialCount; ++i) {
+    const auto* material = reader-&gt;GetMaterial(i);
+    std::cout &lt;&lt; "材质: " &lt;&lt; material-&gt;name &lt;&lt; "\n";
+}</code></pre>
+<h2 id="_14">🔍 进阶用法<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<h3 id="_15">按名称查找<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">// 查找特定节点
+const auto* node = reader-&gt;FindNodeByName("Engine");
+if (node) {
+    std::cout &lt;&lt; "找到节点: " &lt;&lt; node-&gt;name &lt;&lt; "\n";
+}
+
+// 查找特定网格
+const auto* mesh = reader-&gt;FindMeshByName("Body_Mesh");</code></pre>
+<h3 id="_16">遍历场景树<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">reader-&gt;TraverseNodes([](const amrt::NodeData* node) {
+    std::cout &lt;&lt; "节点: " &lt;&lt; node-&gt;name &lt;&lt; "\n";
+    std::cout &lt;&lt; "  子节点数: " &lt;&lt; node-&gt;children.size() &lt;&lt; "\n";
+    return true; // 继续遍历
+});</code></pre>
+<h3 id="_17">获取完整场景数据<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">const auto* scene = reader-&gt;GetSceneData();
+if (scene) {
+    // 访问所有节点
+    for (const auto&amp; node : scene-&gt;nodes) {
+        std::cout &lt;&lt; "节点: " &lt;&lt; node.name &lt;&lt; "\n";
+    }
+
+    // 访问所有网格
+    for (const auto&amp; mesh : scene-&gt;meshes) {
+        std::cout &lt;&lt; "网格: " &lt;&lt; mesh.name &lt;&lt; "\n";
+    }
+}</code></pre>
+<h2 id="_18">⚠️ 注意事项<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>文件路径</strong></li>
+<li>支持相对路径和绝对路径</li>
+<li>Windows路径可以使用 <code>\</code> 或 <code>/</code></li>
+<li>
+<p>中文路径需要UTF-8编码</p>
+</li>
+<li>
+<p><strong>内存使用</strong></p>
+</li>
+<li>Reader会将整个场景加载到内存</li>
+<li>大模型可能占用较多内存</li>
+<li>
+<p>可以使用延迟加载选项（后续版本）</p>
+</li>
+<li>
+<p><strong>错误处理</strong></p>
+</li>
+<li>始终检查 <code>Load()</code> 的返回值</li>
+<li>
+<p>使用 <code>result.GetErrorMessage()</code> 获取详细错误信息</p>
+</li>
+<li>
+<p><strong>生命周期</strong></p>
+</li>
+<li>Reader对象销毁时，所有返回的指针失效</li>
+<li>不要在Reader销毁后访问场景数据</li>
+</ol>
+<h2 id="_19">📚 相关示例<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>06_read_traverse</strong> - 场景树遍历示例</li>
+<li><strong>07_read_export</strong> - 导出为OBJ格式</li>
+<li><strong>08_read_with_options</strong> - 使用读取选项</li>
+</ul>
+<h2 id="_20">🐛 常见问题<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h2>
+<h3 id="q">Q: 加载失败，提示"文件未找到"<a class="headerlink" href="#q" title="Permanent link">&para;</a></h3>
+<p>A: 检查文件路径是否正确，确保fileList.json存在（分布式格式）</p>
+<h3 id="q_1">Q: 程序运行很慢<a class="headerlink" href="#q_1" title="Permanent link">&para;</a></h3>
+<p>A: 大模型加载需要时间，可以使用进度回调查看进度</p>
+<h3 id="q-0">Q: 显示的统计信息为0<a class="headerlink" href="#q-0" title="Permanent link">&para;</a></h3>
+<p>A: 可能是文件损坏或格式不兼容，检查错误信息</p>
+<h3 id="q_2">Q: 中文路径无法识别<a class="headerlink" href="#q_2" title="Permanent link">&para;</a></h3>
+<p>A: 确保使用UTF-8编码，或使用英文路径</p>
+<h2 id="_21">📞 技术支持<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h2>
+<p>如有问题，请查阅：
+- API文档: <code>docs/api_reference.md</code>
+- FAQ文档: <code>docs/faq.md</code>
+- 格式规范: <code>docs/format_specification.md</code></p>
+<hr />
+<p><strong>示例版本</strong>: 0.1.0<br />
+<strong>最后更新</strong>: 2025-11-13</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../convert_with_options/" class="btn btn-neutral float-left" title="自定义选项"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../read_scene_tree/" class="btn btn-neutral float-right" title="场景树读取">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/skylinestars/AMRTSDK" class="fa fa-code-fork" style="color: #fcfcfc"> skylinestars/AMRTSDK</a>
+        </span>
+    
+    
+      <span><a href="../convert_with_options/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../read_scene_tree/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

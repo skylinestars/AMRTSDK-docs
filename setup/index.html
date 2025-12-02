@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Wang Lu" /><link rel="canonical" href="https://skylinestars.github.io/AMRTSDK/setup/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>环境配置 - AMRT SDK 文档</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u73af\u5883\u914d\u7f6e";
+        var mkdocs_page_input_path = "setup.md";
+        var mkdocs_page_url = "/AMRTSDK/setup/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> AMRT SDK 文档
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">首页</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">快速开始</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">环境配置</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_2">📋 系统要求</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">操作系统</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">编译器</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_5">依赖项</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_6">🔧 环境配置</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#windows">Windows 环境配置</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sdk">🏗️ 编译 SDK</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#cmake-gui">方式一：使用 CMake GUI</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">方式二：使用命令行</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#cmake">CMake 配置选项</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sdk_1">📦 使用 SDK</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_8">方式一：作为子项目（推荐）</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_9">方式二：使用已编译的库</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_10">方式三：直接包含头文件</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_11">🚀 快速开始示例</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1gltf-amrt-fbx-sdk">示例1：glTF 转 AMRT（无需 FBX SDK）</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2fbx-amrt-fbx-sdk">示例2：FBX 转 AMRT（需要 FBX SDK）</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-amrt">示例3：从代码构建 AMRT</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_12">📁 输出文件结构</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#filelistjson">fileList.json 示例</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_13">🔍 常见问题</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#q1-fbx-sdk">Q1: 编译时找不到 FBX SDK</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#q2-gltf">Q2: 如何只使用 glTF 转换功能？</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#q3">Q3: 中文路径支持</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#q4">Q4: 如何启用纹理压缩？</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#q5">Q5: 编译时遇到链接错误</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_14">📞 获取帮助</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#_15">📝 下一步</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">示例程序</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >转换器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../example/convert_basic/">基础转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../example/convert_with_progress/">进度回调</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../example/convert_batch/">批量转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../example/convert_with_options/">自定义选项</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../example/read_basic/">基础读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../example/read_scene_tree/">场景树读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../example/read_traverse/">场景遍历</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../example/build_simple_cube/">简单立方体</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../example/build_scene_tree/">场景树构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../example/build_with_materials/">材质构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../example/build_complex_scene/">复杂场景</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../example/merge_to_one_file/">合并为单文件</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >导出器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../example/amrt_to_fbx/">AMRT转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../example/gltf_to_fbx/">glTF转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../example/gltf_to_amrt_direct/">glTF直接转AMRT</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API 文档</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../api/">API 概览</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >核心类</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../api/generated_AmrtConverter/">AmrtConverter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/AmrtReader/">AmrtReader</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/AmrtBuilder/">AmrtBuilder</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/AmrtMerger/">AmrtMerger</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >转换模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../api/ConvertOptions/">ConvertOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/ConvertStatistics/">ConvertStatistics</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../api/ReadOptions/">ReadOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/SceneData/">SceneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/NodeData/">NodeData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/SceneInfo/">SceneInfo</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/SceneStatistics/">SceneStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/ReadProgressInfo/">ReadProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../api/BuildOptions/">BuildOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/MeshData/">MeshData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/MaterialData/">MaterialData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/TextureData/">TextureData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/AnimationData/">AnimationData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/BoneData/">BoneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/SkinData/">SkinData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/BuildStatistics/">BuildStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/BuildProgressInfo/">BuildProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../api/MergeOptions/">MergeOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >优化选项</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../api/OptimizationOptions/">OptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/MeshOptimizationOptions/">MeshOptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/CompressionOptions/">CompressionOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/MaterialOptions/">MaterialOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/AnimationOptions/">AnimationOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >基础类型</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../api/Vec2/">Vec2</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/Vec3/">Vec3</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/Vec4/">Vec4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/Matrix4x4/">Matrix4x4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/BoundingBox/">BoundingBox</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/Face/">Face</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/KeyFrame/">KeyFrame</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/BoneWeight/">BoneWeight</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >结果与异常</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../api/Result/">Result</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/Exception/">Exception</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/FileException/">FileException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/FormatException/">FormatException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../api/DataException/">DataException</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">AMRT SDK 文档</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">快速开始</li>
+      <li class="breadcrumb-item active">环境配置</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/skylinestars/AMRTSDK/edit/master/docs/setup.md">Edit on skylinestars/AMRTSDK</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="_1">环境配置与安装指南<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>本文档介绍如何配置 AMRT SDK 的开发环境以及如何使用 SDK。</p>
+<hr />
+<h2 id="_2">📋 系统要求<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="_3">操作系统<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>系统</th>
+<th>版本</th>
+<th>支持状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows</td>
+<td>10/11 (64-bit)</td>
+<td>✅ 完整支持</td>
+</tr>
+<tr>
+<td>Linux</td>
+<td>Ubuntu 18.04+</td>
+<td>✅ 支持</td>
+</tr>
+<tr>
+<td>macOS</td>
+<td>10.15+</td>
+<td>⚠️ 部分支持</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_4">编译器<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>编译器</th>
+<th>最低版本</th>
+<th>推荐版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MSVC</td>
+<td>2019 (v142)</td>
+<td>2022 (v143)</td>
+</tr>
+<tr>
+<td>GCC</td>
+<td>8.0</td>
+<td>11.0+</td>
+</tr>
+<tr>
+<td>Clang</td>
+<td>10.0</td>
+<td>14.0+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_5">依赖项<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>依赖</th>
+<th>必需</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CMake</td>
+<td>✅</td>
+<td>3.15 或更高版本</td>
+</tr>
+<tr>
+<td>Assimp</td>
+<td>✅</td>
+<td>3D 模型导入库</td>
+</tr>
+<tr>
+<td>Draco</td>
+<td>✅</td>
+<td>几何压缩库</td>
+</tr>
+<tr>
+<td>GLM</td>
+<td>✅</td>
+<td>数学库（Header-only）</td>
+</tr>
+<tr>
+<td>FreeImage</td>
+<td>⚠️ 可选</td>
+<td>图像处理库</td>
+</tr>
+<tr>
+<td>FBX SDK</td>
+<td>⚠️ 可选</td>
+<td>FBX 格式支持</td>
+</tr>
+<tr>
+<td>Basis Universal</td>
+<td>⚠️ 可选</td>
+<td>纹理压缩</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_6">🔧 环境配置<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h3 id="windows">Windows 环境配置<a class="headerlink" href="#windows" title="Permanent link">&para;</a></h3>
+<h4 id="1-visual-studio-2022">1. 安装 Visual Studio 2022<a class="headerlink" href="#1-visual-studio-2022" title="Permanent link">&para;</a></h4>
+<p>下载并安装 <a href="https://visualstudio.microsoft.com/">Visual Studio 2022</a>，确保选择以下组件：</p>
+<ul>
+<li>✅ 使用 C++ 的桌面开发</li>
+<li>✅ C++ CMake 工具</li>
+<li>✅ Windows 10/11 SDK</li>
+</ul>
+<h4 id="2-cmake">2. 安装 CMake<a class="headerlink" href="#2-cmake" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-powershell"># 使用 winget 安装
+winget install Kitware.CMake
+
+# 或从官网下载: https://cmake.org/download/</code></pre>
+<p>验证安装：
+<pre class="highlight"><code class="language-powershell">cmake --version
+# 应显示 cmake version 3.15 或更高</code></pre></p>
+<h4 id="3">3. 配置依赖库路径<a class="headerlink" href="#3" title="Permanent link">&para;</a></h4>
+<p>在项目根目录创建或编辑 <code>CMakeUserPresets.json</code>：</p>
+<pre class="highlight"><code class="language-json">{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "windows-default",
+      "inherits": "default",
+      "cacheVariables": {
+        "ASSIMP_ROOT": "D:/libs/assimp",
+        "DRACO_ROOT": "D:/libs/draco",
+        "GLM_ROOT": "D:/libs/glm",
+        "FBXSDK_ROOT": "D:/libs/fbxsdk/2020.3.4"
+      }
+    }
+  ]
+}</code></pre>
+<h4 id="4-fbx-sdk">4. 安装 FBX SDK（可选）<a class="headerlink" href="#4-fbx-sdk" title="Permanent link">&para;</a></h4>
+<p>如果需要 FBX 格式支持：</p>
+<ol>
+<li>下载 <a href="https://www.autodesk.com/developer-network/platform-technologies/fbx-sdk-2020-3">FBX SDK</a></li>
+<li>安装到 <code>D:\libs\fbxsdk\2020.3.4</code>（或自定义路径）</li>
+<li>设置环境变量 <code>FBXSDK_ROOT</code></li>
+</ol>
+<p><strong>⚠️ 注意</strong>：如果不需要 FBX 支持，可以使用 <code>-DENABLE_FBX_SUPPORT=OFF</code> 禁用。</p>
+<hr />
+<h2 id="sdk">🏗️ 编译 SDK<a class="headerlink" href="#sdk" title="Permanent link">&para;</a></h2>
+<h3 id="cmake-gui">方式一：使用 CMake GUI<a class="headerlink" href="#cmake-gui" title="Permanent link">&para;</a></h3>
+<ol>
+<li>打开 CMake GUI</li>
+<li>设置源码目录：<code>D:/Project/cad/Single_Fbx2BIN</code></li>
+<li>设置构建目录：<code>D:/Project/cad/Single_Fbx2BIN/build</code></li>
+<li>点击 <strong>Configure</strong>，选择 Visual Studio 2022</li>
+<li>配置选项（见下方）</li>
+<li>点击 <strong>Generate</strong></li>
+<li>点击 <strong>Open Project</strong> 打开 Visual Studio</li>
+</ol>
+<h3 id="_7">方式二：使用命令行<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-powershell"># 进入项目目录
+cd D:\Project\cad\Single_Fbx2BIN
+
+# 创建构建目录
+mkdir build
+cd build
+
+# 配置（完整功能）
+cmake .. -G "Visual Studio 17 2022" -A x64 `
+    -DENABLE_FBX_SUPPORT=ON `
+    -DBUILD_EXAMPLES=ON
+
+# 或：配置（仅 glTF 支持，无需 FBX SDK）
+cmake .. -G "Visual Studio 17 2022" -A x64 `
+    -DENABLE_FBX_SUPPORT=OFF `
+    -DBUILD_EXAMPLES=ON
+
+# 编译
+cmake --build . --config Release -j 8
+
+# 或编译 Debug 版本
+cmake --build . --config Debug -j 8</code></pre>
+<h3 id="cmake">CMake 配置选项<a class="headerlink" href="#cmake" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ENABLE_FBX_SUPPORT</code></td>
+<td>ON</td>
+<td>启用 FBX 格式支持（需要 FBX SDK）</td>
+</tr>
+<tr>
+<td><code>BUILD_EXAMPLES</code></td>
+<td>ON</td>
+<td>编译示例程序</td>
+</tr>
+<tr>
+<td><code>BUILD_TESTS</code></td>
+<td>OFF</td>
+<td>编译测试程序</td>
+</tr>
+<tr>
+<td><code>BUILD_SHARED_LIBS</code></td>
+<td>OFF</td>
+<td>编译为动态库</td>
+</tr>
+<tr>
+<td><code>AMRT_ENABLE_DEBUG_LOGS</code></td>
+<td>OFF</td>
+<td>启用调试日志</td>
+</tr>
+<tr>
+<td><code>AMRT_ENABLE_VERBOSE_LOGS</code></td>
+<td>OFF</td>
+<td>启用详细日志</td>
+</tr>
+<tr>
+<td><code>X2JSONBIN_COMPRESS_TEXTURES</code></td>
+<td>OFF</td>
+<td>FBX 路径启用纹理压缩</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sdk_1">📦 使用 SDK<a class="headerlink" href="#sdk_1" title="Permanent link">&para;</a></h2>
+<h3 id="_8">方式一：作为子项目（推荐）<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>在你的 CMakeLists.txt 中：</p>
+<pre class="highlight"><code class="language-cmake"># 添加 AmrtSdk 子目录
+add_subdirectory(path/to/AmrtSdk)
+
+# 链接到你的项目
+target_link_libraries(your_project PRIVATE amrt)</code></pre>
+<h3 id="_9">方式二：使用已编译的库<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cmake"># 查找 AmrtSdk
+find_package(AmrtSdk REQUIRED)
+
+# 链接
+target_link_libraries(your_project PRIVATE Amrt::Amrt)</code></pre>
+<h3 id="_10">方式三：直接包含头文件<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">#include &lt;amrt/converter.h&gt;
+#include &lt;amrt/builder.h&gt;
+#include &lt;amrt/reader.h&gt;</code></pre>
+<hr />
+<h2 id="_11">🚀 快速开始示例<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<h3 id="1gltf-amrt-fbx-sdk">示例1：glTF 转 AMRT（无需 FBX SDK）<a class="headerlink" href="#1gltf-amrt-fbx-sdk" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">#include &lt;amrt/converter.h&gt;
+#include &lt;iostream&gt;
+
+int main()
+{
+    // 创建转换器
+    amrt::AmrtConverter converter;
+
+    // 配置选项
+    amrt::ConvertOptions options = amrt::ConvertOptions::Default();
+    options.output.outputDirectory = "output";
+    options.compression.compressTextures = true;  // 启用纹理压缩
+    converter.SetOptions(options);
+
+    // 执行转换
+    auto result = converter.Convert("model.glb", "output/");
+
+    if (result.IsSuccess()) {
+        std::cout &lt;&lt; "转换成功！" &lt;&lt; std::endl;
+
+        // 获取统计信息
+        auto stats = converter.GetStatistics();
+        std::cout &lt;&lt; "顶点数: " &lt;&lt; stats.inputVertexCount &lt;&lt; std::endl;
+        std::cout &lt;&lt; "面数: " &lt;&lt; stats.inputFaceCount &lt;&lt; std::endl;
+    } else {
+        std::cerr &lt;&lt; "转换失败: " &lt;&lt; result.GetErrorMessage() &lt;&lt; std::endl;
+    }
+
+    return 0;
+}</code></pre>
+<h3 id="2fbx-amrt-fbx-sdk">示例2：FBX 转 AMRT（需要 FBX SDK）<a class="headerlink" href="#2fbx-amrt-fbx-sdk" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">#include &lt;amrt/converter.h&gt;
+#include &lt;iostream&gt;
+
+int main()
+{
+    amrt::AmrtConverter converter;
+
+    amrt::ConvertOptions options = amrt::ConvertOptions::Default();
+    options.output.outputDirectory = "output";
+    options.optimization.detectInstances = true;  // 启用实例化检测
+    converter.SetOptions(options);
+
+    auto result = converter.Convert("model.fbx", "output/");
+
+    if (result.IsSuccess()) {
+        std::cout &lt;&lt; "FBX 转换成功！" &lt;&lt; std::endl;
+    } else {
+        std::cerr &lt;&lt; "转换失败: " &lt;&lt; result.GetErrorMessage() &lt;&lt; std::endl;
+    }
+
+    return 0;
+}</code></pre>
+<h3 id="3-amrt">示例3：从代码构建 AMRT<a class="headerlink" href="#3-amrt" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">#include &lt;amrt/builder.h&gt;
+#include &lt;iostream&gt;
+
+int main()
+{
+    amrt::AmrtBuilder builder;
+
+    // 创建场景数据
+    amrt::SceneData scene;
+
+    // 添加网格
+    amrt::MeshData mesh;
+    mesh.meshId = 0;
+    mesh.name = "Cube";
+    mesh.vertices = {
+        {-1, -1, -1}, {1, -1, -1}, {1, 1, -1}, {-1, 1, -1},
+        {-1, -1,  1}, {1, -1,  1}, {1, 1,  1}, {-1, 1,  1}
+    };
+    mesh.indices = {
+        0, 1, 2, 0, 2, 3,  // 前
+        4, 6, 5, 4, 7, 6,  // 后
+        // ... 其他面
+    };
+    scene.meshes.push_back(mesh);
+
+    // 构建配置
+    amrt::BuildOptions buildOpts;
+    buildOpts.format.distributedFormat = true;
+    buildOpts.fileVersion = 5;
+
+    builder.SetOptions(buildOpts);
+
+    // 构建并保存
+    auto result = builder.BuildFromScene(scene);
+    if (result.IsSuccess()) {
+        builder.Save("output/");
+        std::cout &lt;&lt; "构建成功！" &lt;&lt; std::endl;
+    }
+
+    return 0;
+}</code></pre>
+<hr />
+<h2 id="_12">📁 输出文件结构<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<p>转换完成后，输出目录结构如下：</p>
+<pre class="highlight"><code>output/
+├── fileList.json          # 文件清单（必需）
+├── mesh_0.mrmb            # 网格数据
+├── mesh_1.mrmb            # 网格数据（如果有多个）
+├── skin_0.mrmb            # 蒙皮数据（如果有）
+├── bone.mrmb              # 骨骼数据（如果有）
+├── anim.mrab              # 动画数据（如果有）
+├── addition_0.mrmb        # 附加数据（如果有）
+├── mtl.json               # 材质定义
+└── maps/                  # 纹理目录
+    ├── texture1.png       # 原始纹理
+    ├── texture2.mrtb      # 压缩纹理
+    └── ...</code></pre>
+<h3 id="filelistjson">fileList.json 示例<a class="headerlink" href="#filelistjson" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-json">{
+    "mesh": ["mesh_0.mrmb", "mesh_1.mrmb"],
+    "anim": ["anim.mrab"],
+    "mtl": "mtl.json",
+    "bone": ["bone.mrmb"],
+    "skin": ["skin_0.mrmb"],
+    "addition": ["addition_0.mrmb"]
+}</code></pre>
+<hr />
+<h2 id="_13">🔍 常见问题<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<h3 id="q1-fbx-sdk">Q1: 编译时找不到 FBX SDK<a class="headerlink" href="#q1-fbx-sdk" title="Permanent link">&para;</a></h3>
+<p><strong>A:</strong> 
+1. 确认 FBX SDK 已正确安装
+2. 设置环境变量 <code>FBXSDK_ROOT</code> 指向 FBX SDK 安装目录
+3. 或使用 <code>-DENABLE_FBX_SUPPORT=OFF</code> 禁用 FBX 支持</p>
+<h3 id="q2-gltf">Q2: 如何只使用 glTF 转换功能？<a class="headerlink" href="#q2-gltf" title="Permanent link">&para;</a></h3>
+<p><strong>A:</strong> 
+<pre class="highlight"><code class="language-powershell">cmake .. -DENABLE_FBX_SUPPORT=OFF</code></pre>
+这样编译的 SDK 不需要 FBX SDK，但只能转换 glTF/GLB 格式。</p>
+<h3 id="q3">Q3: 中文路径支持<a class="headerlink" href="#q3" title="Permanent link">&para;</a></h3>
+<p><strong>A:</strong> 
+SDK 内置了中文路径支持（通过 <code>StringUtils</code> 工具类），可以正常处理中文目录和文件名。</p>
+<h3 id="q4">Q4: 如何启用纹理压缩？<a class="headerlink" href="#q4" title="Permanent link">&para;</a></h3>
+<p><strong>A:</strong>
+<pre class="highlight"><code class="language-cpp">options.compression.compressTextures = true;</code></pre>
+这会将纹理转换为 <code>.mrtb</code> 格式（Basis Universal）。</p>
+<h3 id="q5">Q5: 编译时遇到链接错误<a class="headerlink" href="#q5" title="Permanent link">&para;</a></h3>
+<p><strong>A:</strong>
+1. 确保所有依赖库版本匹配
+2. 清理构建目录后重新编译：
+   <pre class="highlight"><code class="language-powershell">rmdir /s /q build
+mkdir build
+cd build
+cmake ..
+cmake --build .</code></pre></p>
+<hr />
+<h2 id="_14">📞 获取帮助<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>文档</strong>: <a href="../">完整文档</a></li>
+<li><strong>示例</strong>: <a href="../examples/">示例程序</a></li>
+<li><strong>问题反馈</strong>: <a href="https://github.com/your-repo/issues">GitHub Issues</a></li>
+</ul>
+<hr />
+<h2 id="_15">📝 下一步<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="./quickstart.md">快速开始指南</a> - 5 分钟上手</li>
+<li><a href="./api/">API 参考</a> - 详细 API 文档</li>
+<li><a href="../examples/">示例程序</a> - 更多使用示例</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="首页"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../example/convert_basic/" class="btn btn-neutral float-right" title="基础转换">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/skylinestars/AMRTSDK" class="fa fa-code-fork" style="color: #fcfcfc"> skylinestars/AMRTSDK</a>
+        </span>
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../example/convert_basic/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

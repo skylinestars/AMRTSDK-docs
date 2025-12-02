@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Wang Lu" /><link rel="canonical" href="https://skylinestars.github.io/AMRTSDK/api/AmrtConverter/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>AmrtConverter 类 - AMRT SDK 文档</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "AmrtConverter \u7c7b";
+        var mkdocs_page_input_path = "api/AmrtConverter.md";
+        var mkdocs_page_url = "/AMRTSDK/api/AmrtConverter/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> AMRT SDK 文档
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">首页</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">快速开始</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../setup/">环境配置</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">示例程序</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >转换器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/convert_basic/">基础转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/convert_with_progress/">进度回调</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/convert_batch/">批量转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/convert_with_options/">自定义选项</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/read_basic/">基础读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/read_scene_tree/">场景树读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/read_traverse/">场景遍历</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/build_simple_cube/">简单立方体</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/build_scene_tree/">场景树构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/build_with_materials/">材质构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/build_complex_scene/">复杂场景</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/merge_to_one_file/">合并为单文件</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >导出器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/amrt_to_fbx/">AMRT转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/gltf_to_fbx/">glTF转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../example/gltf_to_amrt_direct/">glTF直接转AMRT</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API 文档</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../">API 概览</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >核心类</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../generated_AmrtConverter/">AmrtConverter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../AmrtReader/">AmrtReader</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../AmrtBuilder/">AmrtBuilder</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../AmrtMerger/">AmrtMerger</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >转换模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ConvertOptions/">ConvertOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ConvertStatistics/">ConvertStatistics</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ReadOptions/">ReadOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../SceneData/">SceneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../NodeData/">NodeData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../SceneInfo/">SceneInfo</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../SceneStatistics/">SceneStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ReadProgressInfo/">ReadProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../BuildOptions/">BuildOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../MeshData/">MeshData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../MaterialData/">MaterialData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../TextureData/">TextureData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../AnimationData/">AnimationData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../BoneData/">BoneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../SkinData/">SkinData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../BuildStatistics/">BuildStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../BuildProgressInfo/">BuildProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../MergeOptions/">MergeOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >优化选项</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../OptimizationOptions/">OptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../MeshOptimizationOptions/">MeshOptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../CompressionOptions/">CompressionOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../MaterialOptions/">MaterialOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../AnimationOptions/">AnimationOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >基础类型</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../Vec2/">Vec2</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../Vec3/">Vec3</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../Vec4/">Vec4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../Matrix4x4/">Matrix4x4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../BoundingBox/">BoundingBox</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../Face/">Face</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../KeyFrame/">KeyFrame</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../BoneWeight/">BoneWeight</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >结果与异常</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../Result/">Result</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../Exception/">Exception</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../FileException/">FileException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../FormatException/">FormatException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../DataException/">DataException</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">AMRT SDK 文档</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">AmrtConverter 类</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/skylinestars/AMRTSDK/edit/master/docs/api/AmrtConverter.md">Edit on skylinestars/AMRTSDK</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="amrtconverter">AmrtConverter 类<a class="headerlink" href="#amrtconverter" title="Permanent link">&para;</a></h1>
+<h2 id="_1">概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p><code>AmrtConverter</code> 类是 AMRT SDK 的核心转换器，负责处理各种 3D 模型格式之间的转换。</p>
+<p><strong>命名空间:</strong> <code>amrt</code><br />
+<strong>头文件:</strong> <code>&lt;amrt/converter.h&gt;</code></p>
+<h2 id="_2">类定义<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<pre class="highlight"><code class="language-cpp">class AmrtConverter {
+public:
+    // 构造函数
+    AmrtConverter();
+    ~AmrtConverter();
+
+    // 转换方法
+    bool convert(const std::string&amp; inputPath, 
+                 const std::string&amp; outputPath);
+
+    bool convertWithProgress(const std::string&amp; inputPath, 
+                            const std::string&amp; outputPath,
+                            ProgressCallback callback);
+
+    // 配置方法
+    void setOptions(const ConvertOptions&amp; options);
+    ConvertOptions getOptions() const;
+
+    // 状态查询
+    std::string getLastError() const;
+    bool isConverting() const;
+};</code></pre>
+<h2 id="_3">构造函数<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="amrtconverter_1">AmrtConverter()<a class="headerlink" href="#amrtconverter_1" title="Permanent link">&para;</a></h3>
+<p>创建一个新的转换器实例。</p>
+<p><strong>示例:</strong>
+<pre class="highlight"><code class="language-cpp">amrt::AmrtConverter converter;</code></pre></p>
+<h2 id="_4">公共方法<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="convert">convert()<a class="headerlink" href="#convert" title="Permanent link">&para;</a></h3>
+<p>执行基本的格式转换。</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">bool convert(const std::string&amp; inputPath, 
+             const std::string&amp; outputPath)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>inputPath</code> - 输入文件的完整路径
+- <code>outputPath</code> - 输出文件的完整路径</p>
+<p><strong>返回值:</strong>
+- <code>true</code> - 转换成功
+- <code>false</code> - 转换失败（调用 <code>getLastError()</code> 获取错误信息）</p>
+<p><strong>支持的格式:</strong>
+- 输入: <code>.gltf</code>, <code>.glb</code>, <code>.fbx</code>, <code>.obj</code>, <code>.dae</code>
+- 输出: <code>.amrt</code></p>
+<p><strong>示例:</strong>
+<pre class="highlight"><code class="language-cpp">#include &lt;amrt/converter.h&gt;
+
+int main() {
+    amrt::AmrtConverter converter;
+
+    if (converter.convert("model.gltf", "output.amrt")) {
+        std::cout &lt;&lt; "转换成功!" &lt;&lt; std::endl;
+    } else {
+        std::cerr &lt;&lt; "错误: " &lt;&lt; converter.getLastError() &lt;&lt; std::endl;
+    }
+
+    return 0;
+}</code></pre></p>
+<hr />
+<h3 id="convertwithprogress">convertWithProgress()<a class="headerlink" href="#convertwithprogress" title="Permanent link">&para;</a></h3>
+<p>执行带进度回调的格式转换。</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">bool convertWithProgress(const std::string&amp; inputPath, 
+                        const std::string&amp; outputPath,
+                        ProgressCallback callback)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>inputPath</code> - 输入文件路径
+- <code>outputPath</code> - 输出文件路径<br />
+- <code>callback</code> - 进度回调函数，签名为 <code>void(float progress, const std::string&amp; stage)</code></p>
+<p><strong>返回值:</strong>
+- <code>true</code> - 转换成功
+- <code>false</code> - 转换失败</p>
+<p><strong>示例:</strong>
+<pre class="highlight"><code class="language-cpp">converter.convertWithProgress(
+    "model.gltf", 
+    "output.amrt",
+    [](float progress, const std::string&amp; stage) {
+        std::cout &lt;&lt; stage &lt;&lt; ": " &lt;&lt; (progress * 100) &lt;&lt; "%" &lt;&lt; std::endl;
+    }
+);</code></pre></p>
+<hr />
+<h3 id="setoptions">setOptions()<a class="headerlink" href="#setoptions" title="Permanent link">&para;</a></h3>
+<p>设置转换选项。</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">void setOptions(const ConvertOptions&amp; options)</code></pre></p>
+<p><strong>参数:</strong>
+- <code>options</code> - 转换选项结构体</p>
+<p><strong>示例:</strong>
+<pre class="highlight"><code class="language-cpp">amrt::ConvertOptions opts;
+opts.compressTextures = true;
+opts.optimizeMeshes = true;
+opts.mergeVertices = true;
+opts.generateNormals = false;
+
+converter.setOptions(opts);</code></pre></p>
+<hr />
+<h3 id="getoptions">getOptions()<a class="headerlink" href="#getoptions" title="Permanent link">&para;</a></h3>
+<p>获取当前的转换选项。</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">ConvertOptions getOptions() const</code></pre></p>
+<p><strong>返回值:</strong>
+- 当前使用的转换选项</p>
+<hr />
+<h3 id="getlasterror">getLastError()<a class="headerlink" href="#getlasterror" title="Permanent link">&para;</a></h3>
+<p>获取最后一次操作的错误信息。</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">std::string getLastError() const</code></pre></p>
+<p><strong>返回值:</strong>
+- 错误描述字符串，如果没有错误则返回空字符串</p>
+<p><strong>示例:</strong>
+<pre class="highlight"><code class="language-cpp">if (!converter.convert(input, output)) {
+    std::cerr &lt;&lt; "转换失败: " &lt;&lt; converter.getLastError() &lt;&lt; std::endl;
+}</code></pre></p>
+<hr />
+<h3 id="isconverting">isConverting()<a class="headerlink" href="#isconverting" title="Permanent link">&para;</a></h3>
+<p>检查转换器是否正在执行转换操作。</p>
+<p><strong>函数签名:</strong>
+<pre class="highlight"><code class="language-cpp">bool isConverting() const</code></pre></p>
+<p><strong>返回值:</strong>
+- <code>true</code> - 正在转换
+- <code>false</code> - 空闲状态</p>
+<h2 id="_5">完整示例<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<pre class="highlight"><code class="language-cpp">#include &lt;amrt/converter.h&gt;
+#include &lt;iostream&gt;
+
+int main() {
+    // 创建转换器
+    amrt::AmrtConverter converter;
+
+    // 配置选项
+    amrt::ConvertOptions options;
+    options.compressTextures = true;
+    options.optimizeMeshes = true;
+    converter.setOptions(options);
+
+    // 执行转换（带进度）
+    bool success = converter.convertWithProgress(
+        "assets/scene.gltf",
+        "output/scene.amrt",
+        [](float progress, const std::string&amp; stage) {
+            printf("\r[%s] %.1f%%", stage.c_str(), progress * 100);
+            fflush(stdout);
+        }
+    );
+
+    if (success) {
+        std::cout &lt;&lt; "\n✅ 转换完成!" &lt;&lt; std::endl;
+    } else {
+        std::cerr &lt;&lt; "\n❌ 转换失败: " 
+                  &lt;&lt; converter.getLastError() &lt;&lt; std::endl;
+        return 1;
+    }
+
+    return 0;
+}</code></pre>
+<h2 id="_6">相关类型<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../ConvertOptions/">ConvertOptions</a> - 转换选项结构体</li>
+<li><a href="types.md#ProgressCallback">ProgressCallback</a> - 进度回调类型定义</li>
+</ul>
+<h2 id="_7">另请参阅<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../../example/convert_basic/">基础转换示例</a></li>
+<li><a href="../../example/convert_with_progress/">进度回调示例</a></li>
+<li><a href="../../example/convert_batch/">批量转换示例</a></li>
+</ul>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/skylinestars/AMRTSDK" class="fa fa-code-fork" style="color: #fcfcfc"> skylinestars/AMRTSDK</a>
+        </span>
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

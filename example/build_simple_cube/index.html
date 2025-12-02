@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Wang Lu" /><link rel="canonical" href="https://skylinestars.github.io/AMRTSDK/example/build_simple_cube/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>简单立方体 - AMRT SDK 文档</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u7b80\u5355\u7acb\u65b9\u4f53";
+        var mkdocs_page_input_path = "example/build_simple_cube.md";
+        var mkdocs_page_url = "/AMRTSDK/example/build_simple_cube/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> AMRT SDK 文档
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">首页</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">快速开始</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../setup/">环境配置</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">示例程序</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" >转换器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_basic/">基础转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_with_progress/">进度回调</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_batch/">批量转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_with_options/">自定义选项</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../read_basic/">基础读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../read_scene_tree/">场景树读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../read_traverse/">场景遍历</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >构建器示例</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">简单立方体</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#_1">功能说明</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">主要演示内容</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">编译和运行</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_4">编译</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_5">运行</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_6">示例</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">输出结果</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_8">立方体面的配置</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_9">代码要点</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1">1. 创建单个面的网格</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2">2. 为每个面创建材质</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3">3. 构建场景树</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#4">4. 获取统计信息</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_10">重要说明</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#submesh">为什么使用独立网格而不是SubMesh？</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_11">测试文件</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_12">故障排除</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1_1">1. 贴图文件未找到</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2_1">2. 前端加载时切线计算错误</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3_1">3. 包围盒过大导致渲染错误</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_13">后续步骤</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_14">相关文档</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#api">API文档</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_15">问题修复文档</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_scene_tree/">场景树构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_with_materials/">材质构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_complex_scene/">复杂场景</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../merge_to_one_file/">合并为单文件</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >导出器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../amrt_to_fbx/">AMRT转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../gltf_to_fbx/">glTF转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../gltf_to_amrt_direct/">glTF直接转AMRT</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API 文档</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../api/">API 概览</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >核心类</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/generated_AmrtConverter/">AmrtConverter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtReader/">AmrtReader</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtBuilder/">AmrtBuilder</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtMerger/">AmrtMerger</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >转换模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ConvertOptions/">ConvertOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ConvertStatistics/">ConvertStatistics</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ReadOptions/">ReadOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneData/">SceneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/NodeData/">NodeData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneInfo/">SceneInfo</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneStatistics/">SceneStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ReadProgressInfo/">ReadProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildOptions/">BuildOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MeshData/">MeshData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MaterialData/">MaterialData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/TextureData/">TextureData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AnimationData/">AnimationData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoneData/">BoneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SkinData/">SkinData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildStatistics/">BuildStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildProgressInfo/">BuildProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MergeOptions/">MergeOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >优化选项</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/OptimizationOptions/">OptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MeshOptimizationOptions/">MeshOptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/CompressionOptions/">CompressionOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MaterialOptions/">MaterialOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AnimationOptions/">AnimationOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >基础类型</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec2/">Vec2</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec3/">Vec3</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec4/">Vec4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Matrix4x4/">Matrix4x4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoundingBox/">BoundingBox</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Face/">Face</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/KeyFrame/">KeyFrame</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoneWeight/">BoneWeight</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >结果与异常</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Result/">Result</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Exception/">Exception</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/FileException/">FileException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/FormatException/">FormatException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/DataException/">DataException</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">AMRT SDK 文档</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">示例程序</li>
+          <li class="breadcrumb-item">构建器示例</li>
+      <li class="breadcrumb-item active">简单立方体</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/skylinestars/AMRTSDK/edit/master/docs/example/build_simple_cube.md">Edit on skylinestars/AMRTSDK</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="07">示例 07: 简单立方体构建<a class="headerlink" href="#07" title="Permanent link">&para;</a></h1>
+<h2 id="_1">功能说明<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>本示例展示如何使用 <code>AmrtBuilder</code> API 从代码中构建一个带多个贴图的立方体模型，并保存为AMRT格式。</p>
+<h2 id="_2">主要演示内容<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>创建网格数据</strong>：手动定义立方体的顶点、面、法线和UV坐标</li>
+<li><strong>多材质支持</strong>：为立方体的6个面分别设置不同的材质和贴图</li>
+<li><strong>独立网格架构</strong>：每个面使用独立的网格，避免前端切线计算问题</li>
+<li><strong>使用Builder API</strong>：展示AmrtBuilder的基本使用流程</li>
+<li><strong>配置构建选项</strong>：设置压缩、输出格式等选项</li>
+<li><strong>保存AMRT文件</strong>：将构建的场景保存为分布式格式</li>
+<li><strong>贴图文件处理</strong>：自动复制贴图文件到输出目录</li>
+</ol>
+<h2 id="_3">编译和运行<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="_4">编译<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-bash">cd build
+cmake ..
+cmake --build . --target build_simple_cube</code></pre>
+<h3 id="_5">运行<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-bash"># Windows
+bin\examples\build_simple_cube.exe [输出路径]
+
+# Linux/macOS
+./bin/examples/build_simple_cube [输出路径]</code></pre>
+<h3 id="_6">示例<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-bash"># 默认输出到 output_cube 目录
+build_simple_cube
+
+# 指定输出路径
+build_simple_cube my_cube</code></pre>
+<h2 id="_7">输出结果<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>程序会在指定目录下生成以下文件：</p>
+<pre class="highlight"><code>output_cube/
+├── scene.json              # 场景描述文件
+├── fileList.json           # 文件列表
+├── mesh_0.mrmb             # 红色面（后面Z-）
+├── mesh_1.mrmb             # 绿色面（前面Z+）
+├── mesh_2.mrmb             # 蓝色面（左面X-）
+├── mesh_3.mrmb             # 黄色面（右面X+）
+├── mesh_4.mrmb             # 青色面（底面Y-）
+├── mesh_5.mrmb             # 品红面（顶面Y+）
+└── cubeImage/              # 贴图目录
+    ├── 1.png               # 红色贴图
+    ├── 2.png               # 绿色贴图
+    ├── 3.png               # 蓝色贴图
+    ├── 4.png               # 黄色贴图
+    ├── 5.png               # 青色贴图
+    └── 6.png               # 品红贴图</code></pre>
+<h2 id="_8">立方体面的配置<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p>每个面有独立的网格、材质和贴图：</p>
+<table>
+<thead>
+<tr>
+<th>面</th>
+<th>名称</th>
+<th>法线方向</th>
+<th>颜色</th>
+<th>贴图</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>后面</td>
+<td>Red_Back_Z-</td>
+<td>(0,0,-1)</td>
+<td>红色</td>
+<td>1.png</td>
+</tr>
+<tr>
+<td>前面</td>
+<td>Green_Front_Z+</td>
+<td>(0,0,1)</td>
+<td>绿色</td>
+<td>2.png</td>
+</tr>
+<tr>
+<td>左面</td>
+<td>Blue_Left_X-</td>
+<td>(-1,0,0)</td>
+<td>蓝色</td>
+<td>3.png</td>
+</tr>
+<tr>
+<td>右面</td>
+<td>Yellow_Right_X+</td>
+<td>(1,0,0)</td>
+<td>黄色</td>
+<td>4.png</td>
+</tr>
+<tr>
+<td>底面</td>
+<td>Cyan_Bottom_Y-</td>
+<td>(0,-1,0)</td>
+<td>青色</td>
+<td>5.png</td>
+</tr>
+<tr>
+<td>顶面</td>
+<td>Magenta_Top_Y+</td>
+<td>(0,1,0)</td>
+<td>品红</td>
+<td>6.png</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_9">代码要点<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. 创建单个面的网格<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">MeshData CreateFaceMesh(int faceIndex, const std::string&amp; name, 
+                       const Vec4&amp; color, const Vec3&amp; normal, 
+                       const std::vector&lt;Vec3&gt;&amp; faceVertices)
+{
+    MeshData mesh;
+    mesh.vertices = faceVertices;  // 4个顶点
+    mesh.indices = {0, 1, 2, 0, 2, 3};  // 2个三角形
+    mesh.normals = {normal, normal, normal, normal};
+    mesh.uvs0 = {{0,0}, {1,0}, {1,1}, {0,1}};  // 标准UV映射
+    return mesh;
+}</code></pre>
+<h3 id="2">2. 为每个面创建材质<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">MaterialData material;
+material.name = faceName;
+material.baseColor = Vec4(1, 1, 1, 1);  // 白色底色让贴图正常显示
+material.diffuseTexture.hasTexture = true;
+material.diffuseTexture.path = "cubeImage/1.png";
+builder-&gt;AddMaterial(material);</code></pre>
+<h3 id="3">3. 构建场景树<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">// 创建根节点
+auto rootNodeId = builder-&gt;AddNode("CubeRoot", -1, Matrix4x4::Identity());
+
+// 为每个面创建子节点和网格
+for (每个面) {
+    auto materialId = builder-&gt;AddMaterial(material);
+    auto meshId = builder-&gt;AddMesh(faceMesh);
+    auto nodeId = builder-&gt;AddNode(faceName, rootNodeId, Matrix4x4::Identity());
+    builder-&gt;AttachMeshToNode(nodeId, meshId);
+}</code></pre>
+<h3 id="4">4. 获取统计信息<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">BuildStatistics stats = builder-&gt;GetStatistics();
+std::cout &lt;&lt; "节点数: " &lt;&lt; stats.nodesAdded &lt;&lt; std::endl;    // 7 (1个根 + 6个面)
+std::cout &lt;&lt; "网格数: " &lt;&lt; stats.meshesAdded &lt;&lt; std::endl;   // 6
+std::cout &lt;&lt; "顶点数: " &lt;&lt; stats.totalVertices &lt;&lt; std::endl; // 24
+std::cout &lt;&lt; "三角形数: " &lt;&lt; stats.totalTriangles &lt;&lt; std::endl; // 12</code></pre>
+<h2 id="_10">重要说明<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<h3 id="submesh">为什么使用独立网格而不是SubMesh？<a class="headerlink" href="#submesh" title="Permanent link">&para;</a></h3>
+<p>本示例采用<strong>每个面一个网格</strong>的架构，而不是<strong>一个网格多个SubMesh</strong>，原因是：</p>
+<ol>
+<li><strong>前端兼容性</strong>：某些前端加载器在处理多SubMesh时，切线（Tangent）计算会失败</li>
+<li><strong>灵活性</strong>：每个面可以独立控制（显示/隐藏、材质替换等）</li>
+<li><strong>调试便利</strong>：问题定位更容易</li>
+</ol>
+<p>对于简单模型（如立方体），这种架构的性能影响可以忽略不计。</p>
+<h3 id="_11">测试文件<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>main.cpp</strong>：完整的立方体示例（6个面，6个材质）</li>
+<li><strong>main_single_face.cpp</strong>：简化版测试（1个面，1个材质）</li>
+</ul>
+<p>可以先运行 <code>main_single_face.cpp</code> 验证基本功能，再运行完整版本。</p>
+<h2 id="_12">故障排除<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<h3 id="1_1">1. 贴图文件未找到<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h3>
+<p><strong>错误信息</strong>：
+<pre class="highlight"><code>⚠ 警告: 找不到贴图源目录</code></pre></p>
+<p><strong>解决方案</strong>：
+- 确保 <code>cubeImage</code> 目录与可执行文件在同一目录
+- 或在源码目录运行（<code>AmrtSdk/examples/build_simple_cube/</code>）
+- 或手动将贴图复制到输出目录</p>
+<h3 id="2_1">2. 前端加载时切线计算错误<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h3>
+<p><strong>错误信息</strong>：
+<pre class="highlight"><code>Uncaught TypeError: Cannot read properties of undefined (reading 'add')
+    at handleTriangle
+    at Object.computeTangents</code></pre></p>
+<p><strong>原因</strong>：使用了多SubMesh结构（旧版本）</p>
+<p><strong>解决方案</strong>：使用当前版本（独立网格架构）</p>
+<h3 id="3_1">3. 包围盒过大导致渲染错误<a class="headerlink" href="#3_1" title="Permanent link">&para;</a></h3>
+<p><strong>解决方案</strong>：立方体尺寸设置为 <code>[-0.5, 0.5]</code>，避免过大的包围盒</p>
+<h2 id="_13">后续步骤<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<p>学习完本示例后，可以继续学习：
+- <strong>示例08</strong>：FBX导出 - 学习如何将AMRT导出为FBX格式
+- <strong>示例09</strong>：材质高级用法 - 学习更多材质属性
+- <strong>示例10</strong>：复杂场景 - 学习如何构建包含多个物体的场景</p>
+<h2 id="_14">相关文档<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<h3 id="api">API文档<a class="headerlink" href="#api" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>AmrtBuilder</code> 类</li>
+<li><code>MeshData</code> 结构体</li>
+<li><code>MaterialData</code> 结构体</li>
+<li><code>NodeData</code> 结构体</li>
+<li><code>BuildOptions</code> 结构体</li>
+</ul>
+<h3 id="_15">问题修复文档<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>doc/立方体切线计算错误修复方案.md</code> - 问题分析</li>
+<li><code>doc/立方体多材质修复完成说明.md</code> - 解决方案详解</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../read_traverse/" class="btn btn-neutral float-left" title="场景遍历"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../build_scene_tree/" class="btn btn-neutral float-right" title="场景树构建">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/skylinestars/AMRTSDK" class="fa fa-code-fork" style="color: #fcfcfc"> skylinestars/AMRTSDK</a>
+        </span>
+    
+    
+      <span><a href="../read_traverse/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../build_scene_tree/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

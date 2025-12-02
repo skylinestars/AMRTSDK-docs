@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Wang Lu" /><link rel="canonical" href="https://skylinestars.github.io/AMRTSDK/example/build_with_materials/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>材质构建 - AMRT SDK 文档</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u6750\u8d28\u6784\u5efa";
+        var mkdocs_page_input_path = "example/build_with_materials.md";
+        var mkdocs_page_url = "/AMRTSDK/example/build_with_materials/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> AMRT SDK 文档
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">首页</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">快速开始</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../setup/">环境配置</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">示例程序</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" >转换器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_basic/">基础转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_with_progress/">进度回调</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_batch/">批量转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_with_options/">自定义选项</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../read_basic/">基础读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../read_scene_tree/">场景树读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../read_traverse/">场景遍历</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >构建器示例</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../build_simple_cube/">简单立方体</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_scene_tree/">场景树构建</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">材质构建</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#_1">概述</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">构建和运行</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">示例内容</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1pbr">材质1：完整PBR材质（带所有纹理）</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2pbr">材质2：PBR材质（分离贴图）</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3pbr">材质3：简单PBR材质（无纹理）</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">所需纹理资源</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_5">纹理文件格式</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#pbr1">完整PBR纹理套装（材质1）</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2">分离纹理套装（材质2）</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pbr">PBR材质理论</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#pbr_1">什么是PBR？</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_6">核心参数</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">测试纹理获取</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#pbr_2">免费PBR纹理资源网站</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#substance-designerpainter">使用Substance Designer/Painter</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_8">简单测试</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#api">API使用说明</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#pbr_3">创建带纹理的PBR材质</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_9">纹理包裹模式</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_10">输出文件</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_11">常见问题</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#q">Q: 必须提供所有纹理吗？</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#q-metallicroughness">Q: MetallicRoughness组合贴图的通道顺序是什么？</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#q-metallicroughnesstexturemetallictextureroughnesstexture">Q: 可以同时使用MetallicRoughnessTexture和分离的MetallicTexture/RoughnessTexture吗？</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#q_1">Q: 法线贴图必须是切线空间吗？</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#q_2">Q: 纹理路径是相对路径还是绝对路径？</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_12">相关示例</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_13">参考资料</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_complex_scene/">复杂场景</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../merge_to_one_file/">合并为单文件</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >导出器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../amrt_to_fbx/">AMRT转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../gltf_to_fbx/">glTF转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../gltf_to_amrt_direct/">glTF直接转AMRT</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API 文档</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../api/">API 概览</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >核心类</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/generated_AmrtConverter/">AmrtConverter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtReader/">AmrtReader</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtBuilder/">AmrtBuilder</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtMerger/">AmrtMerger</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >转换模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ConvertOptions/">ConvertOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ConvertStatistics/">ConvertStatistics</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ReadOptions/">ReadOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneData/">SceneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/NodeData/">NodeData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneInfo/">SceneInfo</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneStatistics/">SceneStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ReadProgressInfo/">ReadProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildOptions/">BuildOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MeshData/">MeshData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MaterialData/">MaterialData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/TextureData/">TextureData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AnimationData/">AnimationData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoneData/">BoneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SkinData/">SkinData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildStatistics/">BuildStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildProgressInfo/">BuildProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MergeOptions/">MergeOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >优化选项</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/OptimizationOptions/">OptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MeshOptimizationOptions/">MeshOptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/CompressionOptions/">CompressionOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MaterialOptions/">MaterialOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AnimationOptions/">AnimationOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >基础类型</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec2/">Vec2</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec3/">Vec3</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec4/">Vec4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Matrix4x4/">Matrix4x4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoundingBox/">BoundingBox</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Face/">Face</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/KeyFrame/">KeyFrame</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoneWeight/">BoneWeight</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >结果与异常</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Result/">Result</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Exception/">Exception</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/FileException/">FileException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/FormatException/">FormatException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/DataException/">DataException</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">AMRT SDK 文档</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">示例程序</li>
+          <li class="breadcrumb-item">构建器示例</li>
+      <li class="breadcrumb-item active">材质构建</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/skylinestars/AMRTSDK/edit/master/docs/example/build_with_materials.md">Edit on skylinestars/AMRTSDK</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="09pbr">示例09：PBR材质构建<a class="headerlink" href="#09pbr" title="Permanent link">&para;</a></h1>
+<h2 id="_1">概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>本示例展示如何使用AmrtBuilder API创建和使用完整的PBR（Physically Based Rendering）材质。包含了三种不同类型的PBR材质设置方法。</p>
+<h2 id="_2">构建和运行<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<pre class="highlight"><code class="language-bash"># 在build目录中编译
+cd build
+cmake --build . --config Release
+
+# 运行示例
+./bin/examples/build_with_materials [输出路径]
+
+# 默认输出路径为：output_pbr_materials</code></pre>
+<h2 id="_3">示例内容<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="1pbr">材质1：完整PBR材质（带所有纹理）<a class="headerlink" href="#1pbr" title="Permanent link">&para;</a></h3>
+<p>这是一个功能完整的PBR材质，包含所有常用的PBR纹理贴图：</p>
+<ul>
+<li><strong>BaseColor纹理</strong> - 基础颜色/漫反射颜色</li>
+<li><strong>Normal纹理</strong> - 法线贴图（切线空间）</li>
+<li><strong>MetallicRoughness纹理</strong> - 金属度和粗糙度组合贴图</li>
+<li>蓝色通道(B)：金属度</li>
+<li>绿色通道(G)：粗糙度</li>
+<li><strong>AO纹理</strong> - 环境光遮蔽贴图</li>
+<li><strong>Emissive纹理</strong> - 自发光贴图</li>
+</ul>
+<p>应用对象：地面平面</p>
+<h3 id="2pbr">材质2：PBR材质（分离贴图）<a class="headerlink" href="#2pbr" title="Permanent link">&para;</a></h3>
+<p>使用独立的金属度和粗糙度贴图，而不是组合贴图：</p>
+<ul>
+<li><strong>BaseColor纹理</strong></li>
+<li><strong>Normal纹理</strong></li>
+<li><strong>Metallic纹理</strong> - 独立的金属度贴图（灰度）</li>
+<li><strong>Roughness纹理</strong> - 独立的粗糙度贴图（灰度）</li>
+</ul>
+<p>这种方式适合需要独立调整金属度和粗糙度的场景。</p>
+<p>应用对象：未使用（已定义）</p>
+<h3 id="3pbr">材质3：简单PBR材质（无纹理）<a class="headerlink" href="#3pbr" title="Permanent link">&para;</a></h3>
+<p>仅使用材质参数值，不使用任何纹理贴图：</p>
+<ul>
+<li>基础颜色：蓝色 (0.2, 0.4, 0.8)</li>
+<li>金属度：0.0（非金属）</li>
+<li>粗糙度：0.7（较粗糙）</li>
+</ul>
+<p>应用对象：立方体</p>
+<h2 id="_4">所需纹理资源<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_5">纹理文件格式<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>推荐格式</strong>：PNG（支持透明通道）</li>
+<li><strong>支持格式</strong>：PNG, JPG, TGA 等常见图像格式</li>
+<li><strong>推荐分辨率</strong>：512x512, 1024x1024, 2048x2048（2的幂次方）</li>
+</ul>
+<h3 id="pbr1">完整PBR纹理套装（材质1）<a class="headerlink" href="#pbr1" title="Permanent link">&para;</a></h3>
+<p>在输出目录创建 <code>textures/</code> 文件夹，并准备以下纹理：</p>
+<h4 id="1-basecolorpng">1. basecolor.png<a class="headerlink" href="#1-basecolorpng" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>用途</strong>：基础颜色/漫反射颜色</li>
+<li><strong>通道</strong>：RGB</li>
+<li><strong>说明</strong>：物体表面的固有颜色，不包含光照信息</li>
+<li><strong>颜色空间</strong>：sRGB</li>
+</ul>
+<h4 id="2-normalpng">2. normal.png<a class="headerlink" href="#2-normalpng" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>用途</strong>：法线贴图</li>
+<li><strong>通道</strong>：RGB</li>
+<li><strong>说明</strong>：存储切线空间法线信息，用于增加表面细节</li>
+<li><strong>颜色空间</strong>：Linear</li>
+<li><strong>格式要求</strong>：</li>
+<li>R通道：X方向（切线）</li>
+<li>G通道：Y方向（副切线）</li>
+<li>B通道：Z方向（法线）</li>
+<li>中性值：(128, 128, 255) 表示无扰动</li>
+</ul>
+<h4 id="3-metallic_roughnesspng">3. metallic_roughness.png<a class="headerlink" href="#3-metallic_roughnesspng" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>用途</strong>：金属度和粗糙度组合贴图</li>
+<li><strong>通道</strong>：</li>
+<li><strong>B（蓝色）通道</strong>：金属度 (Metallic)<ul>
+<li>黑色(0)：非金属（电介质）</li>
+<li>白色(255)：金属</li>
+</ul>
+</li>
+<li><strong>G（绿色）通道</strong>：粗糙度 (Roughness)<ul>
+<li>黑色(0)：完全光滑（镜面反射）</li>
+<li>白色(255)：完全粗糙（漫反射）</li>
+</ul>
+</li>
+<li><strong>颜色空间</strong>：Linear</li>
+<li><strong>说明</strong>：这是glTF 2.0标准的PBR工作流</li>
+</ul>
+<h4 id="4-aopng">4. ao.png<a class="headerlink" href="#4-aopng" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>用途</strong>：环境光遮蔽（Ambient Occlusion）</li>
+<li><strong>通道</strong>：灰度（使用R通道或全通道）</li>
+<li><strong>说明</strong>：表示环境光被遮挡的程度</li>
+<li>白色(255)：完全不遮挡</li>
+<li>黑色(0)：完全遮挡</li>
+<li><strong>颜色空间</strong>：Linear</li>
+</ul>
+<h4 id="5-emissivepng">5. emissive.png（可选）<a class="headerlink" href="#5-emissivepng" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>用途</strong>：自发光</li>
+<li><strong>通道</strong>：RGB</li>
+<li><strong>说明</strong>：物体自身发出的光，不受光照影响</li>
+<li><strong>颜色空间</strong>：sRGB</li>
+<li><strong>用途场景</strong>：LED灯、显示屏、荧光材质等</li>
+</ul>
+<h3 id="2">分离纹理套装（材质2）<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<p>如果要测试材质2，还需要以下纹理：</p>
+<h4 id="basecolor2png">basecolor2.png<a class="headerlink" href="#basecolor2png" title="Permanent link">&para;</a></h4>
+<ul>
+<li>与basecolor.png相同规格</li>
+</ul>
+<h4 id="normal2png">normal2.png<a class="headerlink" href="#normal2png" title="Permanent link">&para;</a></h4>
+<ul>
+<li>与normal.png相同规格</li>
+</ul>
+<h4 id="metallicpng">metallic.png<a class="headerlink" href="#metallicpng" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>用途</strong>：独立的金属度贴图</li>
+<li><strong>通道</strong>：灰度</li>
+<li><strong>说明</strong>：</li>
+<li>黑色(0)：非金属</li>
+<li>白色(255)：金属</li>
+</ul>
+<h4 id="roughnesspng">roughness.png<a class="headerlink" href="#roughnesspng" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>用途</strong>：独立的粗糙度贴图</li>
+<li><strong>通道</strong>：灰度</li>
+<li><strong>说明</strong>：</li>
+<li>黑色(0)：光滑</li>
+<li>白色(255)：粗糙</li>
+</ul>
+<h2 id="pbr">PBR材质理论<a class="headerlink" href="#pbr" title="Permanent link">&para;</a></h2>
+<h3 id="pbr_1">什么是PBR？<a class="headerlink" href="#pbr_1" title="Permanent link">&para;</a></h3>
+<p>PBR（Physically Based Rendering，基于物理的渲染）是一种基于物理原理的材质和光照模型，能够在各种光照条件下产生真实、一致的渲染效果。</p>
+<h3 id="_6">核心参数<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>BaseColor（基础颜色）</strong></li>
+<li>物体的固有颜色</li>
+<li>对于金属：表示反射光的颜色</li>
+<li>
+<p>对于非金属：表示漫反射颜色</p>
+</li>
+<li>
+<p><strong>Metallic（金属度）</strong></p>
+</li>
+<li>0.0 = 非金属/电介质（塑料、木头、石头等）</li>
+<li>1.0 = 金属（铁、铜、金等）</li>
+<li>
+<p>通常使用0或1，中间值较少使用</p>
+</li>
+<li>
+<p><strong>Roughness（粗糙度）</strong></p>
+</li>
+<li>0.0 = 完全光滑（镜面反射）</li>
+<li>1.0 = 完全粗糙（漫反射）</li>
+<li>
+<p>控制反射的模糊程度</p>
+</li>
+<li>
+<p><strong>Normal（法线）</strong></p>
+</li>
+<li>增加表面细节，不增加几何复杂度</li>
+<li>
+<p>影响光照计算</p>
+</li>
+<li>
+<p><strong>AO（环境光遮蔽）</strong></p>
+</li>
+<li>模拟环境光在缝隙和凹陷处的衰减</li>
+<li>
+<p>增强深度感和真实感</p>
+</li>
+<li>
+<p><strong>Emissive（自发光）</strong></p>
+</li>
+<li>物体自身发光，不受光照影响</li>
+<li>用于发光材质</li>
+</ol>
+<h2 id="_7">测试纹理获取<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h3 id="pbr_2">免费PBR纹理资源网站<a class="headerlink" href="#pbr_2" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Poly Haven</strong> (https://polyhaven.com/textures)</li>
+<li>CC0授权，完全免费商用</li>
+<li>
+<p>高质量PBR纹理</p>
+</li>
+<li>
+<p><strong>Ambient CG</strong> (https://ambientcg.com/)</p>
+</li>
+<li>CC0授权，免费使用</li>
+<li>
+<p>包含各种材质类型</p>
+</li>
+<li>
+<p><strong>FreePBR</strong> (https://freepbr.com/)</p>
+</li>
+<li>CC0授权</li>
+<li>
+<p>专注于PBR材质</p>
+</li>
+<li>
+<p><strong>3D Textures</strong> (https://3dtextures.me/)</p>
+</li>
+<li>免费PBR纹理</li>
+<li>多种分辨率</li>
+</ol>
+<h3 id="substance-designerpainter">使用Substance Designer/Painter<a class="headerlink" href="#substance-designerpainter" title="Permanent link">&para;</a></h3>
+<p>如果您有Adobe Substance套件，可以：
+1. 使用Substance Designer创建程序化PBR材质
+2. 使用Substance Painter直接绘制PBR纹理
+3. 导出所需的纹理贴图</p>
+<h3 id="_8">简单测试<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>如果暂时没有纹理资源，可以：
+1. 仅运行程序，会在mtl.json中生成纹理路径引用
+2. 使用材质3（简单PBR材质），它不需要任何纹理文件
+3. 创建纯色测试纹理：
+   - BaseColor: 任意颜色
+   - Normal: RGB(128, 128, 255) 蓝紫色
+   - MetallicRoughness: 根据需要设置
+   - AO: 纯白色</p>
+<h2 id="api">API使用说明<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<h3 id="pbr_3">创建带纹理的PBR材质<a class="headerlink" href="#pbr_3" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">MaterialData pbrMat;
+pbrMat.materialId = 1;
+pbrMat.name = "MyPBRMaterial";
+
+// 基础颜色
+pbrMat.baseColor = {1.0f, 1.0f, 1.0f, 1.0f};
+pbrMat.baseColorTexture.hasTexture = true;
+pbrMat.baseColorTexture.path = "textures/basecolor.png";
+pbrMat.baseColorTexture.wrapModeU = TextureWrapMode::Repeat;
+pbrMat.baseColorTexture.wrapModeV = TextureWrapMode::Repeat;
+
+// 法线贴图
+pbrMat.normalTexture.hasTexture = true;
+pbrMat.normalTexture.path = "textures/normal.png";
+pbrMat.normalIntensity = 1.0f;
+
+// 金属度/粗糙度
+pbrMat.metallic = 1.0f;
+pbrMat.roughness = 1.0f;
+pbrMat.metallicRoughnessTexture.hasTexture = true;
+pbrMat.metallicRoughnessTexture.path = "textures/metallic_roughness.png";
+
+// AO
+pbrMat.aoTexture.hasTexture = true;
+pbrMat.aoTexture.path = "textures/ao.png";
+pbrMat.aoIntensity = 1.0f;
+
+// 添加到Builder
+builder.AddMaterial(pbrMat);</code></pre>
+<h3 id="_9">纹理包裹模式<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">enum class TextureWrapMode : uint8_t
+{
+    Wrap = 0,   // 重复（Repeat）
+    Clamp = 1,  // 钳制到边缘
+    Mirror = 2, // 镜像重复
+    Decal = 3   // 贴花（边缘外透明）
+};</code></pre>
+<h2 id="_10">输出文件<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<p>运行后会在输出目录生成：</p>
+<pre class="highlight"><code>output_pbr_materials/
+├── fileList.json          # 文件列表
+├── mtl.json              # 材质定义（包含纹理路径）
+├── m_1.mrmb              # 地面网格（Draco压缩）
+├── m_2.mrmb              # 立方体网格（Draco压缩）
+└── textures/             # 纹理文件夹（需要手动创建和放置纹理）
+    ├── basecolor.png
+    ├── normal.png
+    ├── metallic_roughness.png
+    ├── ao.png
+    └── emissive.png</code></pre>
+<h2 id="_11">常见问题<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<h3 id="q">Q: 必须提供所有纹理吗？<a class="headerlink" href="#q" title="Permanent link">&para;</a></h3>
+<p>A: 不是。可以只使用材质参数值（如材质3），或者只提供部分纹理。未设置的纹理会使用材质参数的默认值。</p>
+<h3 id="q-metallicroughness">Q: MetallicRoughness组合贴图的通道顺序是什么？<a class="headerlink" href="#q-metallicroughness" title="Permanent link">&para;</a></h3>
+<p>A: 遵循glTF 2.0标准：
+- 绿色通道(G)：粗糙度
+- 蓝色通道(B)：金属度
+- 红色通道(R)：未使用（有些软件用于AO）</p>
+<h3 id="q-metallicroughnesstexturemetallictextureroughnesstexture">Q: 可以同时使用MetallicRoughnessTexture和分离的MetallicTexture/RoughnessTexture吗？<a class="headerlink" href="#q-metallicroughnesstexturemetallictextureroughnesstexture" title="Permanent link">&para;</a></h3>
+<p>A: SDK支持两种方式，但建议只使用其中一种。如果同时设置，具体行为取决于渲染器的实现。</p>
+<h3 id="q_1">Q: 法线贴图必须是切线空间吗？<a class="headerlink" href="#q_1" title="Permanent link">&para;</a></h3>
+<p>A: 是的，目前只支持切线空间法线贴图（最常用的格式）。</p>
+<h3 id="q_2">Q: 纹理路径是相对路径还是绝对路径？<a class="headerlink" href="#q_2" title="Permanent link">&para;</a></h3>
+<p>A: 建议使用相对于输出目录的相对路径。示例中使用 <code>textures/xxx.png</code>。</p>
+<h2 id="_12">相关示例<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>示例07</strong>：<code>07_build_simple_cube</code> - 创建简单几何体</li>
+<li><strong>示例08</strong>：<code>08_build_scene_tree</code> - 场景树和节点层次结构</li>
+<li><strong>示例10</strong>：<code>10_build_complex_scene</code> - 复杂场景构建</li>
+</ul>
+<h2 id="_13">参考资料<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html#metallic-roughness-material">glTF 2.0 PBR材质规范</a></li>
+<li><a href="https://learnopengl.com/PBR/Theory">PBR理论基础</a></li>
+<li><a href="https://substance3d.adobe.com/tutorials/courses/the-pbr-guide-part-1">Substance PBR指南</a></li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../build_scene_tree/" class="btn btn-neutral float-left" title="场景树构建"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../build_complex_scene/" class="btn btn-neutral float-right" title="复杂场景">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/skylinestars/AMRTSDK" class="fa fa-code-fork" style="color: #fcfcfc"> skylinestars/AMRTSDK</a>
+        </span>
+    
+    
+      <span><a href="../build_scene_tree/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../build_complex_scene/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

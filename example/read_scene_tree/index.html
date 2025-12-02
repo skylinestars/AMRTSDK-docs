@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Wang Lu" /><link rel="canonical" href="https://skylinestars.github.io/AMRTSDK/example/read_scene_tree/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>场景树读取 - AMRT SDK 文档</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "\u573a\u666f\u6811\u8bfb\u53d6";
+        var mkdocs_page_input_path = "example/read_scene_tree.md";
+        var mkdocs_page_url = "/AMRTSDK/example/read_scene_tree/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> AMRT SDK 文档
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">首页</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">快速开始</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../setup/">环境配置</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">示例程序</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" >转换器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_basic/">基础转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_with_progress/">进度回调</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_batch/">批量转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_with_options/">自定义选项</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >读取器示例</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../read_basic/">基础读取</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">场景树读取</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#_1">📋 功能说明</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_2">功能特点</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">🚀 使用方法</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_4">示例输出</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_5">📝 代码说明</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1-1traversenodes">1. 方式1：使用TraverseNodes()</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2-2">2. 方式2：手动递归遍历</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3-3">3. 方式3：按名称查找</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_6">🔍 节点数据结构</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#_7">节点类型</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_8">节点关系</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_9">💡 使用技巧</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1">1. 限制遍历深度</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2">2. 只遍历网格节点</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3">3. 查找特定类型节点</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#4">4. 计算场景树深度</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_10">⚠️ 注意事项</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_11">📚 相关示例</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_12">🐛 常见问题</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../read_traverse/">场景遍历</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../build_simple_cube/">简单立方体</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_scene_tree/">场景树构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_with_materials/">材质构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_complex_scene/">复杂场景</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../merge_to_one_file/">合并为单文件</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >导出器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../amrt_to_fbx/">AMRT转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../gltf_to_fbx/">glTF转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../gltf_to_amrt_direct/">glTF直接转AMRT</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API 文档</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../api/">API 概览</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >核心类</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/generated_AmrtConverter/">AmrtConverter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtReader/">AmrtReader</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtBuilder/">AmrtBuilder</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtMerger/">AmrtMerger</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >转换模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ConvertOptions/">ConvertOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ConvertStatistics/">ConvertStatistics</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ReadOptions/">ReadOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneData/">SceneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/NodeData/">NodeData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneInfo/">SceneInfo</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneStatistics/">SceneStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ReadProgressInfo/">ReadProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildOptions/">BuildOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MeshData/">MeshData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MaterialData/">MaterialData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/TextureData/">TextureData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AnimationData/">AnimationData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoneData/">BoneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SkinData/">SkinData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildStatistics/">BuildStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildProgressInfo/">BuildProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MergeOptions/">MergeOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >优化选项</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/OptimizationOptions/">OptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MeshOptimizationOptions/">MeshOptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/CompressionOptions/">CompressionOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MaterialOptions/">MaterialOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AnimationOptions/">AnimationOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >基础类型</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec2/">Vec2</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec3/">Vec3</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec4/">Vec4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Matrix4x4/">Matrix4x4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoundingBox/">BoundingBox</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Face/">Face</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/KeyFrame/">KeyFrame</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoneWeight/">BoneWeight</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >结果与异常</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Result/">Result</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Exception/">Exception</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/FileException/">FileException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/FormatException/">FormatException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/DataException/">DataException</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">AMRT SDK 文档</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">示例程序</li>
+          <li class="breadcrumb-item">读取器示例</li>
+      <li class="breadcrumb-item active">场景树读取</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/skylinestars/AMRTSDK/edit/master/docs/example/read_scene_tree.md">Edit on skylinestars/AMRTSDK</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="6">示例6：场景树遍历<a class="headerlink" href="#6" title="Permanent link">&para;</a></h1>
+<h2 id="_1">📋 功能说明<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>这个示例展示了如何遍历AMRT模型的场景树结构，演示了三种不同的遍历方式。</p>
+<h3 id="_2">功能特点<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ <strong>方式1</strong>：使用<code>TraverseNodes()</code>自动遍历</li>
+<li>✅ <strong>方式2</strong>：手动递归遍历（显示层级结构）</li>
+<li>✅ <strong>方式3</strong>：按名称查找特定节点</li>
+<li>✅ 显示节点层级关系</li>
+<li>✅ 显示节点详细信息</li>
+<li>✅ 统计节点类型分布</li>
+</ul>
+<h2 id="_3">🚀 使用方法<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<pre class="highlight"><code class="language-bash">read_scene_tree model_folder</code></pre>
+<h3 id="_4">示例输出<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code>=== AMRT 场景树遍历示例 ===
+
+模型路径: model_folder
+加载模型...
+✓ 加载成功！
+
+场景名称: MyModel
+节点总数: 150
+根节点数: 3
+
+=== 方式1：使用TraverseNodes遍历 ===
+[1] RootNode_1 [空节点] (子节点: 15)
+[2] ChildNode_1 [网格节点: 2个网格]
+[3] ChildNode_2 [网格节点: 1个网格] (子节点: 3)
+[4] GrandChild_1 [空节点]
+[5] GrandChild_2 [网格节点: 1个网格]
+
+遍历完成: 共 150 个节点
+最大深度: 5
+
+=== 方式2：显示完整层级结构 ===
+场景树:
+RootNode_1 (15)
+  └─ ChildNode_1 [M:2]
+  └─ ChildNode_2 [M:1] (3)
+    └─ GrandChild_1
+    └─ GrandChild_2 [M:1]
+    └─ GrandChild_3 [M:1]
+  └─ ChildNode_3 [M:3]
+  └─ ... (12 个子节点)
+RootNode_2 (8)
+  └─ ChildNode_10 [M:1]
+  └─ ChildNode_11
+  └─ ... (6 个子节点)
+
+=== 方式3：按名称查找节点 ===
+查找节点: "RootNode_1"
+✓ 找到节点！
+  节点名称: RootNode_1
+  父节点索引: -1 (根节点)
+  子节点数: 15
+  类型: 空节点（无网格）
+  平移: (0.00, 0.00, 0.00)
+
+=== 节点类型统计 ===
+总节点数: 150
+网格节点: 80 (53.3%)
+空节点: 70 (46.7%)
+
+✓ 示例执行完成！</code></pre>
+<h2 id="_5">📝 代码说明<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h3 id="1-1traversenodes">1. 方式1：使用TraverseNodes()<a class="headerlink" href="#1-1traversenodes" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">reader-&gt;TraverseNodes([](const amrt::NodeData* node) {
+    std::cout &lt;&lt; node-&gt;name &lt;&lt; std::endl;
+
+    // 返回true继续遍历，返回false停止
+    return true;
+});</code></pre>
+<p><strong>特点</strong>：
+- 自动深度优先遍历
+- 最简单的遍历方式
+- 可以通过返回false提前终止</p>
+<h3 id="2-2">2. 方式2：手动递归遍历<a class="headerlink" href="#2-2" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">void TraverseRecursive(const NodeData* node, int depth) {
+    PrintNode(node, depth);
+
+    // 访问子节点
+    const auto* scene = reader-&gt;GetSceneData();
+    for (size_t childIndex : node-&gt;children) {
+        TraverseRecursive(&amp;scene-&gt;nodes[childIndex], depth + 1);
+    }
+}</code></pre>
+<p><strong>特点</strong>：
+- 完全控制遍历过程
+- 可以显示层级结构
+- 可以控制深度和范围</p>
+<h3 id="3-3">3. 方式3：按名称查找<a class="headerlink" href="#3-3" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">const auto* node = reader-&gt;FindNodeByName("NodeName");
+if (node) {
+    // 找到节点
+    std::cout &lt;&lt; "节点: " &lt;&lt; node-&gt;name &lt;&lt; std::endl;
+}</code></pre>
+<p><strong>特点</strong>：
+- 快速查找（使用索引）
+- O(log n)时间复杂度
+- 适合已知节点名称的情况</p>
+<h2 id="_6">🔍 节点数据结构<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<pre class="highlight"><code class="language-cpp">struct NodeData {
+    std::string name;               // 节点名称
+    int parentIndex;                // 父节点索引（-1表示根节点）
+    std::vector&lt;size_t&gt; children;   // 子节点索引列表
+    std::vector&lt;size_t&gt; meshIndices;// 关联的网格索引
+    Matrix4x4 transform;            // 变换矩阵
+    uint32_t flags;                 // 标志位
+};</code></pre>
+<h3 id="_7">节点类型<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>网格节点</strong>：<code>meshIndices</code>不为空，包含实际几何数据</li>
+<li><strong>空节点</strong>：<code>meshIndices</code>为空，用于组织场景层级</li>
+<li><strong>根节点</strong>：<code>parentIndex == -1</code></li>
+</ul>
+<h3 id="_8">节点关系<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code>根节点（parentIndex = -1）
+  ├─ 子节点1（parentIndex = 根节点索引）
+  │   ├─ 孙节点1
+  │   └─ 孙节点2
+  └─ 子节点2
+      └─ 孙节点3</code></pre>
+<h2 id="_9">💡 使用技巧<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. 限制遍历深度<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">void Traverse(const NodeData* node, int depth, int maxDepth) {
+    if (depth &gt;= maxDepth) return;
+
+    // 处理节点...
+
+    // 递归子节点
+    for (size_t childIdx : node-&gt;children) {
+        Traverse(&amp;sceneData-&gt;nodes[childIdx], depth + 1, maxDepth);
+    }
+}</code></pre>
+<h3 id="2">2. 只遍历网格节点<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">reader-&gt;TraverseNodes([](const NodeData* node) {
+    if (!node-&gt;meshIndices.empty()) {
+        // 只处理有网格的节点
+        ProcessMeshNode(node);
+    }
+    return true;
+}); </code></pre>
+<h3 id="3">3. 查找特定类型节点<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">std::vector&lt;const NodeData*&gt; meshNodes;
+
+reader-&gt;TraverseNodes([&amp;](const NodeData* node) {
+    if (!node-&gt;meshIndices.empty()) {
+        meshNodes.push_back(node);
+    }
+    return true;
+});</code></pre>
+<h3 id="4">4. 计算场景树深度<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">int CalculateDepth(const NodeData* node, const SceneData* scene) {
+    if (node-&gt;children.empty()) {
+        return 1;
+    }
+
+    int maxChildDepth = 0;
+    for (size_t childIdx : node-&gt;children) {
+        int childDepth = CalculateDepth(&amp;scene-&gt;nodes[childIdx], scene);
+        maxChildDepth = std::max(maxChildDepth, childDepth);
+    }
+
+    return maxChildDepth + 1;
+}</code></pre>
+<h2 id="_10">⚠️ 注意事项<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>循环引用检测</strong></li>
+<li>AMRT格式不应有循环引用</li>
+<li>
+<p>但遍历时可以添加visited检查</p>
+</li>
+<li>
+<p><strong>大型场景</strong></p>
+</li>
+<li>数千个节点可能需要一些时间</li>
+<li>
+<p>考虑限制输出数量</p>
+</li>
+<li>
+<p><strong>内存访问</strong></p>
+</li>
+<li><code>children</code>存储的是索引，需要通过SceneData访问实际节点</li>
+<li>
+<p>确保索引在有效范围内</p>
+</li>
+<li>
+<p><strong>线程安全</strong></p>
+</li>
+<li>Reader的读取操作是线程安全的</li>
+<li>但遍历过程中不要修改场景数据</li>
+</ol>
+<h2 id="_11">📚 相关示例<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>示例5</strong>：基础读取</li>
+<li><strong>示例7</strong>：网格数据详细访问</li>
+<li><strong>示例8</strong>：材质和纹理访问</li>
+</ul>
+<h2 id="_12">🐛 常见问题<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<p><strong>Q: 如何获取节点的完整路径？</strong><br />
+A: 递归向上查找父节点，拼接名称。</p>
+<p><strong>Q: 如何统计场景树的总深度？</strong><br />
+A: 使用递归计算每个分支的深度，取最大值。</p>
+<p><strong>Q: TraverseNodes的遍历顺序是什么？</strong><br />
+A: 深度优先遍历（DFS），从根节点开始。</p>
+<p><strong>Q: 如何只遍历某个子树？</strong><br />
+A: 先FindNodeByName找到起点节点，然后手动递归遍历。</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../read_basic/" class="btn btn-neutral float-left" title="基础读取"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../read_traverse/" class="btn btn-neutral float-right" title="场景遍历">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/skylinestars/AMRTSDK" class="fa fa-code-fork" style="color: #fcfcfc"> skylinestars/AMRTSDK</a>
+        </span>
+    
+    
+      <span><a href="../read_basic/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../read_traverse/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
