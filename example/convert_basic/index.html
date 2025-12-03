@@ -74,27 +74,49 @@
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#_7">参数说明</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#_8">示例命令</a>
+    <li class="toctree-l4"><a class="reference internal" href="#_8">输入模式</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_11">示例命令</a>
     </li>
         </ul>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#_9">📝 代码说明</a>
+    <li class="toctree-l3"><a class="reference internal" href="#_12">📝 代码说明</a>
         <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#1_1">1. 创建转换器</a>
+    <li class="toctree-l4"><a class="reference internal" href="#1_1">1. 命令行参数解析</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#2">2. 配置选项</a>
+    <li class="toctree-l4"><a class="reference internal" href="#2">2. 判断输入类型并处理</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#3_1">3. 执行转换</a>
+    <li class="toctree-l4"><a class="reference internal" href="#3">3. 配置转换选项</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#4">4. 检查结果</a>
+    <li class="toctree-l4"><a class="reference internal" href="#4">4. 执行转换</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#5">5. 检查结果</a>
     </li>
         </ul>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#_10">🎨 支持的文件格式</a>
+    <li class="toctree-l3"><a class="reference internal" href="#convertoptions">⚙️ ConvertOptions 完整配置说明</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#compressionoptions-">📦 CompressionOptions - 压缩选项</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#_11">📊 输出</a>
+    <li class="toctree-l4"><a class="reference internal" href="#meshoptimizationoptions-">🔧 MeshOptimizationOptions - 网格优化选项</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#_12">⚙️ 默认选项</a>
+    <li class="toctree-l4"><a class="reference internal" href="#materialoptions-">🎨 MaterialOptions - 材质和纹理选项</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#animationoptions-">🎬 AnimationOptions - 动画选项</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#outputoptions-">💾 OutputOptions - 输出选项</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#generaloptions-">⚙️ GeneralOptions - 通用选项</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#_13">预设配置</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_14">🎨 支持的文件格式</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_15">📊 输出</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_16">⚙️ 默认选项</a>
     </li>
     </ul>
                 </li>
@@ -290,12 +312,13 @@
               
                 <h1 id="1">示例1：基础模型转换<a class="headerlink" href="#1" title="Permanent link">&para;</a></h1>
 <h2 id="_1">📋 简介<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>这个示例展示了如何使用 AmrtConverter 进行最简单的模型转换。使用默认选项将一个 3D 模型文件转换为 AMRT 格式。</p>
+<p>这个示例展示了如何使用 AmrtConverter 进行模型转换。支持单个文件转换或批量文件夹转换，可配置 Draco 压缩和贴图压缩选项。</p>
 <h2 id="_2">🎯 学习要点<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <ul>
 <li>创建 AmrtConverter 实例</li>
-<li>使用默认转换选项</li>
-<li>执行基础转换</li>
+<li>命令行参数解析</li>
+<li>单文件和批量文件夹转换</li>
+<li>配置 Draco 压缩和贴图压缩</li>
 <li>检查转换结果</li>
 <li>获取统计信息</li>
 </ul>
@@ -305,37 +328,143 @@ cmake ..
 cmake --build .</code></pre>
 <h2 id="_4">🚀 运行<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <h3 id="windows">Windows<a class="headerlink" href="#windows" title="Permanent link">&para;</a></h3>
-<pre class="highlight"><code class="language-batch">.\examples\convert_basic.exe model.fbx
-.\examples\convert_basic.exe model.fbx output</code></pre>
+<pre class="highlight"><code class="language-batch">.\examples\convert_basic.exe -input model.fbx
+.\examples\convert_basic.exe -input model.glb -output result -draco
+.\examples\convert_basic.exe -input ./models -output ./converted -draco -compressTextures</code></pre>
 <h3 id="linuxmac">Linux/Mac<a class="headerlink" href="#linuxmac" title="Permanent link">&para;</a></h3>
-<pre class="highlight"><code class="language-bash">./examples/convert_basic model.fbx
-./examples/convert_basic model.fbx output</code></pre>
+<pre class="highlight"><code class="language-bash">./examples/convert_basic -input model.fbx
+./examples/convert_basic -input model.glb -output result -draco
+./examples/convert_basic -input ./models -output ./converted -draco -compressTextures</code></pre>
 <h2 id="_5">📖 使用说明<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <h3 id="_6">基本用法<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<pre class="highlight"><code class="language-bash">convert_basic &lt;输入文件&gt; [输出目录]</code></pre>
+<pre class="highlight"><code class="language-bash">convert_basic -input &lt;文件或文件夹&gt; [选项]</code></pre>
 <h3 id="_7">参数说明<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<ul>
-<li><code>&lt;输入文件&gt;</code>: 必需，要转换的 3D 模型文件路径</li>
-<li><code>[输出目录]</code>: 可选，输出目录，默认为 "output"</li>
-</ul>
-<h3 id="_8">示例命令<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
-<p>转换 FBX 文件到默认输出目录：
-<pre class="highlight"><code class="language-bash">convert_basic model.fbx</code></pre></p>
-<p>转换 OBJ 文件到指定目录：
-<pre class="highlight"><code class="language-bash">convert_basic model.obj ./amrt_output</code></pre></p>
-<p>转换 STL 文件：
-<pre class="highlight"><code class="language-bash">convert_basic model.stl</code></pre></p>
-<h2 id="_9">📝 代码说明<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
-<h3 id="1_1">1. 创建转换器<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h3>
-<pre class="highlight"><code class="language-cpp">amrt::AmrtConverter converter;</code></pre>
-<h3 id="2">2. 配置选项<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
-<h4 id="21">2.1 使用默认配置<a class="headerlink" href="#21" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>必需</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-input &lt;路径&gt;</code></td>
+<td>✅</td>
+<td>输入文件或文件夹路径</td>
+</tr>
+<tr>
+<td><code>-output &lt;目录&gt;</code></td>
+<td>❌</td>
+<td>输出目录，默认为 "output"</td>
+</tr>
+<tr>
+<td><code>-draco</code></td>
+<td>❌</td>
+<td>启用 Draco 网格压缩</td>
+</tr>
+<tr>
+<td><code>-compressTextures</code></td>
+<td>❌</td>
+<td>启用贴图压缩</td>
+</tr>
+<tr>
+<td><code>-help</code></td>
+<td>❌</td>
+<td>显示帮助信息</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_8">输入模式<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<h4 id="_9">单文件模式<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<p>当 <code>-input</code> 指定的是一个文件时，程序只转换该文件：</p>
+<pre class="highlight"><code class="language-bash">convert_basic -input model.fbx -output result</code></pre>
+<p>输出结构：
+<pre class="highlight"><code>result/
+  ├── fileList.json
+  ├── model_mesh_0.bin
+  └── ...</code></pre></p>
+<h4 id="_10">批量文件夹模式<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h4>
+<p>当 <code>-input</code> 指定的是一个文件夹时，程序会扫描并转换该文件夹下所有支持的模型文件，并为每个文件创建独立的子目录：</p>
+<pre class="highlight"><code class="language-bash">convert_basic -input ./models -output ./converted</code></pre>
+<p>假设 <code>models/</code> 文件夹包含 <code>scene1.fbx</code>、<code>scene2.glb</code>、<code>scene3.obj</code>，输出结构：
+<pre class="highlight"><code>converted/
+  ├── scene1/
+  │   ├── fileList.json
+  │   ├── scene1_mesh_0.bin
+  │   └── ...
+  ├── scene2/
+  │   ├── fileList.json
+  │   ├── scene2_mesh_0.bin
+  │   └── ...
+  └── scene3/
+      ├── fileList.json
+      ├── scene3_mesh_0.bin
+      └── ...</code></pre></p>
+<h3 id="_11">示例命令<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<p>转换单个 FBX 文件到默认输出目录：
+<pre class="highlight"><code class="language-bash">convert_basic -input model.fbx</code></pre></p>
+<p>转换 GLB 文件并启用 Draco 压缩：
+<pre class="highlight"><code class="language-bash">convert_basic -input model.glb -output ./amrt_output -draco</code></pre></p>
+<p>批量转换文件夹并启用所有压缩：
+<pre class="highlight"><code class="language-bash">convert_basic -input ./models -output ./converted -draco -compressTextures</code></pre></p>
+<p>查看帮助信息：
+<pre class="highlight"><code class="language-bash">convert_basic -help</code></pre></p>
+<h2 id="_12">📝 代码说明<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<h3 id="1_1">1. 命令行参数解析<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">// 命令行参数结构
+struct CommandLineArgs
+{
+    std::string inputPath;
+    std::string outputDir = "output";
+    bool enableDraco = false;
+    bool compressTextures = false;
+    bool showHelp = false;
+};
+
+// 解析参数
+CommandLineArgs args;
+if (!ParseCommandLine(argc, argv, args)) {
+    PrintUsage(argv[0]);
+    return 1;
+}</code></pre>
+<h3 id="2">2. 判断输入类型并处理<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">namespace fs = std::filesystem;
+
+fs::path inputPath(args.inputPath);
+
+if (fs::is_regular_file(inputPath)) {
+    // 单文件转换
+    ConvertFile(args.inputPath, args.outputDir, args.enableDraco, args.compressTextures);
+} else if (fs::is_directory(inputPath)) {
+    // 批量文件夹转换
+    std::vector&lt;fs::path&gt; files = GetSupportedFilesInDirectory(inputPath);
+    for (const auto &amp;file : files) {
+        std::string fileName = file.stem().string();
+        fs::path outputSubDir = fs::path(args.outputDir) / fileName;
+        ConvertFile(file.string(), outputSubDir.string(), args.enableDraco, args.compressTextures);
+    }
+}</code></pre>
+<h3 id="3">3. 配置转换选项<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
 <pre class="highlight"><code class="language-cpp">amrt::ConvertOptions options = amrt::ConvertOptions::Default();
 options.output.outputDirectory = outputDir;
+options.compression.enableDracoCompression = enableDraco;
+options.compression.compressTextures = compressTextures;
 converter.SetOptions(options);</code></pre>
-<h4 id="22-convertoptions">2.2 ConvertOptions 完整配置说明<a class="headerlink" href="#22-convertoptions" title="Permanent link">&para;</a></h4>
+<h3 id="4">4. 执行转换<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">amrt::Result&lt;void&gt; result = converter.Convert(inputFile);</code></pre>
+<h3 id="5">5. 检查结果<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">if (result.IsSuccess()) {
+    // 转换成功
+    amrt::ConvertStatistics stats = converter.GetStatistics();
+    // 使用统计信息
+} else {
+    // 转换失败
+    std::cerr &lt;&lt; result.GetErrorMessage() &lt;&lt; std::endl;
+}</code></pre>
+<h2 id="convertoptions">⚙️ ConvertOptions 完整配置说明<a class="headerlink" href="#convertoptions" title="Permanent link">&para;</a></h2>
 <p><code>ConvertOptions</code> 包含6大类配置项：</p>
-<h5 id="compressionoptions-">📦 CompressionOptions - 压缩选项<a class="headerlink" href="#compressionoptions-" title="Permanent link">&para;</a></h5>
+<h3 id="compressionoptions-">📦 CompressionOptions - 压缩选项<a class="headerlink" href="#compressionoptions-" title="Permanent link">&para;</a></h3>
 <pre class="highlight"><code class="language-cpp">options.compression.enableDracoCompression = false;  // 启用Draco几何压缩
 options.compression.dracoCompressionLevel = 7;       // Draco压缩级别 [0-10]，越高压缩率越高但速度越慢
 options.compression.dracoQuantizationBits = 14;      // Draco量化位数 [8-30]，越少压缩率越高但精度越低
@@ -345,7 +474,7 @@ options.compression.compressNormals = true;          // 压缩法线数据
 options.compression.compressUVs = true;              // 压缩UV数据
 options.compression.compressTextures = false;        // 压缩纹理（转为.mrtb格式）
 options.compression.compressAnimations = false;      // 压缩动画数据</code></pre>
-<h5 id="meshoptimizationoptions-">🔧 MeshOptimizationOptions - 网格优化选项<a class="headerlink" href="#meshoptimizationoptions-" title="Permanent link">&para;</a></h5>
+<h3 id="meshoptimizationoptions-">🔧 MeshOptimizationOptions - 网格优化选项<a class="headerlink" href="#meshoptimizationoptions-" title="Permanent link">&para;</a></h3>
 <pre class="highlight"><code class="language-cpp">options.optimization.detectInstances = true;                // 自动检测实例化网格
 options.optimization.instanceSimilarityThreshold = 0.99f;   // 实例相似度阈值 [0-1]
 options.optimization.optimizeVertexCache = true;            // 优化顶点缓存访问
@@ -356,7 +485,7 @@ options.optimization.generateNormals = false;               // 如果缺失则�
 options.optimization.generateTangents = false;              // 生成切线空间（用于法线贴图）
 options.optimization.weldVertices = true;                   // 焊接重复顶点
 options.optimization.weldTolerance = 1e-6f;                 // 焊接容差</code></pre>
-<h5 id="materialoptions-">🎨 MaterialOptions - 材质和纹理选项<a class="headerlink" href="#materialoptions-" title="Permanent link">&para;</a></h5>
+<h3 id="materialoptions-">🎨 MaterialOptions - 材质和纹理选项<a class="headerlink" href="#materialoptions-" title="Permanent link">&para;</a></h3>
 <pre class="highlight"><code class="language-cpp">options.material.processMaterials = true;           // 处理材质信息
 options.material.processTextures = true;            // 处理纹理文件
 options.material.copyTextures = true;               // 复制纹理文件到输出目录
@@ -365,27 +494,27 @@ options.material.resizeTexturesToPowerOf2 = false;  // 调整纹理大小为2的
 options.material.maxTextureSize = 0;                // 最大纹理尺寸（0=不限制）
 options.material.generateMipmaps = false;           // 生成Mipmap
 options.material.embedTextures = false;             // 将纹理嵌入到AMRT文件中</code></pre>
-<h5 id="animationoptions-">🎬 AnimationOptions - 动画选项<a class="headerlink" href="#animationoptions-" title="Permanent link">&para;</a></h5>
+<h3 id="animationoptions-">🎬 AnimationOptions - 动画选项<a class="headerlink" href="#animationoptions-" title="Permanent link">&para;</a></h3>
 <pre class="highlight"><code class="language-cpp">options.animation.processAnimations = true;                   // 处理动画数据
 options.animation.processBoneAnimations = true;               // 处理骨骼动画
 options.animation.processNodeAnimations = true;               // 处理节点动画
 options.animation.animationSampleRate = 0.0f;                 // 动画采样率（帧/秒），0=保持原始
 options.animation.optimizeAnimations = false;                 // 优化动画数据（移除冗余关键帧）
 options.animation.keyframeReductionTolerance = 1e-4f;         // 关键帧精简容差</code></pre>
-<h5 id="outputoptions-">💾 OutputOptions - 输出选项<a class="headerlink" href="#outputoptions-" title="Permanent link">&para;</a></h5>
+<h3 id="outputoptions-">💾 OutputOptions - 输出选项<a class="headerlink" href="#outputoptions-" title="Permanent link">&para;</a></h3>
 <pre class="highlight"><code class="language-cpp">options.output.singleFileOutput = false;         // 输出单个文件（false=分布式多文件）
 options.output.outputDirectory = ".";            // 输出目录
 options.output.outputBaseName = "";              // 输出基础文件名（空=自动从输入文件名提取）
 options.output.overwriteExisting = true;         // 覆盖已存在的文件
 options.output.generateFileList = true;          // 生成fileList.json文件
 options.output.prettyPrintJson = false;          // JSON格式化输出（便于阅读）</code></pre>
-<h5 id="generaloptions-">⚙️ GeneralOptions - 通用选项<a class="headerlink" href="#generaloptions-" title="Permanent link">&para;</a></h5>
+<h3 id="generaloptions-">⚙️ GeneralOptions - 通用选项<a class="headerlink" href="#generaloptions-" title="Permanent link">&para;</a></h3>
 <pre class="highlight"><code class="language-cpp">options.general.verbose = false;              // 详细输出模式
 options.general.numThreads = 0;               // 线程数（0=自动检测）
 options.general.validateInput = false;        // 验证输入数据
 options.general.validateOutput = false;       // 验证输出数据
 options.general.tempDirectory = "";           // 临时文件目录</code></pre>
-<h4 id="23">2.3 预设配置<a class="headerlink" href="#23" title="Permanent link">&para;</a></h4>
+<h3 id="_13">预设配置<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
 <p>SDK 提供了几种预设配置：</p>
 <pre class="highlight"><code class="language-cpp">// 快速模式 - 最快速度，最低压缩
 auto options = amrt::ConvertOptions::Fast();
@@ -398,56 +527,64 @@ auto options = amrt::ConvertOptions::HighQuality();
 
 // 默认模式
 auto options = amrt::ConvertOptions::Default();</code></pre>
-<h4 id="24">2.4 常用配置示例<a class="headerlink" href="#24" title="Permanent link">&para;</a></h4>
-<h5 id="1-draco">示例1：启用 Draco 压缩<a class="headerlink" href="#1-draco" title="Permanent link">&para;</a></h5>
-<pre class="highlight"><code class="language-cpp">auto options = amrt::ConvertOptions::Default();
-options.compression.enableDracoCompression = true;
-options.compression.dracoCompressionLevel = 7;  // 推荐值：5-7
-options.output.outputDirectory = "output";
-converter.SetOptions(options);</code></pre>
-<h5 id="2_1">示例2：启用纹理压缩<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h5>
-<pre class="highlight"><code class="language-cpp">auto options = amrt::ConvertOptions::Default();
-options.compression.compressTextures = true;        // 将贴图转为 .mrtb 格式
-options.material.copyTextures = true;               // 复制纹理到输出目录
-options.output.outputDirectory = "output";
-converter.SetOptions(options);</code></pre>
-<h5 id="3">示例3：实例化检测<a class="headerlink" href="#3" title="Permanent link">&para;</a></h5>
-<pre class="highlight"><code class="language-cpp">auto options = amrt::ConvertOptions::Default();
-options.optimization.detectInstances = true;        // 自动检测重复网格
-options.optimization.instanceSimilarityThreshold = 0.95f;  // 降低阈值可检测更多实例
-options.output.outputDirectory = "output";
-converter.SetOptions(options);</code></pre>
-<h5 id="4-fbx-gltfglb">示例4：禁用 FBX（仅 glTF/GLB）<a class="headerlink" href="#4-fbx-gltfglb" title="Permanent link">&para;</a></h5>
-<p>如果编译时禁用了 FBX SDK (<code>-DENABLE_FBX_SUPPORT=OFF</code>)，只能转换 glTF/GLB 格式：</p>
-<pre class="highlight"><code class="language-cpp">// 支持的格式：.gltf, .glb
-auto options = amrt::ConvertOptions::Default();
-options.output.outputDirectory = "output";
-converter.SetOptions(options);
-
-// FBX/OBJ/其他格式会返回错误
-auto result = converter.Convert("model.fbx", "output");
-if (result.IsFailure()) {
-    std::cerr &lt;&lt; "Error: " &lt;&lt; result.GetError().message &lt;&lt; std::endl;
-    // 输出: FBX转换未启用（需要编译时定义AMRT_HAS_FBXSDK）
-}</code></pre>
-<h3 id="3_1">3. 执行转换<a class="headerlink" href="#3_1" title="Permanent link">&para;</a></h3>
-<pre class="highlight"><code class="language-cpp">amrt::Result&lt;void&gt; result = converter.Convert(inputFile);</code></pre>
-<h3 id="4">4. 检查结果<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
-<pre class="highlight"><code class="language-cpp">if (result.IsSuccess()) {
-    // 转换成功
-    amrt::ConvertStatistics stats = converter.GetStatistics();
-    // 使用统计信息
-} else {
-    // 转换失败
-    std::cerr &lt;&lt; result.GetErrorMessage() &lt;&lt; std::endl;
-}</code></pre>
-<h2 id="_10">🎨 支持的文件格式<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
-<ul>
-<li>FBX (.fbx)</li>
-<li>Wavefront OBJ (.obj)</li>
-<li>glTF (.gltf, .glb)</li>
-</ul>
-<h2 id="_11">📊 输出<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<h2 id="_14">🎨 支持的文件格式<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>格式</th>
+<th>扩展名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>glTF/GLB</td>
+<td>.gltf, .glb</td>
+<td>⭐ 推荐，直接转换，无损动画</td>
+</tr>
+<tr>
+<td>FBX</td>
+<td>.fbx</td>
+<td>传统路径</td>
+</tr>
+<tr>
+<td>Wavefront OBJ</td>
+<td>.obj</td>
+<td>传统路径</td>
+</tr>
+<tr>
+<td>STL</td>
+<td>.stl</td>
+<td>通过 Assimp</td>
+</tr>
+<tr>
+<td>Collada</td>
+<td>.dae</td>
+<td>通过 Assimp</td>
+</tr>
+<tr>
+<td>3DS</td>
+<td>.3ds</td>
+<td>通过 Assimp</td>
+</tr>
+<tr>
+<td>Blender</td>
+<td>.blend</td>
+<td>通过 Assimp</td>
+</tr>
+<tr>
+<td>PLY</td>
+<td>.ply</td>
+<td>通过 Assimp</td>
+</tr>
+<tr>
+<td>X3D</td>
+<td>.x3d</td>
+<td>通过 Assimp</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_15">📊 输出<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
 <p>转换成功后，会在输出目录生成以下文件：</p>
 <pre class="highlight"><code>output/
   ├── fileList.json          # 文件列表索引
@@ -458,7 +595,7 @@ if (result.IsFailure()) {
   └── maps/                  # 纹理文件目录
       ├── texture1.png
       └── texture2.png</code></pre>
-<h2 id="_12">⚙️ 默认选项<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<h2 id="_16">⚙️ 默认选项<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h2>
 <p>使用 <code>ConvertOptions::Default()</code> 时的设置：</p>
 <ul>
 <li><strong>压缩</strong>: 不启用压缩</li>
