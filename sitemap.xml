@@ -2,310 +2,310 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/deploy-github-pages/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/setup/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/AmrtBuilder/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/AmrtConverter/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/AmrtMerger/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/AmrtReader/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/AnimationChannel/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/AnimationData/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/AnimationOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/BoneAnimationChannel/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/BoneAnimationFrame/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/BoneData/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/BoneWeight/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/BoundingBox/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/BuildOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/BuildProgressInfo/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/BuildStatistics/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/BuildValidationOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/CompressionOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/ConvertOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/ConvertStatistics/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/DataException/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/DecompressionOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/Exception/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/Face/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/FileException/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/FileInfo/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/FormatException/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/GeneralOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/InstanceData/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/KeyFrame/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/LoadContentOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/MaterialData/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/MaterialOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/Matrix4x4/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/MemoryOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/MergeOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/MeshAdditionData/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/MeshData/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/MeshOptimizationOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/NodeData/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/OptimizationOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/OutputFormatOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/OutputOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/ProgressInfo/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/ReadOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/ReadProgressInfo/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/Result/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/Result__void__/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/SceneData/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/SceneInfo/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/SceneStatistics/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/SkinData/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/SubMeshMaterial/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/TextureData/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/ValidationOptions/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/Vec2/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/Vec3/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/Vec4/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/api/generated_AmrtConverter/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/example/amrt_to_fbx/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/example/build_complex_scene/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/example/build_scene_tree/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/example/build_simple_cube/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/example/build_with_materials/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/example/convert_basic/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/example/convert_batch/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/example/convert_with_options/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/example/convert_with_progress/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/example/gltf_to_amrt_direct/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/example/gltf_to_fbx/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/example/merge_to_one_file/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/example/read_basic/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/example/read_scene_tree/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://skylinestars.github.io/AMRTSDK/example/read_traverse/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
 </urlset>
