@@ -47,7 +47,7 @@
               <ul class="current">
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">环境配置</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#_2">📋 系统要求</a>
+    <li class="toctree-l2"><a class="reference internal" href="#_2">系统要求</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#_3">操作系统</a>
     </li>
@@ -57,13 +57,13 @@
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#_6">🔧 环境配置</a>
+    <li class="toctree-l2"><a class="reference internal" href="#_6">环境配置</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#windows">Windows 环境配置</a>
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#sdk">🏗️ 编译 SDK</a>
+    <li class="toctree-l2"><a class="reference internal" href="#sdk">编译 SDK</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#cmake-gui">方式一：使用 CMake GUI</a>
     </li>
@@ -318,7 +318,7 @@
                 <h1 id="_1">环境配置与安装指南<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>本文档介绍如何配置 AMRT SDK 的开发环境以及如何使用 SDK。</p>
 <hr />
-<h2 id="_2">📋 系统要求<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">系统要求<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <h3 id="_3">操作系统<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -338,11 +338,6 @@
 <td>Linux</td>
 <td>Ubuntu 18.04+</td>
 <td>✅ 支持</td>
-</tr>
-<tr>
-<td>macOS</td>
-<td>10.15+</td>
-<td>⚠️ 部分支持</td>
 </tr>
 </tbody>
 </table>
@@ -388,40 +383,10 @@
 <td>✅</td>
 <td>3.15 或更高版本</td>
 </tr>
-<tr>
-<td>Assimp</td>
-<td>✅</td>
-<td>3D 模型导入库</td>
-</tr>
-<tr>
-<td>Draco</td>
-<td>✅</td>
-<td>几何压缩库</td>
-</tr>
-<tr>
-<td>GLM</td>
-<td>✅</td>
-<td>数学库（Header-only）</td>
-</tr>
-<tr>
-<td>FreeImage</td>
-<td>⚠️ 可选</td>
-<td>图像处理库</td>
-</tr>
-<tr>
-<td>FBX SDK</td>
-<td>⚠️ 可选</td>
-<td>FBX 格式支持</td>
-</tr>
-<tr>
-<td>Basis Universal</td>
-<td>⚠️ 可选</td>
-<td>纹理压缩</td>
-</tr>
 </tbody>
 </table>
 <hr />
-<h2 id="_6">🔧 环境配置<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_6">环境配置<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <h3 id="windows">Windows 环境配置<a class="headerlink" href="#windows" title="Permanent link">&para;</a></h3>
 <h4 id="1-visual-studio-2022">1. 安装 Visual Studio 2022<a class="headerlink" href="#1-visual-studio-2022" title="Permanent link">&para;</a></h4>
 <p>下载并安装 <a href="https://visualstudio.microsoft.com/">Visual Studio 2022</a>，确保选择以下组件：</p>
@@ -464,12 +429,12 @@ winget install Kitware.CMake
 </ol>
 <p><strong>⚠️ 注意</strong>：如果不需要 FBX 支持，可以使用 <code>-DENABLE_FBX_SUPPORT=OFF</code> 禁用。</p>
 <hr />
-<h2 id="sdk">🏗️ 编译 SDK<a class="headerlink" href="#sdk" title="Permanent link">&para;</a></h2>
+<h2 id="sdk">编译 SDK<a class="headerlink" href="#sdk" title="Permanent link">&para;</a></h2>
 <h3 id="cmake-gui">方式一：使用 CMake GUI<a class="headerlink" href="#cmake-gui" title="Permanent link">&para;</a></h3>
 <ol>
 <li>打开 CMake GUI</li>
-<li>设置源码目录：<code>D:/Project/cad/Single_Fbx2BIN</code></li>
-<li>设置构建目录：<code>D:/Project/cad/Single_Fbx2BIN/build</code></li>
+<li>设置源码目录：<code>D:/Project/xx</code></li>
+<li>设置构建目录：<code>D:/Project/xx/build</code></li>
 <li>点击 <strong>Configure</strong>，选择 Visual Studio 2022</li>
 <li>配置选项（见下方）</li>
 <li>点击 <strong>Generate</strong></li>
@@ -477,7 +442,7 @@ winget install Kitware.CMake
 </ol>
 <h3 id="_7">方式二：使用命令行<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <pre class="highlight"><code class="language-powershell"># 进入项目目录
-cd D:\Project\cad\Single_Fbx2BIN
+cd D:\Project\xx
 
 # 创建构建目录
 mkdir build
@@ -510,8 +475,23 @@ cmake --build . --config Debug -j 8</code></pre>
 <tbody>
 <tr>
 <td><code>ENABLE_FBX_SUPPORT</code></td>
-<td>ON</td>
+<td>OFF</td>
 <td>启用 FBX 格式支持（需要 FBX SDK）</td>
+</tr>
+<tr>
+<td><code>ENABLE_ASSIMP</code></td>
+<td>OFF</td>
+<td>启用Assimp库</td>
+</tr>
+<tr>
+<td><code>ENABLE_DRACO</code></td>
+<td>OFF</td>
+<td>启动Draco压缩库</td>
+</tr>
+<tr>
+<td><code>ENABLE_FREEIMAGE</code></td>
+<td>OFF</td>
+<td>启用图像处理库</td>
 </tr>
 <tr>
 <td><code>BUILD_EXAMPLES</code></td>

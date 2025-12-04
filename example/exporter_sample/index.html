@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Wang Lu" /><link rel="canonical" href="https://skylinestars.github.io/AMRTSDK/example/exporter_sample/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>AMRT 导出器示例详解 - AMRT SDK 文档</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "AMRT \u5bfc\u51fa\u5668\u793a\u4f8b\u8be6\u89e3";
+        var mkdocs_page_input_path = "example/exporter_sample.md";
+        var mkdocs_page_url = "/AMRTSDK/example/exporter_sample/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> AMRT SDK 文档
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">首页</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">快速开始</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../setup/">环境配置</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">示例程序</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >转换器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_basic/">基础转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_with_progress/">进度回调</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_batch/">批量转换</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../convert_with_options/">自定义选项</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../read_basic/">基础读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../read_scene_tree/">场景树读取</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../read_traverse/">场景遍历</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../build_simple_cube/">简单立方体</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_scene_tree/">场景树构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_with_materials/">材质构建</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../build_complex_scene/">复杂场景</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../merge_to_one_file/">合并为单文件</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >导出器示例</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../amrt_to_fbx/">AMRT转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../gltf_to_fbx/">glTF转FBX</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../gltf_to_amrt_direct/">glTF直接转AMRT</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">API 文档</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../api/">API 概览</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >核心类</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/generated_AmrtConverter/">AmrtConverter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtReader/">AmrtReader</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtBuilder/">AmrtBuilder</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AmrtMerger/">AmrtMerger</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >转换模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ConvertOptions/">ConvertOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ConvertStatistics/">ConvertStatistics</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >读取模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ReadOptions/">ReadOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneData/">SceneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/NodeData/">NodeData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneInfo/">SceneInfo</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SceneStatistics/">SceneStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/ReadProgressInfo/">ReadProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >构建模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildOptions/">BuildOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MeshData/">MeshData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MaterialData/">MaterialData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/TextureData/">TextureData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AnimationData/">AnimationData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoneData/">BoneData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/SkinData/">SkinData</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildStatistics/">BuildStatistics</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BuildProgressInfo/">BuildProgressInfo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >合并模块</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MergeOptions/">MergeOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >优化选项</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/OptimizationOptions/">OptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MeshOptimizationOptions/">MeshOptimizationOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/CompressionOptions/">CompressionOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/MaterialOptions/">MaterialOptions</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/AnimationOptions/">AnimationOptions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >基础类型</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec2/">Vec2</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec3/">Vec3</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Vec4/">Vec4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Matrix4x4/">Matrix4x4</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoundingBox/">BoundingBox</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Face/">Face</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/KeyFrame/">KeyFrame</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/BoneWeight/">BoneWeight</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >结果与异常</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Result/">Result</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/Exception/">Exception</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/FileException/">FileException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/FormatException/">FormatException</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../api/DataException/">DataException</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">AMRT SDK 文档</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">AMRT 导出器示例详解</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/skylinestars/AMRTSDK/edit/master/docs/example/exporter_sample.md">Edit on skylinestars/AMRTSDK</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="amrt">AMRT 导出器示例详解<a class="headerlink" href="#amrt" title="Permanent link">&para;</a></h1>
+<h2 id="_1">概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>本示例全面展示了 <code>AmrtExporter</code> 类的使用方法，包括如何将 AMRT 格式导出为 FBX、glTF、OBJ 等常见 3D 模型格式。</p>
+<h2 id="_2">目录<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#基本导出">基本导出</a></li>
+<li><a href="#格式支持">格式支持</a></li>
+<li><a href="#导出选项">导出选项</a></li>
+<li><a href="#进度回调">进度回调</a></li>
+<li><a href="#批量导出">批量导出</a></li>
+<li><a href="#从场景数据导出">从场景数据导出</a></li>
+<li><a href="#高级用法">高级用法</a></li>
+<li><a href="#api-参考">API 参考</a></li>
+</ol>
+<h2 id="_3">基本导出<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="1-fbx">示例1：导出为 FBX<a class="headerlink" href="#1-fbx" title="Permanent link">&para;</a></h3>
+<p>最简单的导出方式：</p>
+<pre class="highlight"><code class="language-cpp">#include &lt;amrt/amrt.h&gt;
+
+int main() {
+    // 创建导出器
+    amrt::AmrtExporter exporter;
+
+    // 配置 FBX 导出选项
+    auto options = amrt::ExportOptions::FBX();
+    options.fbx.useBinaryFormat = true;        // 二进制格式
+    options.material.copyTextures = true;      // 复制纹理
+    options.animation.exportAnimations = true; // 导出动画
+    options.general.outputPath = "output.fbx";
+
+    exporter.SetOptions(options);
+
+    // 执行导出
+    auto result = exporter.ExportFromFile("model.amrt");
+
+    if (result.IsSuccess()) {
+        // 获取统计信息
+        auto stats = exporter.GetStatistics();
+        std::cout &lt;&lt; "导出成功！" &lt;&lt; std::endl;
+        std::cout &lt;&lt; "网格数: " &lt;&lt; stats.exportedMeshCount &lt;&lt; std::endl;
+        std::cout &lt;&lt; "顶点数: " &lt;&lt; stats.exportedVertexCount &lt;&lt; std::endl;
+    }
+
+    return 0;
+}</code></pre>
+<p><strong>要点：</strong>
+- 使用 <code>ExportOptions::FBX()</code> 获取 FBX 格式的预设选项
+- 设置输出路径到 <code>options.general.outputPath</code>
+- 调用 <code>ExportFromFile()</code> 执行导出
+- 检查 <code>result.IsSuccess()</code> 确认成功</p>
+<h2 id="_4">格式支持<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_5">支持的导出格式<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>格式</th>
+<th>扩展名</th>
+<th>状态</th>
+<th>网格</th>
+<th>材质</th>
+<th>纹理</th>
+<th>动画</th>
+<th>骨骼</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FBX</strong></td>
+<td><code>.fbx</code></td>
+<td>🚧 开发中</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>业界标准，功能最全</td>
+</tr>
+<tr>
+<td><strong>glTF</strong></td>
+<td><code>.gltf</code></td>
+<td>🚧 开发中</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>Web3D 标准，文本格式</td>
+</tr>
+<tr>
+<td><strong>GLB</strong></td>
+<td><code>.glb</code></td>
+<td>🚧 开发中</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>glTF 二进制版本</td>
+</tr>
+<tr>
+<td><strong>OBJ</strong></td>
+<td><code>.obj</code></td>
+<td>✅ 已实现</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>简单静态模型</td>
+</tr>
+<tr>
+<td><strong>STL</strong></td>
+<td><code>.stl</code></td>
+<td>⏳ 计划中</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>3D 打印</td>
+</tr>
+<tr>
+<td><strong>PLY</strong></td>
+<td><code>.ply</code></td>
+<td>⏳ 计划中</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>点云数据</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-gltf">示例2：导出为 glTF<a class="headerlink" href="#2-gltf" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">// glTF 文本格式
+auto options = amrt::ExportOptions::GLTF();
+options.gltf.useBinary = false;       // 文本格式
+options.gltf.prettyPrint = true;      // 格式化 JSON
+options.gltf.embedResources = false;  // 不嵌入资源
+options.general.outputPath = "output.gltf";
+
+exporter.SetOptions(options);
+exporter.ExportFromFile("model.amrt");
+
+// glTF 二进制格式 (GLB)
+options.gltf.useBinary = true;
+options.general.outputPath = "output.glb";
+exporter.SetOptions(options);
+exporter.ExportFromFile("model.amrt");</code></pre>
+<h3 id="3-obj">示例3：导出为 OBJ<a class="headerlink" href="#3-obj" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">auto options = amrt::ExportOptions::OBJ();
+options.obj.exportMTL = true;          // 导出材质文件
+options.obj.exportGroups = true;       // 导出组信息
+options.mesh.exportNormals = true;     // 导出法线
+options.mesh.exportUVs = true;         // 导出 UV
+options.material.copyTextures = true;  // 复制纹理
+options.general.outputPath = "output.obj";
+
+exporter.SetOptions(options);
+exporter.ExportFromFile("model.amrt");</code></pre>
+<p><strong>注意：</strong> OBJ 格式不支持动画和骨骼数据，适合静态模型。</p>
+<h2 id="_6">导出选项<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h3 id="_7">选项结构层次<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code>ExportOptions
+├── format              - 导出格式
+├── mesh                - 网格选项
+│   ├── exportVertices
+│   ├── exportNormals
+│   ├── exportUVs
+│   └── ...
+├── material            - 材质选项
+│   ├── exportMaterials
+│   ├── copyTextures
+│   └── ...
+├── animation           - 动画选项
+├── bone                - 骨骼选项
+├── scene               - 场景选项
+├── general             - 通用选项
+└── 格式特定选项
+    ├── fbx             - FBX 特定
+    ├── gltf            - glTF 特定
+    └── obj             - OBJ 特定</code></pre>
+<h3 id="_8">网格导出选项<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">options.mesh.exportVertices = true;        // 导出顶点位置
+options.mesh.exportNormals = true;         // 导出法线
+options.mesh.exportTangents = true;        // 导出切线
+options.mesh.exportColors = true;          // 导出顶点颜色
+options.mesh.exportUVs = true;             // 导出 UV 坐标
+options.mesh.exportMultipleUVs = true;     // 导出多套 UV
+options.mesh.triangulate = true;           // 三角化网格
+options.mesh.flipUVs = false;              // 翻转 UV
+options.mesh.generateSmoothNormals = false;// 生成平滑法线</code></pre>
+<h3 id="_9">材质导出选项<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">options.material.exportMaterials = true;   // 导出材质
+options.material.exportTextures = true;    // 导出纹理引用
+options.material.copyTextures = true;      // 复制纹理文件
+options.material.embedTextures = false;    // 嵌入纹理（glTF）
+options.material.useRelativePaths = true;  // 使用相对路径
+options.material.textureSubdir = "textures"; // 纹理子目录</code></pre>
+<h3 id="_10">动画导出选项<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">options.animation.exportAnimations = true;     // 导出动画
+options.animation.exportBoneAnimations = true; // 导出骨骼动画
+options.animation.exportNodeAnimations = true; // 导出节点动画
+options.animation.bakeAnimations = false;      // 烘焙动画
+options.animation.bakeSampleRate = 30.0f;      // 烘焙采样率
+options.animation.optimizeKeyframes = false;   // 优化关键帧</code></pre>
+<h3 id="_11">骨骼导出选项<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">options.bone.exportBones = true;           // 导出骨骼
+options.bone.exportSkins = true;           // 导出蒙皮数据
+options.bone.exportBindPoses = true;       // 导出绑定姿态
+options.bone.normalizeWeights = true;      // 归一化权重
+options.bone.maxBonesPerVertex = 4;        // 每顶点最大骨骼数</code></pre>
+<h3 id="_12">场景导出选项<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">options.scene.exportNodes = true;          // 导出节点树
+options.scene.exportInstances = true;      // 导出实例化
+options.scene.flattenHierarchy = false;    // 不扁平化层级
+options.scene.exportEmptyNodes = true;     // 导出空节点
+options.scene.globalScale = 1.0f;          // 全局缩放</code></pre>
+<h2 id="_13">进度回调<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<h3 id="4">示例4：实时进度显示<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">exporter.SetProgressCallback([](const amrt::ExportProgressInfo&amp; info) {
+    // 获取阶段名称
+    const char* stage = "";
+    switch (info.stage) {
+        case amrt::ExportStage::Loading: 
+            stage = "加载"; 
+            break;
+        case amrt::ExportStage::ConvertingMesh: 
+            stage = "转换网格"; 
+            break;
+        case amrt::ExportStage::ConvertingMaterial: 
+            stage = "转换材质"; 
+            break;
+        case amrt::ExportStage::ConvertingAnimation: 
+            stage = "转换动画"; 
+            break;
+        case amrt::ExportStage::ConvertingBone: 
+            stage = "转换骨骼"; 
+            break;
+        case amrt::ExportStage::CopyingTextures: 
+            stage = "复制纹理"; 
+            break;
+        case amrt::ExportStage::Saving: 
+            stage = "保存文件"; 
+            break;
+        case amrt::ExportStage::Complete: 
+            stage = "完成"; 
+            break;
+    }
+
+    // 显示进度
+    printf("\r[%s] %.1f%% - %s", 
+           stage, 
+           info.totalProgress * 100.0f, 
+           info.message.c_str());
+
+    return true; // 返回 false 可以取消导出
+});
+
+auto result = exporter.ExportFromFile("model.amrt");</code></pre>
+<p><strong>进度信息包含：</strong>
+- <code>stage</code> - 当前阶段
+- <code>progress</code> - 当前阶段进度 [0.0-1.0]
+- <code>totalProgress</code> - 总体进度 [0.0-1.0]
+- <code>currentItem</code> - 当前处理项目
+- <code>message</code> - 进度消息</p>
+<h2 id="_14">批量导出<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<h3 id="5">示例5：批量导出多个文件<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">// 准备文件列表
+std::vector&lt;std::string&gt; amrtFiles = {
+    "character.amrt",
+    "weapon.amrt",
+    "environment.amrt"
+};
+
+// 配置导出选项
+auto options = amrt::ExportOptions::FBX();
+exporter.SetOptions(options);
+
+// 批量导出到指定目录
+auto result = exporter.ExportBatch(amrtFiles, "output_fbx");
+
+if (result.IsSuccess()) {
+    int successCount = result.GetValue();
+    std::cout &lt;&lt; "成功导出 " &lt;&lt; successCount &lt;&lt; " 个文件" &lt;&lt; std::endl;
+}</code></pre>
+<p><strong>特点：</strong>
+- 自动创建输出目录
+- 保持原文件名，只改变扩展名
+- 即使部分失败也会继续处理其他文件
+- 返回成功导出的文件数量</p>
+<h2 id="_15">从场景数据导出<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
+<h3 id="6">示例6：内存数据导出<a class="headerlink" href="#6" title="Permanent link">&para;</a></h3>
+<p>适用于需要修改或处理场景数据后再导出的情况。</p>
+<pre class="highlight"><code class="language-cpp">// 1. 加载 AMRT 到内存
+auto reader = amrt::AmrtReader::Create();
+reader-&gt;Load("model.amrt");
+const amrt::SceneData* scene = reader-&gt;GetSceneData();
+
+// 2. 可选：修改场景数据
+// scene-&gt;meshes[0].name = "Modified Mesh";
+// scene-&gt;materials[0].baseColor = {1, 0, 0, 1};
+
+// 3. 从场景数据导出
+amrt::AmrtExporter exporter;
+auto options = amrt::ExportOptions::FBX();
+exporter.SetOptions(options);
+
+auto result = exporter.ExportFromScene(*scene, "output.fbx");</code></pre>
+<p><strong>使用场景：</strong>
+- 需要修改模型数据后导出
+- 从 <code>AmrtBuilder</code> 构建的场景导出
+- 合并多个场景后导出
+- 应用实时修改后导出</p>
+<h2 id="_16">高级用法<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h2>
+<h3 id="7">示例7：完整配置示例<a class="headerlink" href="#7" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">auto options = amrt::ExportOptions::FBX();
+
+// 网格选项 - 完整配置
+options.mesh.exportVertices = true;
+options.mesh.exportNormals = true;
+options.mesh.exportTangents = true;
+options.mesh.exportColors = true;
+options.mesh.exportUVs = true;
+options.mesh.exportMultipleUVs = true;
+options.mesh.triangulate = true;
+options.mesh.flipUVs = false;
+options.mesh.flipNormals = false;
+options.mesh.generateSmoothNormals = false;
+options.mesh.mergeVertices = false;
+options.mesh.vertexMergeTolerance = 1e-6f;
+
+// 材质选项 - 完整配置
+options.material.exportMaterials = true;
+options.material.exportTextures = true;
+options.material.copyTextures = true;
+options.material.embedTextures = false;
+options.material.convertTextures = false;
+options.material.textureFormat = "png";
+options.material.useRelativePaths = true;
+options.material.textureSubdir = "textures";
+
+// 动画选项 - 完整配置
+options.animation.exportAnimations = true;
+options.animation.exportBoneAnimations = true;
+options.animation.exportNodeAnimations = true;
+options.animation.exportMorphTargets = true;
+options.animation.bakeAnimations = false;
+options.animation.bakeSampleRate = 30.0f;
+options.animation.optimizeKeyframes = false;
+options.animation.keyframeThreshold = 1e-5f;
+
+// 骨骼选项 - 完整配置
+options.bone.exportBones = true;
+options.bone.exportSkins = true;
+options.bone.exportBindPoses = true;
+options.bone.normalizeWeights = true;
+options.bone.maxBonesPerVertex = 4;
+options.bone.removeUnusedBones = false;
+
+// 场景选项 - 完整配置
+options.scene.exportNodes = true;
+options.scene.exportInstances = true;
+options.scene.flattenHierarchy = false;
+options.scene.exportCameras = false;
+options.scene.exportLights = false;
+options.scene.exportEmptyNodes = true;
+options.scene.useRightHandedCoords = true;
+options.scene.globalScale = 1.0f;
+
+// FBX 特定选项
+options.fbx.useBinaryFormat = true;
+options.fbx.fbxVersion = 2020;      // FBX 版本
+options.fbx.embedMedia = false;
+options.fbx.triangulate = true;
+
+// 通用选项
+options.general.verbose = true;
+options.general.validateOutput = true;
+options.general.overwriteExisting = true;
+options.general.outputPath = "output.fbx";
+
+exporter.SetOptions(options);
+exporter.ExportFromFile("model.amrt");</code></pre>
+<h3 id="8">示例8：格式查询和检测<a class="headerlink" href="#8" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">// 检测文件格式
+auto format = amrt::AmrtExporter::DetectFormat("model.fbx");
+// format == ExportFormat::FBX
+
+// 获取支持的格式列表
+auto formats = amrt::AmrtExporter::GetSupportedFormats();
+for (auto fmt : formats) {
+    std::string ext = amrt::AmrtExporter::GetFormatExtension(fmt);
+    std::cout &lt;&lt; "支持格式: " &lt;&lt; ext &lt;&lt; std::endl;
+}
+
+// 检查格式是否支持
+bool isFBXSupported = amrt::AmrtExporter::IsSupportedFormat(
+    amrt::ExportFormat::FBX
+);
+
+// 获取格式特性
+auto features = amrt::AmrtExporter::GetFormatFeatures(
+    amrt::ExportFormat::OBJ
+);
+
+if (features.supportsMeshes) {
+    std::cout &lt;&lt; "支持网格" &lt;&lt; std::endl;
+}
+if (features.supportsAnimations) {
+    std::cout &lt;&lt; "支持动画" &lt;&lt; std::endl;
+}</code></pre>
+<h2 id="_17">统计信息<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h2>
+<h3 id="_18">导出统计数据<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
+<pre class="highlight"><code class="language-cpp">auto result = exporter.ExportFromFile("model.amrt");
+
+if (result.IsSuccess()) {
+    auto stats = exporter.GetStatistics();
+
+    // 数据统计
+    std::cout &lt;&lt; "网格数: " &lt;&lt; stats.exportedMeshCount &lt;&lt; std::endl;
+    std::cout &lt;&lt; "顶点数: " &lt;&lt; stats.exportedVertexCount &lt;&lt; std::endl;
+    std::cout &lt;&lt; "三角形数: " &lt;&lt; stats.exportedFaceCount &lt;&lt; std::endl;
+    std::cout &lt;&lt; "材质数: " &lt;&lt; stats.exportedMaterialCount &lt;&lt; std::endl;
+    std::cout &lt;&lt; "纹理数: " &lt;&lt; stats.exportedTextureCount &lt;&lt; std::endl;
+    std::cout &lt;&lt; "节点数: " &lt;&lt; stats.exportedNodeCount &lt;&lt; std::endl;
+    std::cout &lt;&lt; "动画数: " &lt;&lt; stats.exportedAnimationCount &lt;&lt; std::endl;
+    std::cout &lt;&lt; "骨骼数: " &lt;&lt; stats.exportedBoneCount &lt;&lt; std::endl;
+
+    // 文件统计
+    std::cout &lt;&lt; "输出文件数: " &lt;&lt; stats.outputFileCount &lt;&lt; std::endl;
+    std::cout &lt;&lt; "文件大小: " &lt;&lt; (stats.outputFileSize / 1024.0 / 1024.0) 
+              &lt;&lt; " MB" &lt;&lt; std::endl;
+
+    // 性能统计
+    std::cout &lt;&lt; "总耗时: " &lt;&lt; stats.totalTimeSeconds &lt;&lt; " 秒" &lt;&lt; std::endl;
+    std::cout &lt;&lt; "加载时间: " &lt;&lt; stats.loadTimeSeconds &lt;&lt; " 秒" &lt;&lt; std::endl;
+    std::cout &lt;&lt; "处理时间: " &lt;&lt; stats.processTimeSeconds &lt;&lt; " 秒" &lt;&lt; std::endl;
+    std::cout &lt;&lt; "保存时间: " &lt;&lt; stats.saveTimeSeconds &lt;&lt; " 秒" &lt;&lt; std::endl;
+
+    // 或使用格式化摘要
+    std::cout &lt;&lt; stats.GetSummary() &lt;&lt; std::endl;
+}</code></pre>
+<h2 id="api">API 参考<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<h3 id="amrtexporter">AmrtExporter 类<a class="headerlink" href="#amrtexporter" title="Permanent link">&para;</a></h3>
+<h4 id="_19">构造和配置<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-cpp">AmrtExporter();                                    // 构造函数
+void SetOptions(const ExportOptions&amp; options);    // 设置选项
+ExportOptions GetOptions() const;                 // 获取选项
+void SetProgressCallback(ExportProgressCallback); // 设置进度回调</code></pre>
+<h4 id="_20">导出方法<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-cpp">// 从 AMRT 文件导出
+Result&lt;void&gt; ExportFromFile(const std::string&amp; amrtPath);
+Result&lt;void&gt; ExportFromFile(const std::string&amp; amrtPath, 
+                           const std::string&amp; outputPath);
+
+// 从场景数据导出
+Result&lt;void&gt; ExportFromScene(const SceneData&amp; scene, 
+                            const std::string&amp; outputPath);
+
+// 批量导出
+Result&lt;int&gt; ExportBatch(const std::vector&lt;std::string&gt;&amp; amrtPaths, 
+                       const std::string&amp; outputDirectory);</code></pre>
+<h4 id="_21">控制方法<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-cpp">void Cancel();                // 取消导出
+bool IsExporting() const;     // 检查是否正在导出</code></pre>
+<h4 id="_22">查询方法<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h4>
+<pre class="highlight"><code class="language-cpp">ExportStatistics GetStatistics() const;           // 获取统计信息
+void ResetStatistics();                           // 重置统计
+
+// 静态方法
+static bool IsSupportedFormat(ExportFormat format);
+static ExportFormatFeatures GetFormatFeatures(ExportFormat format);
+static ExportFormat DetectFormat(const std::string&amp; filePath);
+static std::vector&lt;ExportFormat&gt; GetSupportedFormats();
+static std::string GetFormatExtension(ExportFormat format);
+static std::string GetVersion();</code></pre>
+<h2 id="_23">常见问题<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h2>
+<h3 id="q">Q: 如何选择导出格式？<a class="headerlink" href="#q" title="Permanent link">&para;</a></h3>
+<p><strong>A:</strong> 根据使用场景选择：</p>
+<ul>
+<li><strong>FBX</strong> - 适用于 DCC 工具（Maya、3ds Max、Blender），支持最完整</li>
+<li><strong>glTF/GLB</strong> - 适用于 Web 和实时渲染，现代标准格式</li>
+<li><strong>OBJ</strong> - 适用于简单静态模型，兼容性最好</li>
+<li><strong>STL</strong> - 适用于 3D 打印</li>
+<li><strong>PLY</strong> - 适用于点云数据</li>
+</ul>
+<h3 id="q_1">Q: 如何处理纹理？<a class="headerlink" href="#q_1" title="Permanent link">&para;</a></h3>
+<p><strong>A:</strong> 三种方式：</p>
+<pre class="highlight"><code class="language-cpp">// 1. 复制纹理到输出目录
+options.material.copyTextures = true;
+options.material.textureSubdir = "textures";
+
+// 2. 嵌入纹理到文件中（glTF）
+options.material.embedTextures = true;
+
+// 3. 使用相对路径引用
+options.material.useRelativePaths = true;</code></pre>
+<h3 id="q-obj">Q: OBJ 导出为什么没有动画？<a class="headerlink" href="#q-obj" title="Permanent link">&para;</a></h3>
+<p><strong>A:</strong> OBJ 格式本身不支持动画和骨骼数据，只能导出静态网格。如需动画，请使用 FBX 或 glTF 格式。</p>
+<h3 id="q_2">Q: 如何取消正在进行的导出？<a class="headerlink" href="#q_2" title="Permanent link">&para;</a></h3>
+<p><strong>A:</strong> 两种方式：</p>
+<pre class="highlight"><code class="language-cpp">// 方式1：在进度回调中返回 false
+exporter.SetProgressCallback([](const ExportProgressInfo&amp; info) {
+    if (userWantsToCancel) {
+        return false; // 取消导出
+    }
+    return true;
+});
+
+// 方式2：从其他线程调用 Cancel()
+exporter.Cancel();</code></pre>
+<h3 id="q_3">Q: 导出失败如何调试？<a class="headerlink" href="#q_3" title="Permanent link">&para;</a></h3>
+<p><strong>A:</strong> 启用详细日志：</p>
+<pre class="highlight"><code class="language-cpp">options.general.verbose = true;
+options.general.validateOutput = true;
+
+auto result = exporter.ExportFromFile("model.amrt");
+if (result.IsFailure()) {
+    std::cout &lt;&lt; "错误码: " &lt;&lt; (int)result.GetErrorCode() &lt;&lt; std::endl;
+    std::cout &lt;&lt; "错误信息: " &lt;&lt; result.GetErrorMessage() &lt;&lt; std::endl;
+}</code></pre>
+<h2 id="_24">性能优化建议<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p><strong>批量导出时复用导出器实例</strong>
+   <pre class="highlight"><code class="language-cpp">AmrtExporter exporter; // 创建一次
+for (auto&amp; file : files) {
+    exporter.ExportFromFile(file);
+}</code></pre></p>
+</li>
+<li>
+<p><strong>关闭不需要的验证</strong>
+   <pre class="highlight"><code class="language-cpp">options.general.validateOutput = false;</code></pre></p>
+</li>
+<li>
+<p><strong>不复制纹理以提升速度</strong>
+   <pre class="highlight"><code class="language-cpp">options.material.copyTextures = false;</code></pre></p>
+</li>
+<li>
+<p><strong>使用多线程批量导出</strong>
+   <pre class="highlight"><code class="language-cpp">// 并行导出多个文件（需自行实现线程管理）</code></pre></p>
+</li>
+</ol>
+<h2 id="_25">相关资源<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../../api/AmrtExporter/">AmrtExporter API 文档</a></li>
+<li><a href="../read_basic/">AmrtReader 示例</a></li>
+<li><a href="../convert_basic/">AmrtConverter 示例</a></li>
+<li><a href="../../#格式对比">支持格式对比表</a></li>
+</ul>
+<h2 id="_26">更新日志<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>v0.1.0</strong> (2025-12-04)</li>
+<li>✨ 新增 AmrtExporter 模块</li>
+<li>✅ 实现 OBJ 格式导出</li>
+<li>🚧 FBX 和 glTF 导出开发中</li>
+<li>📝 完整示例和文档</li>
+</ul>
+<hr />
+<p><strong>示例代码位置：</strong> <code>AmrtSdk/examples/exporter_sample/</code></p>
+<p><strong>完整源码：</strong> <a href="../../AmrtSdk/examples/exporter_sample/main.cpp">main.cpp</a></p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/skylinestars/AMRTSDK" class="fa fa-code-fork" style="color: #fcfcfc"> skylinestars/AMRTSDK</a>
+        </span>
+    
+    
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
